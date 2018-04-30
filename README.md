@@ -43,22 +43,32 @@ sudo bundle exec ridgepole -c config/database.yml --apply -f db/schema -E produc
 # Description:       starts discord-recruitment-bot using start-stop-daemon
 ### END INIT INFO
 
-NAME="discord-recruitment-bot"
-RAILS_ENV="production"
+export NAME="discord-recruitment-bot"
+
+# 環境
+#   本番: production
+#   開発: development
+export RAILS_ENV="production"
 
 # `bundle exec rake secret` で発行したシークレットを入力
-SECRET_KEY_BASE=""
+export SECRET_KEY_BASE="<シークレットを入力する>"
 
 # MySQL のパスワードを入力
-DATABASE_PASSWORD=""
+export DATABASE_PASSWORD=""
 
-# discord-recruitment-bot までのパスを入力
-ROOT_DIR="/home/{user}/discord-recruitment-bot"
+# botのトークン
+export DISCORD_BOT_TOKEN="<botのトークンを入力>"
 
-PID="${ROOT_DIR}/tmp/pids/puma.pid"
-GEMFILE="${ROOT_DIR}/Gemfile"
-CONFIG_PUMA="${ROOT_DIR}/config/puma.rb"
-CONFIG_RACK="${ROOT_DIR}/config.ru"
+# botのクライアントID
+export DISCORD_BOT_CLIENT_ID="<botのクライアントIDを入力>"
+
+# discord-recruitment-bot のパス
+export ROOT_DIR="/<パス>/discord-recruitment-bot"
+
+export PID="/var/tmp/pids/${NAME}.pid"
+export BUNDLE_GEMFILE="${ROOT_DIR}/Gemfile"
+
+export RAILS_SERVE_STATIC_FILES=true
 
 start()
 {
@@ -68,14 +78,10 @@ start()
   fi
   echo "start $NAME"
   cd $ROOT_DIR
-  export BUNDLE_GEMFILE=${GEMFILE}
-  export SECRET_KEY_BASE='${SECRET_KEY_BASE}'
-  export RAILS_SERVE_STATIC_FILES=true
-  export RAILS_ENV=${RAILS_ENV}
-  export DATABASE_PASSWORD=#{DATABASE_PASSWORD}
   bundle exec rake assets:clobber
   bundle exec rails assets:precompile
-  bundle exec puma -w 1 -C ${CONFIG_PUMA} ${CONFIG_RACK} -d
+  bundle exec puma -w 1 -d
+  bundle exec ruby bin/discord/bot.rb start
 }
 
 stop()
@@ -88,6 +94,7 @@ stop()
     rm ${PID} 2>/dev/null
   fi
   cd $ROOT_DIR
+  bundle exec ruby bin/discord/bot.rb stop
 }
 
 restart()
@@ -129,4 +136,20 @@ sudo service discord-recruitment-bot start
 
 ```
 sudo update-rc.d discord-recruitment-bot defaults
+```
+
+## 開発環境
+
+rails の起動
+
+```
+sudo bundle exec rails s
+```
+
+bot の起動
+
+```
+export DISCORD_BOT_TOKEN="<botのトークンを入力>"
+export DISCORD_BOT_CLIENT_ID="<botのクライアントIDを入力>"
+sudo -E bundle exec ruby bin/discord/bot.rb nodaemon
 ```

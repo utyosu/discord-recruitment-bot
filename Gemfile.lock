@@ -88,6 +88,7 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
     crass (1.0.4)
+    daemon-spawn (0.4.2)
     debug_inspector (0.0.3)
     diffy (3.2.0)
     discordrb (3.2.1)
@@ -284,6 +285,7 @@ DEPENDENCIES
   capybara (>= 2.15, < 4.0)
   chromedriver-helper
   coffee-rails (~> 4.2)
+  daemon-spawn
   discordrb
   hirb
   hirb-unicode
