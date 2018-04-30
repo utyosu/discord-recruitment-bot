@@ -80,7 +80,7 @@ class Bot < inheritance
   end
 
   def match_keywords(message_event, keywords)
-    to_safe(message_event.content) =~ /#{keywords.join("|")}/
+    to_safe(message_event.content) =~ keywords
   end
 
   def get_message(message_event)
