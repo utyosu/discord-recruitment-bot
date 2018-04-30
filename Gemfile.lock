@@ -110,8 +110,15 @@ GEM
     hirb-unicode (0.0.5)
       hirb (~> 0.5)
       unicode-display_width (~> 0.1.1)
+    http (3.3.0)
+      addressable (~> 2.3)
+      http-cookie (~> 1.0)
+      http-form_data (~> 2.0)
+      http_parser.rb (~> 0.6.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
+    http-form_data (2.1.0)
+    http_parser.rb (0.6.0)
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
     io-like (0.3.0)
@@ -280,6 +287,7 @@ DEPENDENCIES
   discordrb
   hirb
   hirb-unicode
+  http
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
   mini_racer
@@ -295,7 +303,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   turbolinks (~> 5)
-  tzinfo-data
+  tzinfo
   uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
 

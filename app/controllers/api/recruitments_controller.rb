@@ -1,7 +1,7 @@
 module Api
   class RecruitmentsController < ApplicationController
     def index
-      render json: Recruitment.all
+      @recruitments = Recruitment.all
     end
 
     def create

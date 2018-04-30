@@ -1,24 +1,30 @@
-# README
+# Discord メンバー募集 bot
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 使い方
 
-Things you may want to cover:
+```
+gitclone URL
+cd is
+bundle install
+sudo mysql
+> create user ops;
+> grant all on *.* to 'ops';
+> create database prom_production character set utf8mb4;
+> \d
+sudo bundle exec ridgepole -c config/database.yml --apply -f db/schema -E production
+RAILS_ENV=production bundle exec rake prom:initialize
+bundle exec rails s
+export DISCORD_BOT_TOKEN="botのトークン"
+export DISCORD_BOT_CLIENT_ID="botのクライアントID"
+bundle exec ruby bin/discord/bot.rb
+```
 
-* Ruby version
+## Ubuntuセットアップ
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```
+sudo -E apt-add-repository ppa:brightbox/ruby-ng
+sudo apt-get update
+sudo apt install -y git bundler gem zlib1g-dev libsqlite3-dev autoconf libxml2-dev libxslt1-dev libmysqlclient-dev mysql-server ruby2.5 ruby2.5-dev
+sudo -E gem update --system
+sudo -E gem install bundler
+```
