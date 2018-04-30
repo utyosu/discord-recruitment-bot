@@ -55,7 +55,6 @@ class Bot < inheritance
   def stop
   end
 
-
   def recruitments_message
     recruitments = Api::Recruitment.index
     return "```\n募集はありません\n```" if recruitments.blank?
@@ -172,6 +171,6 @@ else
     :pid_file => '/var/tmp/pids/discord_recruitment_bot_client.pid',
     :log_file => '/var/log/discord_recruitment_bot_client.log',
     :sync_log => true,
-    :singleton => true # これを指定すると多重起動しない
+    :singleton => true,
   })
 end
