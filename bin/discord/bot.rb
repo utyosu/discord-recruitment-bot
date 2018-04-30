@@ -18,14 +18,14 @@ end
 class Bot < inheritance
   def start(args)
     ['DISCORD_BOT_TOKEN', 'DISCORD_BOT_CLIENT_ID'].each do |name|
-      if ENV[name].nil?
+      if ENV[name].blank?
         puts "必須の環境変数 #{name} が定義されていません。プログラムを終了します。"
         exit
       end
     end
 
     $recruitment_channel_ids = []
-    if ENV['DISCORD_BOT_RECRUITMENT_CHANNEL_IDS'].nil?
+    if ENV['DISCORD_BOT_RECRUITMENT_CHANNEL_IDS'].blank?
       puts "環境変数 DISCORD_BOT_RECRUITMENT_CHANNEL_IDS が定義されていないので、全てのチャンネルで動作します。"
     else
       $recruitment_channel_ids = ENV['DISCORD_BOT_RECRUITMENT_CHANNEL_IDS'].split(",")
@@ -58,7 +58,7 @@ class Bot < inheritance
 
   def recruitments_message
     recruitments = Api::Recruitment.index
-    return "```\n募集はありません\n```" if recruitments.empty?
+    return "```\n募集はありません\n```" if recruitments.blank?
     recruitment_message = ""
     recruitments.sort_by{|recruitment|
       recruitment['label_id']
@@ -75,7 +75,7 @@ class Bot < inheritance
   end
 
   def check_executable(message_event)
-    return true if $recruitment_channel_ids.empty?
+    return true if $recruitment_channel_ids.blank?
     return $recruitment_channel_ids.include?(message_event.channel.id.to_s)
   end
 
@@ -118,16 +118,8 @@ class Bot < inheritance
           closed_indexes.push(recruitment['label_id'])
         end
       end
-    else
-      Api::Recruitment.index.each do |recruitment|
-        next if recruitment['author_discord_id'] != my_discord_id
-        Api::Recruitment.destroy(recruitment['id'])
-        closed_indexes.push(recruitment['label_id'])
-      end
     end
-    if closed_indexes.empty?
-      message_event.send_message("しめる募集がありません。")
-    else
+    if closed_indexes.present?
       message_event.send_message("#{closed_indexes.sort.map{|a|"[#{a}]"}.join} の募集を終了しました。")
       message_event.send_message(recruitments_message)
     end
@@ -135,22 +127,16 @@ class Bot < inheritance
 
   def join(message_event)
     number = extraction_number(message_event.content)
+    return if number < 1
     recruitments = Api::Recruitment.index
     joined_indexes = []
-    if recruitments.size == 1
-      Api::Participant.join(recruitments.first['id'], message_event.author)
-      joined_indexes.push(recruitments.first['label_id'])
-    elsif 2 <= recruitments.size && 1 <= number
-      recruitments.each do |recruitment|
-        if number == recruitment['label_id'] && !recruitment['participants'].any?{|p|p['discord_id'] == message_event.author.id.to_s}
-          Api::Participant.join(recruitment['id'], message_event.author)
-          joined_indexes.push(recruitment['label_id'])
-        end
+    recruitments.each do |recruitment|
+      if number == recruitment['label_id'] && !recruitment['participants'].any?{|p|p['discord_id'] == message_event.author.id.to_s}
+        Api::Participant.join(recruitment['id'], message_event.author)
+        joined_indexes.push(recruitment['label_id'])
       end
     end
-    if joined_indexes.empty?
-      message_event.send_message("参加できませんでした。")
-    else
+    if joined_indexes.present?
       message_event.send_message("#{joined_indexes.sort.map{|a|"[#{a}]"}.join} に参加しました。")
       message_event.send_message(recruitments_message)
     end
@@ -158,19 +144,19 @@ class Bot < inheritance
 
   def leave(message_event)
     number = extraction_number(message_event.content)
+    return if number < 1
     my_discord_id = message_event.author.id.to_s
     leaved_indexes = []
     Api::Recruitment.index.each do |recruitment|
+      next if number != recruitment['label_id']
       recruitment['participants'].each do |participant|
-        if participant['discord_id'] == my_discord_id && (number == 0 || number == recruitment['label_id'])
+        if participant['discord_id'] == my_discord_id
           Api::Participant.leave(recruitment['id'], participant['id'])
           leaved_indexes.push(recruitment['label_id'])
         end
       end
     end
-    if leaved_indexes.empty?
-      message_event.send_message("参加をキャンセルできませんでした。")
-    else
+    if leaved_indexes.present?
       message_event.send_message("#{leaved_indexes.sort.map{|a|"[#{a}]"}.join} の参加をキャンセルしました。")
       message_event.send_message(recruitments_message)
     end
