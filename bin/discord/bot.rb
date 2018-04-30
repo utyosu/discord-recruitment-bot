@@ -83,7 +83,6 @@ class Bot < inheritance
   end
 
   def get_message(message_event)
-
     if check_executable(message_event)
       if match_keywords(message_event, $KEYWORDS_START_RECRUITMENT)
         open(message_event)
@@ -95,6 +94,12 @@ class Bot < inheritance
         leave(message_event)
       elsif match_keywords(message_event, $KEYWORDS_SHOW_RECRUITMENT)
         message_event.send_message(recruitments_message)
+      elsif match_keywords(message_event, $KEYWORDS_INTERACTION_CREATE)
+        interaction_create(message_event)
+      elsif match_keywords(message_event, $KEYWORDS_INTERACTION_DESTROY)
+        interaction_destroy(message_event)
+      elsif match_keywords(message_event, $KEYWORDS_INTERACTION_RESPONSE)
+        interaction_response(message_event)
       end
     end
   end
@@ -159,6 +164,25 @@ class Bot < inheritance
       message_event.send_message("#{leaved_indexes.sort.map{|a|"[#{a}]"}.join} の参加をキャンセルしました。")
       message_event.send_message(recruitments_message)
     end
+  end
+
+  def interaction_create(message_event)
+    src = message_event.content.gsub(/\p{blank}/," ").split
+    return if src.size != 3 || src[1].size < 2 || src[2].size < 1 || 64 < src[1].size || 64 < src[2].size
+    response = Api::Interaction.create(src[1], src[2])
+    message_event.send_message("「#{response['keyword']}」を「#{response['response']}」と覚えました。")
+  end
+
+  def interaction_destroy(message_event)
+    src = message_event.content.gsub(/\p{blank}/," ").split
+    return if src.size != 2 || src[1].size < 1
+    response = Api::Interaction.destroy(src[1])
+    message_event.send_message("「#{src[1]}」を忘れました。") if response.status == 200
+  end
+
+  def interaction_response(message_event)
+    response = Api::Interaction.search(message_event.content)
+    message_event.send_message(response['response']) if response['response'].present?
   end
 end
 

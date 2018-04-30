@@ -3,5 +3,8 @@ Rails.application.routes.draw do
     resources :recruitments, only: [:index, :create, :destroy] do
       resources :participants, only: [:create, :destroy]
     end
+    resources :interactions, only: [:create]
+    get '/interactions/search', to: 'interactions#search'
+    delete '/interactions/destroy_by_keyword', to: 'interactions#destroy_by_keyword'
   end
 end

@@ -28,4 +28,20 @@ module Api
       response = HTTP.delete("#{BASE_URI}/recruitments/#{recruitment_id}/participants/#{participant_id}")
     end
   end
+
+  class Interaction
+    def self.create(keyword, response)
+      response = HTTP.post("#{BASE_URI}/interactions", params: {"interaction[keyword]": keyword, "interaction[response]": response})
+      return JSON.parse(response.body)
+    end
+
+    def self.destroy(keyword)
+      response = HTTP.delete("#{BASE_URI}/interactions/destroy_by_keyword", params: {"keyword": keyword})
+    end
+
+    def self.search(keyword)
+      response = HTTP.get("#{BASE_URI}/interactions/search", params: {"keyword": keyword})
+      return JSON.parse(response.body)
+    end
+  end
 end

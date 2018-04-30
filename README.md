@@ -153,3 +153,12 @@ export DISCORD_BOT_TOKEN="<botのトークンを入力>"
 export DISCORD_BOT_CLIENT_ID="<botのクライアントIDを入力>"
 sudo -E bundle exec ruby bin/discord/bot.rb nodaemon
 ```
+
+## 更新
+
+```
+sudo service direct-recruitment-bot stop
+git pull
+sudo bundle exec ridgepole -c config/database.yml --apply -f db/schema -E production
+sudo service direct-recruitment-bot start
+```

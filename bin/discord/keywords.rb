@@ -12,3 +12,12 @@ $KEYWORDS_LEAVE_RECRUITMENT = /キャンセル|悲しみ/
 
 # 募集状況確認キーワード
 $KEYWORDS_SHOW_RECRUITMENT = /募集/
+
+# 対話セット登録キーワード
+$KEYWORDS_INTERACTION_CREATE = /\A記憶/
+
+# 対話セット削除キーワード
+$KEYWORDS_INTERACTION_DESTROY = /\A忘却/
+
+# 対話反応キーワード
+$KEYWORDS_INTERACTION_RESPONSE = /教えて/
