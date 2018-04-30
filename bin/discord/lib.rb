@@ -1,5 +1,5 @@
 def to_safe(str)
-  str.tr('０-９ａ-ｚＡ-Ｚ＠？：', '0-9a-zA-Z@?:')
+  str.tr('０-９ａ-ｚＡ-Ｚ＠？：', '0-9a-zA-Z@?:').gsub(/<@\d+>/, "")
 end
 
 def extraction_number(str)
