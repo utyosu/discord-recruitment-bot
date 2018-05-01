@@ -26,6 +26,19 @@ def view_datetime(input)
   end
 end
 
+def check_executable(message_event)
+  return true if $recruitment_channel_ids.blank?
+  return $recruitment_channel_ids.include?(message_event.channel.id.to_s)
+end
+
+def match_keywords(message_event, keywords)
+  to_safe(get_message_content(message_event)) =~ keywords
+end
+
+def get_message_content(message_event)
+  message_event.content.split(/\r\n|\r|\n/).first
+end
+
 class ExtractionTime
   def self.extraction(str)
     adjust_alright(base(str), str)
