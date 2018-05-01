@@ -166,6 +166,7 @@ bot の起動
 ```
 export DISCORD_BOT_TOKEN="<botのトークンを入力>"
 export DISCORD_BOT_CLIENT_ID="<botのクライアントIDを入力>"
+export DISCORD_BOT_RECRUITMENT_CHANNEL_IDS="<botが動作するチャンネルID>" #複数記載するときはカンマ区切り
 sudo -E bundle exec ruby bin/discord/bot.rb nodaemon
 ```
 

@@ -17,20 +17,13 @@ end
 
 class Bot < inheritance
   def start(args)
-    ['DISCORD_BOT_TOKEN', 'DISCORD_BOT_CLIENT_ID'].each do |name|
+    ['DISCORD_BOT_TOKEN', 'DISCORD_BOT_CLIENT_ID', 'DISCORD_BOT_RECRUITMENT_CHANNEL_IDS'].each do |name|
       if ENV[name].blank?
         puts "必須の環境変数 #{name} が定義されていません。プログラムを終了します。"
         exit
       end
     end
 
-    $recruitment_channel_ids = []
-    if ENV['DISCORD_BOT_RECRUITMENT_CHANNEL_IDS'].blank?
-      puts "環境変数 DISCORD_BOT_RECRUITMENT_CHANNEL_IDS が定義されていないので、全てのチャンネルで動作します。"
-    else
-      $recruitment_channel_ids = ENV['DISCORD_BOT_RECRUITMENT_CHANNEL_IDS'].split(",")
-      puts "動作するチャンネル ID は #{$recruitment_channel_ids.join(", ")} です。"
-    end
 
     $bot = Discordrb::Commands::CommandBot.new ({
       token: ENV['DISCORD_BOT_TOKEN'],
@@ -47,12 +40,44 @@ class Bot < inheritance
 
     $bot.run(true)
 
-    while(true) do
-      sleep 10
+    $target_channels = []
+    $bot.servers.each do |server_id, server|
+      server.channels.each do |channel|
+        if ENV['DISCORD_BOT_RECRUITMENT_CHANNEL_IDS'].split(",").include?(channel.id.to_s)
+          $target_channels.push(channel)
+          puts "動作チャンネル '#{channel.name}' (#{channel.id})"
+        end
+      end
+    end
+    if $target_channels.blank?
+      puts "動作チャンネルがないので終了します。"
+      exit
+    end
+
+    loop do
+      sleep 60
+      destroy_expired_recruitment
     end
   end
 
   def stop
+  end
+
+  def destroy_expired_recruitment
+    recruitments = JSON.parse(Api::Recruitment.index.body)
+    destroyed_indexes = []
+    recruitments.each do |recruitment|
+      if recruitment['expired_at'].in_time_zone < Time.zone.now
+        Api::Recruitment.destroy(recruitment['id'])
+        destroyed_indexes.push(recruitment['label_id'])
+      end
+    end
+    if destroyed_indexes.present?
+      $target_channels.each do |channel|
+        channel.send_message("募集 #{destroyed_indexes.map{|a|"[#{a}]"}.join} は期限を過ぎたので終了します。")
+        channel.send_message(recruitments_message)
+      end
+    end
   end
 
   def recruitments_message
@@ -115,22 +140,21 @@ class Bot < inheritance
   end
 
   def open(message_event)
-    recruitment = JSON.parse(Api::Recruitment.create(get_message_content(message_event), extraction_expired_time(get_message_content(message_event))).body)
+    recruitment = JSON.parse(Api::Recruitment.create(get_message_content(message_event), extraction_time(get_message_content(message_event))).body)
     Api::Participant.join(recruitment['id'], message_event.author)
-    message_event.send_message("募集 [#{recruitment['label_id']}] を受け付けました。")
+    message_event.send_message("募集 [#{recruitment['label_id']}] を期限 #{view_datetime(recruitment['expired_at'])} で受け付けました。")
     message_event.send_message(recruitments_message)
   end
 
   def close(message_event)
     number = extraction_number(get_message_content(message_event))
+    return if number.blank?
     my_discord_id = message_event.author.id.to_s
     closed_indexes = []
-    if 1 <= number
-      JSON.parse(Api::Recruitment.index.body).each do |recruitment, recruitment_index|
-        if number == recruitment['label_id']
-          Api::Recruitment.destroy(recruitment['id'])
-          closed_indexes.push(recruitment['label_id'])
-        end
+    JSON.parse(Api::Recruitment.index.body).each do |recruitment, recruitment_index|
+      if number == recruitment['label_id']
+        Api::Recruitment.destroy(recruitment['id'])
+        closed_indexes.push(recruitment['label_id'])
       end
     end
     if closed_indexes.present?
@@ -141,7 +165,7 @@ class Bot < inheritance
 
   def join(message_event)
     number = extraction_number(get_message_content(message_event))
-    return if number < 1
+    return if number.blank?
     recruitments = JSON.parse(Api::Recruitment.index.body)
     joined_indexes = []
     recruitments.each do |recruitment|
@@ -158,7 +182,7 @@ class Bot < inheritance
 
   def leave(message_event)
     number = extraction_number(get_message_content(message_event))
-    return if number < 1
+    return if number.blank?
     my_discord_id = message_event.author.id.to_s
     leaved_indexes = []
     JSON.parse(Api::Recruitment.index.body).each do |recruitment|
