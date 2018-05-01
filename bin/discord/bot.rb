@@ -79,7 +79,11 @@ class Bot < inheritance
   end
 
   def match_keywords(message_event, keywords)
-    to_safe(message_event.content) =~ keywords
+    to_safe(get_message_content(message_event)) =~ keywords
+  end
+
+  def get_message_content(message_event)
+    message_event.content.split(/\r\n|\r|\n/).first
   end
 
   def get_message(message_event)
@@ -111,14 +115,14 @@ class Bot < inheritance
   end
 
   def open(message_event)
-    recruitment = JSON.parse(Api::Recruitment.create(message_event.content, extraction_expired_time(message_event.content)).body)
+    recruitment = JSON.parse(Api::Recruitment.create(get_message_content(message_event), extraction_expired_time(get_message_content(message_event))).body)
     Api::Participant.join(recruitment['id'], message_event.author)
     message_event.send_message("募集 [#{recruitment['label_id']}] を受け付けました。")
     message_event.send_message(recruitments_message)
   end
 
   def close(message_event)
-    number = extraction_number(message_event.content)
+    number = extraction_number(get_message_content(message_event))
     my_discord_id = message_event.author.id.to_s
     closed_indexes = []
     if 1 <= number
@@ -136,7 +140,7 @@ class Bot < inheritance
   end
 
   def join(message_event)
-    number = extraction_number(message_event.content)
+    number = extraction_number(get_message_content(message_event))
     return if number < 1
     recruitments = JSON.parse(Api::Recruitment.index.body)
     joined_indexes = []
@@ -153,7 +157,7 @@ class Bot < inheritance
   end
 
   def leave(message_event)
-    number = extraction_number(message_event.content)
+    number = extraction_number(get_message_content(message_event))
     return if number < 1
     my_discord_id = message_event.author.id.to_s
     leaved_indexes = []
@@ -173,21 +177,21 @@ class Bot < inheritance
   end
 
   def interaction_create(message_event)
-    src = message_event.content.gsub(/\p{blank}/," ").split
+    src = get_message_content(message_event).gsub(/\p{blank}/," ").split
     return if src.size != 3 || src[1].size < 2 || src[2].size < 1 || 64 < src[1].size || 64 < src[2].size
     interaction = JSON.parse(Api::Interaction.create(src[1], src[2], message_event.author).body)
     message_event.send_message("「#{interaction['keyword']}」を「#{interaction['response']}」と覚えました。")
   end
 
   def interaction_destroy(message_event)
-    src = message_event.content.gsub(/\p{blank}/," ").split
+    src = get_message_content(message_event).gsub(/\p{blank}/," ").split
     return if src.size != 2 || src[1].size < 1
     response = Api::Interaction.destroy(src[1])
     message_event.send_message("「#{src[1]}」を忘れました。") if response.status == 200
   end
 
   def interaction_response(message_event)
-    interaction = JSON.parse(Api::Interaction.search(message_event.content).body)
+    interaction = JSON.parse(Api::Interaction.search(get_message_content(message_event)).body)
     message_event.send_message(interaction['response']) if interaction['response'].present?
   end
 end
