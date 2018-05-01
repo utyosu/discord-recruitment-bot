@@ -56,7 +56,7 @@ class Bot < inheritance
   end
 
   def recruitments_message
-    recruitments = Api::Recruitment.index
+    recruitments = JSON.parse(Api::Recruitment.index.body)
     return "```\n募集はありません\n```" if recruitments.blank?
     recruitment_message = ""
     recruitments.sort_by{|recruitment|
@@ -83,29 +83,35 @@ class Bot < inheritance
   end
 
   def get_message(message_event)
-    if check_executable(message_event)
-      if match_keywords(message_event, $KEYWORDS_START_RECRUITMENT)
-        open(message_event)
-      elsif match_keywords(message_event, $KEYWORDS_STOP_RECRUITMENT)
-        close(message_event)
-      elsif match_keywords(message_event, $KEYWORDS_JOIN_RECRUITMENT)
-        join(message_event)
-      elsif match_keywords(message_event, $KEYWORDS_LEAVE_RECRUITMENT)
-        leave(message_event)
-      elsif match_keywords(message_event, $KEYWORDS_SHOW_RECRUITMENT)
-        message_event.send_message(recruitments_message)
-      elsif match_keywords(message_event, $KEYWORDS_INTERACTION_CREATE)
-        interaction_create(message_event)
-      elsif match_keywords(message_event, $KEYWORDS_INTERACTION_DESTROY)
-        interaction_destroy(message_event)
-      elsif match_keywords(message_event, $KEYWORDS_INTERACTION_RESPONSE)
-        interaction_response(message_event)
+    begin
+      if check_executable(message_event)
+        if match_keywords(message_event, $KEYWORDS_START_RECRUITMENT)
+          open(message_event)
+        elsif match_keywords(message_event, $KEYWORDS_STOP_RECRUITMENT)
+          close(message_event)
+        elsif match_keywords(message_event, $KEYWORDS_JOIN_RECRUITMENT)
+          join(message_event)
+        elsif match_keywords(message_event, $KEYWORDS_LEAVE_RECRUITMENT)
+          leave(message_event)
+        elsif match_keywords(message_event, $KEYWORDS_SHOW_RECRUITMENT)
+          message_event.send_message(recruitments_message)
+        elsif match_keywords(message_event, $KEYWORDS_INTERACTION_CREATE)
+          interaction_create(message_event)
+        elsif match_keywords(message_event, $KEYWORDS_INTERACTION_DESTROY)
+          interaction_destroy(message_event)
+        elsif match_keywords(message_event, $KEYWORDS_INTERACTION_RESPONSE)
+          interaction_response(message_event)
+        end
       end
+    rescue HTTP::ConnectionError => e
+      message_event.send_message("サーバへのアクセスに失敗しました。時間をおいても改善しない場合は管理者にご連絡下さい。")
+    rescue Api::InvalidStatusError => e
+      message_event.send_message(e.message)
     end
   end
 
   def open(message_event)
-    recruitment = Api::Recruitment.create(message_event.content, extraction_expired_time(message_event.content))
+    recruitment = JSON.parse(Api::Recruitment.create(message_event.content, extraction_expired_time(message_event.content)).body)
     Api::Participant.join(recruitment['id'], message_event.author)
     message_event.send_message("募集 [#{recruitment['label_id']}] を受け付けました。")
     message_event.send_message(recruitments_message)
@@ -116,7 +122,7 @@ class Bot < inheritance
     my_discord_id = message_event.author.id.to_s
     closed_indexes = []
     if 1 <= number
-      Api::Recruitment.index.each do |recruitment, recruitment_index|
+      JSON.parse(Api::Recruitment.index.body).each do |recruitment, recruitment_index|
         if number == recruitment['label_id']
           Api::Recruitment.destroy(recruitment['id'])
           closed_indexes.push(recruitment['label_id'])
@@ -132,7 +138,7 @@ class Bot < inheritance
   def join(message_event)
     number = extraction_number(message_event.content)
     return if number < 1
-    recruitments = Api::Recruitment.index
+    recruitments = JSON.parse(Api::Recruitment.index.body)
     joined_indexes = []
     recruitments.each do |recruitment|
       if number == recruitment['label_id'] && !recruitment['participants'].any?{|p|p['discord_id'] == message_event.author.id.to_s}
@@ -151,7 +157,7 @@ class Bot < inheritance
     return if number < 1
     my_discord_id = message_event.author.id.to_s
     leaved_indexes = []
-    Api::Recruitment.index.each do |recruitment|
+    JSON.parse(Api::Recruitment.index.body).each do |recruitment|
       next if number != recruitment['label_id']
       recruitment['participants'].each do |participant|
         if participant['discord_id'] == my_discord_id
@@ -169,8 +175,8 @@ class Bot < inheritance
   def interaction_create(message_event)
     src = message_event.content.gsub(/\p{blank}/," ").split
     return if src.size != 3 || src[1].size < 2 || src[2].size < 1 || 64 < src[1].size || 64 < src[2].size
-    response = Api::Interaction.create(src[1], src[2], message_event.author)
-    message_event.send_message("「#{response['keyword']}」を「#{response['response']}」と覚えました。")
+    interaction = JSON.parse(Api::Interaction.create(src[1], src[2], message_event.author).body)
+    message_event.send_message("「#{interaction['keyword']}」を「#{interaction['response']}」と覚えました。")
   end
 
   def interaction_destroy(message_event)
@@ -181,8 +187,8 @@ class Bot < inheritance
   end
 
   def interaction_response(message_event)
-    response = Api::Interaction.search(message_event.content)
-    message_event.send_message(response['response']) if response['response'].present?
+    interaction = JSON.parse(Api::Interaction.search(message_event.content).body)
+    message_event.send_message(interaction['response']) if interaction['response'].present?
   end
 end
 
