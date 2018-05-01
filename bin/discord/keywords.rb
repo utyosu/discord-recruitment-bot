@@ -11,7 +11,7 @@ $KEYWORDS_JOIN_RECRUITMENT = /いく|行く|いきま|行きま|やる|やりま
 $KEYWORDS_LEAVE_RECRUITMENT = /キャンセル|悲しみ/
 
 # 募集状況確認キーワード
-$KEYWORDS_SHOW_RECRUITMENT = /募集/
+$KEYWORDS_SHOW_RECRUITMENT = /案件/
 
 # 対話セット登録キーワード
 $KEYWORDS_INTERACTION_CREATE = /\A記憶/
