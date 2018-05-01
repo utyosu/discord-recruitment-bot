@@ -43,7 +43,7 @@ module RecruitmentController
     Api::Participant.join(recruitment, name: message_event.author.username, discord_id: message_event.author.id)
     message_event.send_message("募集 [#{recruitment['label_id']}] を期限 #{view_datetime(recruitment['expired_at'])} で受け付けました。")
     message_event.send_message(recruitments_message)
-    TwitterManager.recruitment_open(message_event, recruitment)
+    TwitterController.recruitment_open(message_event, recruitment)
   end
 
   def close(message_event)
@@ -56,7 +56,7 @@ module RecruitmentController
         Api::Recruitment.destroy(recruitment)
         message_event.send_message("[#{recruitment['label_id']}] の募集を終了しました。")
         message_event.send_message(recruitments_message)
-        TwitterManager.recruitment_close(message_event, recruitment)
+        TwitterController.recruitment_close(message_event, recruitment)
         return
       end
     end
@@ -71,7 +71,7 @@ module RecruitmentController
         Api::Participant.join(recruitment, name: message_event.author.username, discord_id: message_event.author.id)
         message_event.send_message("[#{recruitment['label_id']}] に参加しました。")
         message_event.send_message(recruitments_message)
-        TwitterManager.recruitment_join(message_event, recruitment)
+        TwitterController.recruitment_join(message_event, recruitment)
         return
       end
     end
@@ -88,7 +88,7 @@ module RecruitmentController
           Api::Participant.leave(recruitment, participant)
           message_event.send_message("[#{recruitment['label_id']}] の参加をキャンセルしました。")
           message_event.send_message(recruitments_message)
-          TwitterManager.recruitment_leave(message_event, recruitment)
+          TwitterController.recruitment_leave(message_event, recruitment)
           return
         end
       end
