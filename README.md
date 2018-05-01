@@ -2,14 +2,29 @@
 
 ## 使い方
 
+TODO
+
+## アプリケーションのインストール
+
 ### Ubuntuセットアップ
 
 ```
-sudo -E apt-add-repository ppa:brightbox/ruby-ng
-sudo apt-get update
+sudo apt update
+sudo apt upgrade -y
+sudo apt install -y apt-file
+sudo apt-file update
+sudo apt install -y software-properties-common
+sudo apt-add-repository ppa:brightbox/ruby-ng
+sudo apt update
 sudo apt install -y git bundler gem zlib1g-dev libsqlite3-dev autoconf libxml2-dev libxslt1-dev libmysqlclient-dev mysql-server ruby2.5 ruby2.5-dev
-sudo -E gem update --system
-sudo -E gem install bundler
+sudo gem update --system
+sudo gem install bundler
+wget https://download.libsodium.org/libsodium/releases/LATEST.tar.gz
+tar zxvf LATEST.tar.gz
+cd libsodium-stable
+./configure
+make && make check
+sudo make install
 ```
 
 ### アプリケーションのインストール
@@ -126,16 +141,16 @@ esac
 sudo chmod +x /etc/init.d/discord-recruitment-bot
 ```
 
-3. 起動します。
-
-```
-sudo service discord-recruitment-bot start
-```
-
-4. OS起動時に実行されるように設定します。
+3. OS起動時に実行されるように設定します。
 
 ```
 sudo update-rc.d discord-recruitment-bot defaults
+```
+
+4. 起動します。
+
+```
+sudo service discord-recruitment-bot start
 ```
 
 ## 開発環境
