@@ -26,7 +26,7 @@ class TwitterController
 
   def self.recruitment_message(message_event, recruitment)
     recruitment = JSON.parse(Api::Recruitment.index.body).find{|r|r['id'] == recruitment['id']}
-    message = "【#{ENV['TWITTER_NOTICE_TITLE']}】\n#{recruitment['content']} by #{message_event.author.username} (#{recruitment['participants'].size-1}/#{extraction_recruit_number(recruitment['content'])})"
+    message = "【#{ENV['TWITTER_NOTICE_TITLE']}】\n#{recruitment['content']} by #{recruitment['participants'].first['name']} (#{recruitment['participants'].size-1}/#{extraction_recruit_number(recruitment['content'])})"
     if recruitment['participants'].present? && 1 < recruitment['participants'].size
       message += "\n参加者: #{recruitment['participants'][1..-1].map{|a|a['name']}.join(", ")}"
     end

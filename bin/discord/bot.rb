@@ -6,7 +6,7 @@ require_relative 'lib'
 require_relative 'keywords'
 require_relative 'recruitment_controller'
 require_relative 'interaction_controller'
-require_relative 'twitter_manager'
+require_relative 'twitter_controller'
 
 def inheritance
   if ARGV[0] == "nodaemon"
