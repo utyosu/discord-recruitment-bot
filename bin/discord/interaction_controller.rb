@@ -1,4 +1,4 @@
-module Interaction
+module InteractionController
   extend self
 
   def interaction_create(message_event)

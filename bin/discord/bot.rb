@@ -4,8 +4,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../../config/environment')
 require_relative 'api'
 require_relative 'lib'
 require_relative 'keywords'
-require_relative 'recruitment'
-require_relative 'interaction'
+require_relative 'recruitment_controller'
+require_relative 'interaction_controller'
 require_relative 'twitter_manager'
 
 def inheritance
@@ -57,7 +57,7 @@ class Bot < inheritance
 
     loop do
       begin
-        Recruitment::destroy_expired_recruitment
+        RecruitmentController::destroy_expired_recruitment
       rescue HTTP::ConnectionError => e
         message_event.send_message("サーバへのアクセスに失敗しました。時間をおいても改善しない場合は管理者にご連絡下さい。")
       rescue Api::InvalidStatusError => e
@@ -74,21 +74,21 @@ class Bot < inheritance
     begin
       if check_executable(message_event)
         if match_keywords(message_event, $KEYWORDS_START_RECRUITMENT)
-          Recruitment::open(message_event)
+          RecruitmentController::open(message_event)
         elsif match_keywords(message_event, $KEYWORDS_STOP_RECRUITMENT)
-          Recruitment::close(message_event)
+          RecruitmentController::close(message_event)
         elsif match_keywords(message_event, $KEYWORDS_JOIN_RECRUITMENT)
-          Recruitment::join(message_event)
+          RecruitmentController::join(message_event)
         elsif match_keywords(message_event, $KEYWORDS_LEAVE_RECRUITMENT)
-          Recruitment::leave(message_event)
+          RecruitmentController::leave(message_event)
         elsif match_keywords(message_event, $KEYWORDS_SHOW_RECRUITMENT)
-          Recruitment::show(message_event)
+          RecruitmentController::show(message_event)
         elsif match_keywords(message_event, $KEYWORDS_INTERACTION_CREATE)
-          Interaction::interaction_create(message_event)
+          InteractionController::interaction_create(message_event)
         elsif match_keywords(message_event, $KEYWORDS_INTERACTION_DESTROY)
-          Interaction::interaction_destroy(message_event)
+          InteractionController::interaction_destroy(message_event)
         elsif match_keywords(message_event, $KEYWORDS_INTERACTION_RESPONSE)
-          Interaction::interaction_response(message_event)
+          InteractionController::interaction_response(message_event)
         end
       end
     rescue HTTP::ConnectionError => e

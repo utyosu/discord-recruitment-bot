@@ -193,6 +193,7 @@ sudo -E bundle exec ruby bin/discord/bot.rb nodaemon
 ```
 sudo service direct-recruitment-bot stop
 git pull
+bundle install
 sudo bundle exec ridgepole -c config/database.yml --apply -f db/schema -E production
 sudo service direct-recruitment-bot start
 ```

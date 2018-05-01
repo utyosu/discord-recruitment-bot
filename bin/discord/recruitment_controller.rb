@@ -1,4 +1,4 @@
-module Recruitment
+module RecruitmentController
   extend self
 
   def show(message_event)
