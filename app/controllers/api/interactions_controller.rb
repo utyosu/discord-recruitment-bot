@@ -3,7 +3,7 @@ module Api
     def create
       interaction = Interaction.find_by(keyword: interaction_params[:keyword])
       if interaction.present?
-        interaction.update(response: interaction_params[:response])
+        interaction.update(interaction_params)
       else
         interaction = Interaction.create!(interaction_params)
       end
@@ -27,7 +27,7 @@ module Api
     private
 
     def interaction_params
-      params.require(:interaction).permit(:keyword, :response)
+      params.require(:interaction).permit(:keyword, :response, :registered_user_name, :registered_user_discord_id)
     end
   end
 end

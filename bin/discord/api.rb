@@ -30,8 +30,8 @@ module Api
   end
 
   class Interaction
-    def self.create(keyword, response)
-      response = HTTP.post("#{BASE_URI}/interactions", params: {"interaction[keyword]": keyword, "interaction[response]": response})
+    def self.create(keyword, response, registered_user)
+      response = HTTP.post("#{BASE_URI}/interactions", params: {"interaction[keyword]": keyword, "interaction[response]": response, "interaction[registered_user_name]": registered_user.username, "interaction[registered_user_discord_id]": registered_user.id})
       return JSON.parse(response.body)
     end
 

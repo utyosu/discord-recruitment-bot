@@ -169,7 +169,7 @@ class Bot < inheritance
   def interaction_create(message_event)
     src = message_event.content.gsub(/\p{blank}/," ").split
     return if src.size != 3 || src[1].size < 2 || src[2].size < 1 || 64 < src[1].size || 64 < src[2].size
-    response = Api::Interaction.create(src[1], src[2])
+    response = Api::Interaction.create(src[1], src[2], message_event.author)
     message_event.send_message("「#{response['keyword']}」を「#{response['response']}」と覚えました。")
   end
 

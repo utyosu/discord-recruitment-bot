@@ -17,6 +17,8 @@ end
 create_table "interactions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
   t.text     "keyword", limit: 65535
   t.text     "response", limit: 65535
+  t.text     "registered_user_name", limit: 65535
+  t.text     "registered_user_discord_id", limit: 65535
   t.datetime "created_at"
   t.datetime "updated_at"
 end
