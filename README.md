@@ -2,9 +2,9 @@
 
 ## 使い方
 
-TODO
+[イカナカマ2 botの使い方記事](https://ikanakama.ink/posts/51071)
 
-## アプリケーションのインストール
+## インストール
 
 ### Ubuntuセットアップ
 
@@ -27,7 +27,7 @@ make && make check
 sudo make install
 ```
 
-### アプリケーションのインストール
+### アプリケーション
 
 ```
 git clone https://github.com/utyosu/discord-recruitment-bot.git
@@ -41,7 +41,7 @@ sudo mysql
 sudo bundle exec ridgepole -c config/database.yml --apply -f db/schema -E production
 ```
 
-### 起動スクリプトの作成
+### 起動スクリプト
 
 1. `/etc/init.d/discord-recruitment-bot` を作成します。
 
@@ -177,3 +177,9 @@ git pull
 sudo bundle exec ridgepole -c config/database.yml --apply -f db/schema -E production
 sudo service direct-recruitment-bot start
 ```
+
+## bot の動かし方が分からん！
+
+こちらの記事が参考になりました。
+
+[イチからDiscord Bot 。for Ruby](https://qiita.com/deneola213/items/efaeb0f5c20d44608a71)
