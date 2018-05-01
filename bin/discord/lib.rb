@@ -2,6 +2,11 @@ def to_safe(str)
   str.tr('０-９ａ-ｚＡ-Ｚ＠？：', '0-9a-zA-Z@?:').gsub(/<@\d+>/, "")
 end
 
+def extraction_recruit_number(str)
+  tmp = to_safe(str).match(/@(\d+)/)
+  return tmp.blank? ? nil : tmp[1].to_i
+end
+
 def extraction_number(str)
   tmp = to_safe(str).gsub(/[^\d]/, "")
   return tmp.to_i if tmp =~ /\d/

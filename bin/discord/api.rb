@@ -8,33 +8,41 @@ module Api
     return response
   end
 
+  def contained_params(parent, params)
+    params.map{|k,v| ["#{parent}[#{k}]", v]}.to_h
+  end
+
   class Recruitment
     def self.index
       Api.check_response HTTP.get("#{BASE_URI}/recruitments")
     end
 
-    def self.create(content, expired_at)
-      Api.check_response HTTP.post("#{BASE_URI}/recruitments", params: {"recruitment[content]": content, "recruitment[expired_at]": expired_at.to_s})
+    def self.create(params)
+      Api.check_response HTTP.post("#{BASE_URI}/recruitments", params: Api.contained_params("recruitment", params))
     end
 
-    def self.destroy(id)
-      Api.check_response HTTP.delete("#{BASE_URI}/recruitments/#{id}")
+    def self.update(recruitment, params)
+      Api.check_response HTTP.patch("#{BASE_URI}/recruitments/#{recruitment['id']}", params: Api.contained_params("recruitment", params))
+    end
+
+    def self.destroy(recruitment)
+      Api.check_response HTTP.delete("#{BASE_URI}/recruitments/#{recruitment['id']}")
     end
   end
 
   class Participant
-    def self.join(recruitment_id, participant)
-      Api.check_response HTTP.post("#{BASE_URI}/recruitments/#{recruitment_id}/participants", params: {"participant[name]": participant.username, "participant[discord_id]": participant.id})
+    def self.join(recruitment, params)
+      Api.check_response HTTP.post("#{BASE_URI}/recruitments/#{recruitment['id']}/participants", params: Api.contained_params("participant", params))
     end
 
-    def self.leave(recruitment_id, participant_id)
-      Api.check_response HTTP.delete("#{BASE_URI}/recruitments/#{recruitment_id}/participants/#{participant_id}")
+    def self.leave(recruitment, participant)
+      Api.check_response HTTP.delete("#{BASE_URI}/recruitments/#{recruitment['id']}/participants/#{participant['id']}")
     end
   end
 
   class Interaction
-    def self.create(keyword, response, registered_user)
-      Api.check_response HTTP.post("#{BASE_URI}/interactions", params: {"interaction[keyword]": keyword, "interaction[response]": response, "interaction[registered_user_name]": registered_user.username, "interaction[registered_user_discord_id]": registered_user.id})
+    def self.create(params)
+      Api.check_response HTTP.post("#{BASE_URI}/interactions", params: Api.contained_params("interaction", params))
     end
 
     def self.destroy(keyword)

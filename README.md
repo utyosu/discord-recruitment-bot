@@ -71,11 +71,29 @@ export SECRET_KEY_BASE="<シークレットを入力する>"
 # MySQL のパスワードを入力
 export DATABASE_PASSWORD=""
 
-# botのトークン
+# bot のトークン
 export DISCORD_BOT_TOKEN="<botのトークンを入力>"
 
-# botのクライアントID
+# bot のクライアント ID
 export DISCORD_BOT_CLIENT_ID="<botのクライアントIDを入力>"
+
+# bot が動作するチャンネル ID (複数記載するときはカンマ区切り)
+export DISCORD_BOT_RECRUITMENT_CHANNEL_IDS="<botが動作するチャンネルID>"
+
+# twitter の CONSUMER_KEY
+export TWITTER_CONSUMER_KEY=""
+
+# twitter の CONSUMER_SECRET
+export TWITTER_CONSUMER_SECRET=""
+
+# twitter の ACCESS_TOKEN
+export TWITTER_ACCESS_TOKEN=""
+
+# twitter の ACCESS_TOKEN_SECRET
+export TWITTER_ACCESS_TOKEN_SECRET=""
+
+# twitter の通知のタイトル
+export TWITTER_NOTICE_TITLE="募集通知"
 
 # discord-recruitment-bot のパス
 export ROOT_DIR="/<パス>/discord-recruitment-bot"

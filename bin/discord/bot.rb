@@ -1,13 +1,12 @@
 require 'active_support'
 require 'active_support/core_ext'
-require 'discordrb'
-require 'json'
 require File.expand_path(File.dirname(__FILE__) + '/../../config/environment')
 require_relative 'api'
 require_relative 'lib'
 require_relative 'keywords'
 require_relative 'recruitment'
 require_relative 'interaction'
+require_relative 'twitter_manager'
 
 def inheritance
   if ARGV[0] == "nodaemon"
@@ -19,7 +18,7 @@ end
 
 class Bot < inheritance
   def start(args)
-    ['DISCORD_BOT_TOKEN', 'DISCORD_BOT_CLIENT_ID', 'DISCORD_BOT_RECRUITMENT_CHANNEL_IDS'].each do |name|
+    %w(DISCORD_BOT_TOKEN DISCORD_BOT_CLIENT_ID DISCORD_BOT_RECRUITMENT_CHANNEL_IDS TWITTER_CONSUMER_KEY TWITTER_CONSUMER_SECRET TWITTER_ACCESS_TOKEN TWITTER_ACCESS_TOKEN_SECRET TWITTER_NOTICE_TITLE).each do |name|
       if ENV[name].blank?
         puts "必須の環境変数 #{name} が定義されていません。プログラムを終了します。"
         exit
@@ -57,7 +56,6 @@ class Bot < inheritance
     end
 
     loop do
-      sleep 60
       begin
         Recruitment::destroy_expired_recruitment
       rescue HTTP::ConnectionError => e
@@ -65,6 +63,7 @@ class Bot < inheritance
       rescue Api::InvalidStatusError => e
         message_event.send_message(e.message)
       end
+      sleep 60
     end
   end
 
