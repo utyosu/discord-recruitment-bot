@@ -20,7 +20,7 @@ class Bot < inheritance
   def start(args)
     %w(DISCORD_BOT_TOKEN DISCORD_BOT_CLIENT_ID DISCORD_BOT_RECRUITMENT_CHANNEL_IDS TWITTER_CONSUMER_KEY TWITTER_CONSUMER_SECRET TWITTER_ACCESS_TOKEN TWITTER_ACCESS_TOKEN_SECRET TWITTER_NOTICE_TITLE).each do |name|
       if ENV[name].blank?
-        puts "必須の環境変数 #{name} が定義されていません。プログラムを終了します。"
+        STRDERR.puts "[ERROR] 必須の環境変数 #{name} が定義されていません。プログラムを終了します。"
         exit
       end
     end
@@ -46,12 +46,12 @@ class Bot < inheritance
       server.channels.each do |channel|
         if ENV['DISCORD_BOT_RECRUITMENT_CHANNEL_IDS'].split(",").include?(channel.id.to_s)
           $target_channels.push(channel)
-          puts "動作チャンネル '#{channel.name}' (#{channel.id})"
+          puts "[INFO] 動作チャンネル '#{channel.name}' (#{channel.id})"
         end
       end
     end
     if $target_channels.blank?
-      puts "動作チャンネルがないので終了します。"
+      STDERR.puts "[ERROR] 動作チャンネルがないので終了します。"
       exit
     end
 
@@ -59,9 +59,9 @@ class Bot < inheritance
       begin
         RecruitmentController::destroy_expired_recruitment
       rescue HTTP::ConnectionError => e
-        message_event.send_message("サーバへのアクセスに失敗しました。時間をおいても改善しない場合は管理者にご連絡下さい。")
+        STDERR.puts "[ERROR] サーバへのアクセスに失敗しました。"
       rescue Api::InvalidStatusError => e
-        message_event.send_message(e.message)
+        STDERR.puts "[ERROR] #{e.message}"
       end
       sleep 60
     end
