@@ -42,8 +42,7 @@ def view_datetime(input)
 end
 
 def check_executable(message_event)
-  return true if $recruitment_channel_ids.blank?
-  return $recruitment_channel_ids.include?(message_event.channel.id.to_s)
+  return $target_channel == message_event.channel.id.to_s
 end
 
 def match_keywords(message_event, keywords)
