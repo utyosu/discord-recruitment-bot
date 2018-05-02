@@ -41,10 +41,6 @@ def view_datetime(input)
   end
 end
 
-def check_executable(message_event)
-  return $target_channel == message_event.channel.id.to_s
-end
-
 def match_keywords(message_event, keywords)
   to_safe(get_message_content(message_event)) =~ keywords
 end

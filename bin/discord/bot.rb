@@ -71,7 +71,8 @@ class Bot < inheritance
 
   def get_message(message_event)
     begin
-      if check_executable(message_event)
+      # only text channel
+      if $target_channel == message_event.channel.id.to_s
         if match_keywords(message_event, $KEYWORDS_START_RECRUITMENT)
           RecruitmentController::open(message_event)
         elsif match_keywords(message_event, $KEYWORDS_STOP_RECRUITMENT)
@@ -80,7 +81,12 @@ class Bot < inheritance
           RecruitmentController::join(message_event)
         elsif match_keywords(message_event, $KEYWORDS_LEAVE_RECRUITMENT)
           RecruitmentController::leave(message_event)
-        elsif match_keywords(message_event, $KEYWORDS_SHOW_RECRUITMENT)
+        end
+      end
+
+      # text channel or private channel (Direct Message)
+      if message_event.channel.type == 1 || $target_channel == message_event.channel.id.to_s
+        if match_keywords(message_event, $KEYWORDS_SHOW_RECRUITMENT)
           RecruitmentController::show(message_event)
         elsif match_keywords(message_event, $KEYWORDS_INTERACTION_CREATE)
           InteractionController::interaction_create(message_event)
@@ -92,6 +98,7 @@ class Bot < inheritance
           Flickr.put_food_image(message_event)
         end
       end
+
     rescue HTTP::ConnectionError => e
       message_event.send_message("サーバへのアクセスに失敗しました。時間をおいても改善しない場合は管理者にご連絡下さい。")
     rescue Api::InvalidStatusError => e
