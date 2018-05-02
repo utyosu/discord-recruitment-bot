@@ -16,7 +16,7 @@ module RecruitmentController
             $target_channel.send_message("[#{recruitment['label_id']}] は予定時間になりましたが参加者が集まらなかったので終了します。(´・ω・｀)ｼｮﾎﾞｰﾝ")
             $target_channel.send_message(recruitments_message)
           else
-            mention = recruitment['participants'].map{|p|"<@#{p['discord_id']}>"}.join(" ")
+            mention = build_mention_from_participants(recruitment['participants'])
             $target_channel.send_message("#{mention}\n[#{recruitment['label_id']}] の予定時間です。(*´∀`)ﾉ ｲﾃﾗｰ")
             $target_channel.send_message("```\n#{format_recruitment_to_string(recruitment)}\n```")
             $target_channel.send_message("[#{recruitment['label_id']}] は予定時間になったので終了します。")
@@ -96,7 +96,9 @@ module RecruitmentController
         if recruitment['participants'].size >= extraction_recruit_user_count(recruitment['content'])
           recruitment = update_recruitment(recruitment)
           Api::Recruitment.destroy(recruitment)
-          message_event.send_message("メンバーが集まったので [#{recruitment['label_id']}] を終了しました。")
+          mention = build_mention_from_participants(recruitment['participants'])
+          message_event.send_message("#{mention}\nメンバーが集まりました。(｀・ω・´)ﾔｯﾀﾈ")
+          message_event.send_message("[#{recruitment['label_id']}] を終了しました。")
           message_event.send_message(recruitments_message)
           TwitterController.recruitment_close(recruitment)
         end

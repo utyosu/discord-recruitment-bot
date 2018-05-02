@@ -2,6 +2,10 @@ def update_recruitment(recruitment)
   JSON.parse(Api::Recruitment.index.body).find{|r|r['id'] == recruitment['id']}
 end
 
+def build_mention_from_participants(participants)
+  participants.map{|p|"<@#{p['discord_id']}>"}.join(" ")
+end
+
 def to_safe(str)
   str.tr('０-９ａ-ｚＡ-Ｚ＠？：', '0-9a-zA-Z@?:').gsub(/<@\d+>/, "")
 end
