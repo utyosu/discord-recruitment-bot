@@ -99,6 +99,13 @@ class Bot < inheritance
         end
       end
 
+      # only text channel
+      if message_event.channel.type == 1
+        if message_event.content =~ /\A\/talk/
+          send_message_command(message_event)
+        end
+      end
+
     rescue HTTP::ConnectionError => e
       message_event.send_message("サーバへのアクセスに失敗しました。時間をおいても改善しない場合は管理者にご連絡下さい。")
     rescue Api::InvalidStatusError => e

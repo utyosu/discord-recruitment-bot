@@ -49,6 +49,12 @@ def get_message_content(message_event)
   message_event.content.split(/\r\n|\r|\n/).first
 end
 
+def send_message_command(message_event)
+  message = message_event.content.split(" ", 2)[1]
+  return if message.blank?
+  $target_channel.send_message(message)
+end
+
 class ExtractionTime
   def self.extraction(str)
     adjust_alright(base(str), str)
