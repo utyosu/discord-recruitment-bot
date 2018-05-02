@@ -191,11 +191,11 @@ sudo -E bundle exec ruby bin/discord/bot.rb nodaemon
 ## 更新
 
 ```
-sudo service direct-recruitment-bot stop
+sudo service discord-recruitment-bot stop
 git pull
 bundle install
 sudo bundle exec ridgepole -c config/database.yml --apply -f db/schema -E production
-sudo service direct-recruitment-bot start
+sudo service discord-recruitment-bot start
 ```
 
 ## bot の動かし方が分からん！
