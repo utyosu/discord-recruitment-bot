@@ -34,7 +34,11 @@ class TwitterController
   end
 
   def self.tweet(recruitment, message)
-    tweet = @@twitter_client.update(message, in_reply_to_status_id: recruitment['tweet_id'])
-    Api::Recruitment.update(recruitment, {tweet_id: tweet.id})
+    begin
+      tweet = @@twitter_client.update(message, in_reply_to_status_id: recruitment['tweet_id'])
+      Api::Recruitment.update(recruitment, {tweet_id: tweet.id})
+    rescue Twitter::Error => e
+      STDERR.puts e.message
+    end
   end
 end
