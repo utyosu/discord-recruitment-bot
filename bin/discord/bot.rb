@@ -73,6 +73,10 @@ class Bot < inheritance
     begin
       # only text channel
       if $target_channel == message_event.channel.id.to_s
+      end
+
+      # text channel or private channel (Direct Message)
+      if message_event.channel.type == 1 || $target_channel == message_event.channel.id.to_s
         if match_keywords(message_event, $KEYWORDS_START_RECRUITMENT)
           RecruitmentController::open(message_event)
         elsif match_keywords(message_event, $KEYWORDS_STOP_RECRUITMENT)
@@ -81,12 +85,7 @@ class Bot < inheritance
           RecruitmentController::join(message_event)
         elsif match_keywords(message_event, $KEYWORDS_LEAVE_RECRUITMENT)
           RecruitmentController::leave(message_event)
-        end
-      end
-
-      # text channel or private channel (Direct Message)
-      if message_event.channel.type == 1 || $target_channel == message_event.channel.id.to_s
-        if match_keywords(message_event, $KEYWORDS_SHOW_RECRUITMENT)
+        elsif match_keywords(message_event, $KEYWORDS_SHOW_RECRUITMENT)
           RecruitmentController::show(message_event)
         elsif match_keywords(message_event, $KEYWORDS_INTERACTION_CREATE)
           InteractionController::interaction_create(message_event)

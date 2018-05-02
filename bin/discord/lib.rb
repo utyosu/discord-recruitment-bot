@@ -55,6 +55,11 @@ def send_message_command(message_event)
   $target_channel.send_message(message)
 end
 
+def send_message_all(message_event, message)
+  message_event.send_message(message)
+  $target_channel.send_message(message) if message_event.channel.type == 1
+end
+
 class ExtractionTime
   def self.extraction(str)
     adjust_alright(base(str), str)
