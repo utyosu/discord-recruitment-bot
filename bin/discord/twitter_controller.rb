@@ -34,6 +34,7 @@ class TwitterController
   end
 
   def self.tweet(recruitment, message)
+    return if ENV['TWITTER_DISABLE'].present?
     begin
       tweet = @@twitter_client.update(message, in_reply_to_status_id: recruitment['tweet_id'])
       Api::Recruitment.update(recruitment, {tweet_id: tweet.id})
