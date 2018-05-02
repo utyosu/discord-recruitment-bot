@@ -83,11 +83,12 @@ class ExtractionTime
 
     # n時 style
     begin
-      return to_safe(str).slice(/\d{1,2}時半?/).gsub(/時半/,":30").gsub(/時/,":00").in_time_zone
+      return to_safe(str).gsub(/\d{1,2}時間/, "").slice(/\d{1,2}時半?/).gsub(/時半/,":30").gsub(/時/,":00").in_time_zone
     rescue ArgumentError, NoMethodError => e
       # do nothing
     end
 
+    # Old Japanese Style
     if str =~ /丑三つ時/
       datetime = Time.zone.parse("02:00")
       datetime += (60 * 60 * 24) if datetime < Time.zone.now
