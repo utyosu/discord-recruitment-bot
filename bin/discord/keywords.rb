@@ -21,3 +21,6 @@ $KEYWORDS_INTERACTION_DESTROY = /\A忘却/
 
 # 対話反応キーワード
 $KEYWORDS_INTERACTION_RESPONSE = /教えて|おしえて/
+
+# 飯テロキーワード
+$KEYWORDS_FOOD_RESPONSE = /お腹|おなか|飯テロ|めしテロ/

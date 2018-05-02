@@ -7,6 +7,7 @@ require_relative 'keywords'
 require_relative 'recruitment_controller'
 require_relative 'interaction_controller'
 require_relative 'twitter_controller'
+require_relative 'flickr'
 
 # 時間指定のない募集の期限 (秒)
 EXPIRE_TIME = 60 * 60
@@ -87,6 +88,8 @@ class Bot < inheritance
           InteractionController::interaction_destroy(message_event)
         elsif match_keywords(message_event, $KEYWORDS_INTERACTION_RESPONSE)
           InteractionController::interaction_response(message_event)
+        elsif match_keywords(message_event, $KEYWORDS_FOOD_RESPONSE)
+          Flickr.put_food_image(message_event)
         end
       end
     rescue HTTP::ConnectionError => e
