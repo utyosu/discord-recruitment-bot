@@ -2,7 +2,7 @@
 $KEYWORDS_START_RECRUITMENT = /@\d+/
 
 # 募集終了キーワード
-$KEYWORDS_STOP_RECRUITMENT = /しめ|締め|〆|滅/
+$KEYWORDS_STOP_RECRUITMENT = /しめ|締め|〆|滅|sime|shime/
 
 # 参加キーワード
 $KEYWORDS_JOIN_RECRUITMENT = /いく|行く|いきま|行きま|やる|やりま|さんか|参加|ひゃっはー/
