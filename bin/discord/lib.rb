@@ -7,6 +7,8 @@ def to_safe(str)
 end
 
 def extraction_recruit_user_count(str)
+  tmp = to_safe(str).match(/@\d+or(\d)/)
+  return tmp[1].to_i if tmp.present?
   tmp = to_safe(str).match(/@(\d+)/)
   return tmp.blank? ? nil : tmp[1].to_i
 end
