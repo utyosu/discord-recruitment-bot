@@ -95,6 +95,9 @@ export TWITTER_ACCESS_TOKEN_SECRET=""
 # twitter の通知のタイトル
 export TWITTER_NOTICE_TITLE="募集通知"
 
+# Flickr の API キー
+export FLICKR_API_KEY=""
+
 # discord-recruitment-bot のパス
 export ROOT_DIR="/<パス>/discord-recruitment-bot"
 
