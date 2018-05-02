@@ -8,6 +8,9 @@ require_relative 'recruitment_controller'
 require_relative 'interaction_controller'
 require_relative 'twitter_controller'
 
+# 時間指定のない募集の期限 (秒)
+EXPIRE_TIME = 60 * 60
+
 def inheritance
   if ARGV[0] == "nodaemon"
     Object
@@ -25,7 +28,6 @@ class Bot < inheritance
       end
     end
 
-
     $bot = Discordrb::Commands::CommandBot.new ({
       token: ENV['DISCORD_BOT_TOKEN'],
       client_id: ENV['DISCORD_BOT_CLIENT_ID'],
@@ -41,19 +43,16 @@ class Bot < inheritance
 
     $bot.run(true)
 
-    $target_channels = []
     $bot.servers.each do |server_id, server|
       server.channels.each do |channel|
-        if ENV['DISCORD_BOT_RECRUITMENT_CHANNEL_IDS'].split(",").include?(channel.id.to_s)
-          $target_channels.push(channel)
-          puts "[INFO] 動作チャンネル '#{channel.name}' (#{channel.id})"
-        end
+        $target_channel = channel if ENV['DISCORD_BOT_RECRUITMENT_CHANNEL_ID'] == channel.id.to_s
       end
     end
-    if $target_channels.blank?
+    if $target_channel.blank?
       STDERR.puts "[ERROR] 動作チャンネルがないので終了します。"
       exit
     end
+    puts "[INFO] 動作チャンネル '#{$target_channel.name}' (#{$target_channel.id})"
 
     loop do
       begin
@@ -67,8 +66,7 @@ class Bot < inheritance
     end
   end
 
-  def stop
-  end
+  def stop; end
 
   def get_message(message_event)
     begin

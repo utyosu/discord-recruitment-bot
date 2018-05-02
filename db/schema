@@ -1,7 +1,7 @@
 create_table "recruitments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
   t.text     "content", limit: 65535
   t.integer  "label_id"
-  t.datetime "expired_at"
+  t.datetime "reserve_at"
   t.text     "tweet_id", limit: 65535
   t.datetime "created_at"
   t.datetime "updated_at"

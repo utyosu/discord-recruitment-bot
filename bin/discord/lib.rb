@@ -1,8 +1,12 @@
+def update_recruitment(recruitment)
+  JSON.parse(Api::Recruitment.index.body).find{|r|r['id'] == recruitment['id']}
+end
+
 def to_safe(str)
   str.tr('０-９ａ-ｚＡ-Ｚ＠？：', '0-9a-zA-Z@?:').gsub(/<@\d+>/, "")
 end
 
-def extraction_recruit_number(str)
+def extraction_recruit_user_count(str)
   tmp = to_safe(str).match(/@(\d+)/)
   return tmp.blank? ? nil : tmp[1].to_i
 end
@@ -85,11 +89,12 @@ class ExtractionTime
       return datetime
     end
 
-    # +1時間
-    return Time.zone.now + (60 * 60)
+    return nil
   end
 
   def self.adjust_alright(datetime, str)
+    return datetime if datetime.blank?
+
     # 「明日」というキーワードがあれば12時間足す
     if str =~ /明日/
       datetime += 60 * 60 * 24

@@ -77,8 +77,8 @@ export DISCORD_BOT_TOKEN="<botのトークンを入力>"
 # bot のクライアント ID
 export DISCORD_BOT_CLIENT_ID="<botのクライアントIDを入力>"
 
-# bot が動作するチャンネル ID (複数記載するときはカンマ区切り)
-export DISCORD_BOT_RECRUITMENT_CHANNEL_IDS="<botが動作するチャンネルID>"
+# bot が動作するチャンネル ID
+export DISCORD_BOT_RECRUITMENT_CHANNEL_ID="<botが動作するチャンネルID>"
 
 # twitter の CONSUMER_KEY
 export TWITTER_CONSUMER_KEY=""
@@ -184,7 +184,7 @@ bot の起動
 ```
 export DISCORD_BOT_TOKEN="<botのトークンを入力>"
 export DISCORD_BOT_CLIENT_ID="<botのクライアントIDを入力>"
-export DISCORD_BOT_RECRUITMENT_CHANNEL_IDS="<botが動作するチャンネルID>" #複数記載するときはカンマ区切り
+export DISCORD_BOT_RECRUITMENT_CHANNEL_ID="<botが動作するチャンネルID>"
 sudo -E bundle exec ruby bin/discord/bot.rb nodaemon
 ```
 
