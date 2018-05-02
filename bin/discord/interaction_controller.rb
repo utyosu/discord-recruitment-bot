@@ -17,6 +17,13 @@ module InteractionController
 
   def interaction_response(message_event)
     interaction = JSON.parse(Api::Interaction.search(get_message_content(message_event)).body)
-    message_event.send_message(interaction['response']) if interaction['response'].present?
+    if interaction['response'].present?
+      message_event.send_message(interaction['response'])
+      return
+    end
+    interactions = JSON.parse(Api::Interaction.index.body)
+    keywords = interactions.map{|interaction| interaction['keyword']}
+    message_event.send_message("記憶している単語一覧です。")
+    message_event.send_message("```\n#{keywords.join(', ')}\n```")
   end
 end

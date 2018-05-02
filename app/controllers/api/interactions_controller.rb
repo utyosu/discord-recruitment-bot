@@ -1,5 +1,9 @@
 module Api
   class InteractionsController < ApplicationController
+    def index
+      render json: Interaction.all
+    end
+
     def create
       interaction = Interaction.find_by(keyword: interaction_params[:keyword])
       if interaction.present?

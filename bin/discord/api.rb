@@ -41,6 +41,10 @@ module Api
   end
 
   class Interaction
+    def self.index
+      Api.check_response HTTP.get("#{BASE_URI}/interactions")
+    end
+
     def self.create(params)
       Api.check_response HTTP.post("#{BASE_URI}/interactions", params: Api.contained_params("interaction", params))
     end
