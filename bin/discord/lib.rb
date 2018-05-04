@@ -76,21 +76,32 @@ class ExtractionTime
 
     # hh:mm style
     begin
-      return to_safe(str).slice(/\d{1,2}:\d{2}/).in_time_zone
+      match = to_safe(str).match(/(\d{1,2}):(\d{2})/)
+      return to_datetime(match[1], match[2]) if match
     rescue ArgumentError, NoMethodError => e
       # do nothing
     end
 
     # n時m分 style
     begin
-      return to_safe(str).slice(/\d{1,2}時\d{1,2}分/).gsub(/時/,":").gsub(/分/,"").in_time_zone
+      match = to_safe(str).match(/(\d{1,2})時(\d{1,2})分/)
+      return to_datetime(match[1], match[2]) if match
     rescue ArgumentError, NoMethodError => e
       # do nothing
     end
 
     # n時 style
     begin
-      return to_safe(str).gsub(/\d{1,2}時間/, "").slice(/\d{1,2}時半?/).gsub(/時半/,":30").gsub(/時/,":00").in_time_zone
+      match = to_safe(str).gsub(/\d{1,2}時間/, "").match(/(\d{1,2})時/)
+      return to_datetime(match[1], "00") if match
+    rescue ArgumentError, NoMethodError => e
+      # do nothing
+    end
+
+    # n時半 style
+    begin
+      match = to_safe(str).gsub(/\d{1,2}時間/, "").match(/(\d{1,2})時半/)
+      return to_datetime(match[1], "30") if match
     rescue ArgumentError, NoMethodError => e
       # do nothing
     end
@@ -103,6 +114,15 @@ class ExtractionTime
     end
 
     return nil
+  end
+
+  def self.to_datetime(hour, min)
+    raise ArgumentError if hour.blank? || min.blank?
+    if 24 <= hour.to_i
+      return "#{hour.to_i-24}:#{min}".in_time_zone + (60 * 60 * 24)
+    else
+      return "#{hour}:#{min}".in_time_zone
+    end
   end
 
   def self.adjust_alright(datetime, str)
