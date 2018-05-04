@@ -113,10 +113,8 @@ class ExtractionTime
       datetime += 60 * 60 * 24
     end
 
-    # 1～12時で既に過ぎていたら12時間足す
-    if 1 <= datetime.hour && datetime.hour <= 12 && datetime < Time.zone.now
-      datetime += 60 * 60 * 12
-    end
+    # 時間が過ぎている
+    2.times{datetime += 60 * 60 * 12 if datetime < Time.zone.now}
 
     return datetime
   end
