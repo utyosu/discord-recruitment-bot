@@ -11,7 +11,7 @@ def to_safe(str)
 end
 
 def extraction_recruit_user_count(str)
-  tmp = to_safe(str).match(/@\d[^\d]+(\d)([^:時]|\Z)/)
+  tmp = to_safe(str).gsub(/\d+時|\d+:\d+/,"").match(/@\d+[^\d]+(\d+)/)
   return tmp[1].to_i if tmp.present?
   tmp = to_safe(str).match(/@(\d+)/)
   return tmp.blank? ? nil : tmp[1].to_i
