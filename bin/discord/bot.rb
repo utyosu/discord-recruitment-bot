@@ -8,6 +8,7 @@ require_relative 'recruitment_controller'
 require_relative 'interaction_controller'
 require_relative 'twitter_controller'
 require_relative 'flickr'
+require_relative 'analysis'
 
 # 時間指定のない募集の期限 (秒)
 EXPIRE_TIME = 60 * 60
@@ -22,7 +23,7 @@ end
 
 class Bot < inheritance
   def start(args)
-    %w(DISCORD_BOT_TOKEN DISCORD_BOT_CLIENT_ID DISCORD_BOT_RECRUITMENT_CHANNEL_ID TWITTER_CONSUMER_KEY TWITTER_CONSUMER_SECRET TWITTER_ACCESS_TOKEN TWITTER_ACCESS_TOKEN_SECRET TWITTER_NOTICE_TITLE).each do |name|
+    %w(DISCORD_BOT_TOKEN DISCORD_BOT_CLIENT_ID DISCORD_BOT_RECRUITMENT_CHANNEL_ID TWITTER_CONSUMER_KEY TWITTER_CONSUMER_SECRET TWITTER_ACCESS_TOKEN TWITTER_ACCESS_TOKEN_SECRET TWITTER_NOTICE_TITLE ANALYSIS_INTERVAL).each do |name|
       if ENV[name].blank?
         STDERR.puts "[ERROR] 必須の環境変数 #{name} が定義されていません。プログラムを終了します。"
         exit
@@ -54,16 +55,18 @@ class Bot < inheritance
       exit
     end
     puts "[INFO] 動作チャンネル '#{$target_channel.name}' (#{$target_channel.id})"
+    puts "[INFO] 解析インターバル: #{Analysis::ANALYSIS_INTERVAL} (0なら無効)"
 
     loop do
       begin
         RecruitmentController::destroy_expired_recruitment
+        Analysis::voice_channels
       rescue HTTP::ConnectionError => e
         STDERR.puts "[ERROR] サーバへのアクセスに失敗しました。"
       rescue Api::InvalidStatusError => e
         STDERR.puts "[ERROR] #{e.message}"
       end
-      sleep 60
+      sleep 10
     end
   end
 

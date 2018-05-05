@@ -1,0 +1,36 @@
+script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"
+script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"
+link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/redmond/jquery-ui.css"
+link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css"
+
+script == '$(function(){$("#datepicker1").datepicker();$("#datepicker2").datepicker();});'
+
+h1 = "Analysis"
+
+form
+  input#datepicker1 type="text" name="start_date" value=@start_date
+  = "～"
+  input#datepicker2 type="text" name="end_date" value=@end_date
+  = " "
+  input type="submit" value="GO"
+
+h2 = "Channels"
+table border=1
+  tr
+    td = "Name"
+    td = "Use Time (h)"
+  - @channel_use_time_list.each do |channel, use_time|
+    tr
+      td = channel.name
+      td = use_time.to_f / (60 * 60)
+
+h2 = "Users"
+table border=1
+  tr
+    td = "Name"
+    td = "Login Time (h)"
+  - @user_login_time_list.each do |user, login_time|
+    tr
+      td = user.name
+      td = login_time.to_f / (60 * 60)

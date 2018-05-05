@@ -58,5 +58,11 @@ module Api
     end
   end
 
+  class UserStatus
+    def self.create(params)
+      Api.check_response HTTP.post("#{BASE_URI}/user_statuses", params: Api.contained_params("user_status", params))
+    end
+  end
+
   class InvalidStatusError < StandardError; end
 end
