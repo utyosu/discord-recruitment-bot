@@ -93,14 +93,18 @@ module RecruitmentController
         send_message_all(message_event, "#{message_event.author.username}さんが [#{recruitment['label_id']}] に参加しました。")
         send_message_all(message_event, recruitments_message)
         TwitterController.recruitment_join(recruitment)
-        if recruitment['participants'].size >= extraction_recruit_user_count(recruitment['content']) && recruitment['reserve_at'].blank?
-          recruitment = update_recruitment(recruitment)
-          Api::Recruitment.destroy(recruitment)
-          mention = build_mention_from_participants(recruitment['participants'])
-          send_message_all(message_event, "#{mention}\nメンバーが集まりました。(｀・ω・´)ﾔｯﾀﾈ")
-          send_message_all(message_event, "[#{recruitment['label_id']}] を終了しました。")
-          send_message_all(message_event, recruitments_message)
-          TwitterController.recruitment_close(recruitment)
+        if recruitment['participants'].size >= extraction_recruit_user_count(recruitment['content'])
+          if recruitment['reserve_at'].present?
+            send_message_all(message_event, "メンバーが集まりました。\n#{view_datetime(recruitment['reserve_at'])} になったら連絡するね(・∀・)b")
+          else
+            recruitment = update_recruitment(recruitment)
+            Api::Recruitment.destroy(recruitment)
+            mention = build_mention_from_participants(recruitment['participants'])
+            send_message_all(message_event, "#{mention}\nメンバーが集まりました。(｀・ω・´)ﾔｯﾀﾈ")
+            send_message_all(message_event, "[#{recruitment['label_id']}] を終了しました。")
+            send_message_all(message_event, recruitments_message)
+            TwitterController.recruitment_close(recruitment)
+          end
         end
         return
       end
