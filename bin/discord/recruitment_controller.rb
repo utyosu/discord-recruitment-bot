@@ -13,22 +13,22 @@ module RecruitmentController
         if recruitment['reserve_at'].in_time_zone < Time.zone.now
           Api::Recruitment.destroy(recruitment)
           if 1 >= recruitment['participants'].size
-            $target_channel.send_message("[#{recruitment['label_id']}] は予定時間になりましたが参加者が集まらなかったので終了します。(´・ω・｀)ｼｮﾎﾞｰﾝ")
-            $target_channel.send_message(recruitments_message)
+            $recruitment_channel.send_message("[#{recruitment['label_id']}] は予定時間になりましたが参加者が集まらなかったので終了します。(´・ω・｀)ｼｮﾎﾞｰﾝ")
+            $recruitment_channel.send_message(recruitments_message)
           else
             mention = build_mention_from_participants(recruitment['participants'])
-            $target_channel.send_message("#{mention}\n[#{recruitment['label_id']}] の予定時間です。(*´∀`)ﾉ ｲﾃﾗｰ")
-            $target_channel.send_message("```\n#{format_recruitment_to_string(recruitment)}\n```")
-            $target_channel.send_message("[#{recruitment['label_id']}] は予定時間になったので終了します。")
-            $target_channel.send_message(recruitments_message)
+            $recruitment_channel.send_message("#{mention}\n[#{recruitment['label_id']}] の予定時間です。(*´∀`)ﾉ ｲﾃﾗｰ")
+            $recruitment_channel.send_message("```\n#{format_recruitment_to_string(recruitment)}\n```")
+            $recruitment_channel.send_message("[#{recruitment['label_id']}] は予定時間になったので終了します。")
+            $recruitment_channel.send_message(recruitments_message)
           end
           TwitterController.recruitment_close(recruitment)
         end
       else
         if (recruitment['created_at'].in_time_zone + EXPIRE_TIME) < Time.zone.now
           Api::Recruitment.destroy(recruitment)
-          $target_channel.send_message("[#{recruitment['label_id']}] は期限を過ぎたので終了します。")
-          $target_channel.send_message(recruitments_message)
+          $recruitment_channel.send_message("[#{recruitment['label_id']}] は期限を過ぎたので終了します。")
+          $recruitment_channel.send_message(recruitments_message)
           TwitterController.recruitment_close(recruitment)
         end
       end

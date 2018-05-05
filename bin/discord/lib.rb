@@ -52,12 +52,12 @@ end
 def send_message_command(message_event)
   message = message_event.content.split(" ", 2)[1]
   return if message.blank?
-  $target_channel.send_message(message)
+  $recruitment_channel.send_message(message)
 end
 
 def send_message_all(message_event, message)
   message_event.send_message(message)
-  $target_channel.send_message(message) if message_event.channel.type == 1
+  $recruitment_channel.send_message(message) if message_event.channel.type == 1
 end
 
 class ExtractionTime

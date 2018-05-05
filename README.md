@@ -77,26 +77,35 @@ export DISCORD_BOT_TOKEN="<botのトークンを入力>"
 # bot のクライアント ID
 export DISCORD_BOT_CLIENT_ID="<botのクライアントIDを入力>"
 
-# bot が動作するチャンネル ID
-export DISCORD_BOT_RECRUITMENT_CHANNEL_ID="<botが動作するチャンネルID>"
+# bot のメンバー募集機能が動作するチャンネル ID
+export DISCORD_BOT_RECRUITMENT_CHANNEL_ID="<チャンネルID>"
+
+# bot の対話機能が動作するチャンネル ID
+export DISCORD_BOT_INTERACTION_CHANNEL_ID="<チャンネルID>"
+
+# bot の飯テロ機能が動作するチャンネル ID
+export DISCORD_BOT_FOOD_CHANNEL_ID="<チャンネルID>"
 
 # twitter の CONSUMER_KEY
-export TWITTER_CONSUMER_KEY=""
+export DISCORD_BOT_TWITTER_CONSUMER_KEY=""
 
 # twitter の CONSUMER_SECRET
-export TWITTER_CONSUMER_SECRET=""
+export DISCORD_BOT_TWITTER_CONSUMER_SECRET=""
 
 # twitter の ACCESS_TOKEN
-export TWITTER_ACCESS_TOKEN=""
+export DISCORD_BOT_TWITTER_ACCESS_TOKEN=""
 
 # twitter の ACCESS_TOKEN_SECRET
-export TWITTER_ACCESS_TOKEN_SECRET=""
+export DISCORD_BOT_TWITTER_ACCESS_TOKEN_SECRET=""
 
 # twitter の通知のタイトル
-export TWITTER_NOTICE_TITLE="募集通知"
+export DISCORD_BOT_TWITTER_NOTICE_TITLE="募集通知"
 
 # Flickr の API キー
-export FLICKR_API_KEY=""
+export DISCORD_BOT_FLICKR_API_KEY=""
+
+# 解析機能の動作間隔 (秒)
+export DISCORD_BOT_ANALYSIS_INTERVAL=1800
 
 # discord-recruitment-bot のパス
 export ROOT_DIR="/<パス>/discord-recruitment-bot"

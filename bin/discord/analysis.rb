@@ -1,7 +1,7 @@
 module Analysis
   extend self
 
-  ANALYSIS_INTERVAL = ENV['ANALYSIS_INTERVAL'].to_i
+  ANALYSIS_INTERVAL = ENV['DISCORD_BOT_ANALYSIS_INTERVAL'].to_i
   @@last_checked = Time.zone.now
 
   def voice_channels

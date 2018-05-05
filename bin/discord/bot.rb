@@ -23,7 +23,7 @@ end
 
 class Bot < inheritance
   def start(args)
-    %w(DISCORD_BOT_TOKEN DISCORD_BOT_CLIENT_ID DISCORD_BOT_RECRUITMENT_CHANNEL_ID TWITTER_CONSUMER_KEY TWITTER_CONSUMER_SECRET TWITTER_ACCESS_TOKEN TWITTER_ACCESS_TOKEN_SECRET TWITTER_NOTICE_TITLE ANALYSIS_INTERVAL).each do |name|
+    %w(DISCORD_BOT_TOKEN DISCORD_BOT_CLIENT_ID DISCORD_BOT_RECRUITMENT_CHANNEL_ID DISCORD_BOT_TWITTER_CONSUMER_KEY DISCORD_BOT_TWITTER_CONSUMER_SECRET DISCORD_BOT_TWITTER_ACCESS_TOKEN DISCORD_BOT_TWITTER_ACCESS_TOKEN_SECRET DISCORD_BOT_TWITTER_NOTICE_TITLE).each do |name|
       if ENV[name].blank?
         STDERR.puts "[ERROR] 必須の環境変数 #{name} が定義されていません。プログラムを終了します。"
         exit
@@ -47,15 +47,32 @@ class Bot < inheritance
 
     $bot.servers.each do |server_id, server|
       server.channels.each do |channel|
-        $target_channel = channel if ENV['DISCORD_BOT_RECRUITMENT_CHANNEL_ID'] == channel.id.to_s
+        $recruitment_channel = channel if ENV['DISCORD_BOT_RECRUITMENT_CHANNEL_ID'] == channel.id.to_s
+        $interaction_channel = channel if ENV['DISCORD_BOT_INTERACTION_CHANNEL_ID'] == channel.id.to_s
+        $food_channel = channel if ENV['DISCORD_BOT_FOOD_CHANNEL_ID'] == channel.id.to_s
       end
     end
-    if $target_channel.blank?
-      STDERR.puts "[ERROR] 動作チャンネルがないので終了します。"
+    puts "[INFO] 解析インターバル: #{Analysis::ANALYSIS_INTERVAL} (0なら無効)"
+
+    if $recruitment_channel.present?
+      puts "[INFO] 募集機能動作チャンネル: #{$recruitment_channel.name} (#{$recruitment_channel.id})"
+    else
+      STDERR.puts "[ERROR] 募集機能動作チャンネルがないので終了します。"
       exit
     end
-    puts "[INFO] 動作チャンネル '#{$target_channel.name}' (#{$target_channel.id})"
-    puts "[INFO] 解析インターバル: #{Analysis::ANALYSIS_INTERVAL} (0なら無効)"
+    if $interaction_channel.present?
+      puts "[INFO] 対話機能動作チャンネル: #{$interaction_channel.name} (#{$interaction_channel.id})"
+    else
+      puts "[INFO] 対話機能動作チャンネル: なし"
+    end
+    if $food_channel.present?
+      puts "[INFO] 飯テロ機能動作チャンネル: #{$food_channel.name} (#{$food_channel.id})"
+    else
+      puts "[INFO] 飯テロ機能動作チャンネル: なし"
+    end
+    if ENV['DISCORD_BOT_TWITTER_DISABLE'].present?
+      puts "[INFO] Twitter連携機能: オフ"
+    end
 
     loop do
       begin
@@ -74,12 +91,8 @@ class Bot < inheritance
 
   def get_message(message_event)
     begin
-      # only text channel
-      if $target_channel == message_event.channel.id.to_s
-      end
-
       # text channel or private channel (Direct Message)
-      if message_event.channel.type == 1 || $target_channel == message_event.channel.id.to_s
+      if message_event.channel.type == 1 || $recruitment_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_OPEN_RECRUITMENT)
           RecruitmentController::open(message_event)
         elsif match_keywords(message_event, $KEYWORDS_CLOSE_RECRUITMENT)
@@ -90,13 +103,21 @@ class Bot < inheritance
           RecruitmentController::leave(message_event)
         elsif match_keywords(message_event, $KEYWORDS_SHOW_RECRUITMENT)
           RecruitmentController::show(message_event)
-        elsif match_keywords(message_event, $KEYWORDS_INTERACTION_CREATE)
+        end
+      end
+
+      if message_event.channel.type == 1 || $interaction_channel == message_event.channel
+        if match_keywords(message_event, $KEYWORDS_INTERACTION_CREATE)
           InteractionController::interaction_create(message_event)
         elsif match_keywords(message_event, $KEYWORDS_INTERACTION_DESTROY)
           InteractionController::interaction_destroy(message_event)
         elsif match_keywords(message_event, $KEYWORDS_INTERACTION_RESPONSE)
           InteractionController::interaction_response(message_event)
-        elsif match_keywords(message_event, $KEYWORDS_FOOD_RESPONSE)
+        end
+      end
+
+      if message_event.channel.type == 1 || $food_channel == message_event.channel
+        if match_keywords(message_event, $KEYWORDS_FOOD_RESPONSE)
           Flickr.put_food_image(message_event)
         end
       end
