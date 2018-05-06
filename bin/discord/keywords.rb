@@ -27,3 +27,6 @@ $KEYWORDS_FOOD_RESPONSE = /おなか|お腹|飯テロ/
 
 # 天気キーワード
 $KEYWORDS_WEATHER_RESPONSE = /\A(.+)の(天気|てんき)/
+
+# おみくじキーワード
+$KEYWORDS_FORTUNE_RESPONSE = /おみくじ/
