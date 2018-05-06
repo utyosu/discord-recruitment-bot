@@ -24,3 +24,6 @@ $KEYWORDS_INTERACTION_RESPONSE = /教えて|おしえて/
 
 # 飯テロキーワード
 $KEYWORDS_FOOD_RESPONSE = /おなか|お腹|飯テロ/
+
+# 天気キーワード
+$KEYWORDS_WEATHER_RESPONSE = /\A(.+)の(天気|てんき)/

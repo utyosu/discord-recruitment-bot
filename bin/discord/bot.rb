@@ -9,6 +9,7 @@ require_relative 'interaction_controller'
 require_relative 'twitter_controller'
 require_relative 'flickr'
 require_relative 'analysis'
+require_relative 'weather'
 
 # 時間指定のない募集の期限 (秒)
 EXPIRE_TIME = 60 * 60
@@ -50,29 +51,20 @@ class Bot < inheritance
         $recruitment_channel = channel if ENV['DISCORD_BOT_RECRUITMENT_CHANNEL_ID'] == channel.id.to_s
         $interaction_channel = channel if ENV['DISCORD_BOT_INTERACTION_CHANNEL_ID'] == channel.id.to_s
         $food_channel = channel if ENV['DISCORD_BOT_FOOD_CHANNEL_ID'] == channel.id.to_s
+        $weather_channel = channel if ENV['DISCORD_BOT_WEATHER_CHANNEL_ID'] == channel.id.to_s
       end
     end
     puts "[INFO] 解析インターバル: #{Analysis::ANALYSIS_INTERVAL} (0なら無効)"
-
     if $recruitment_channel.present?
       puts "[INFO] 募集機能動作チャンネル: #{$recruitment_channel.name} (#{$recruitment_channel.id})"
     else
       STDERR.puts "[ERROR] 募集機能動作チャンネルがないので終了します。"
       exit
     end
-    if $interaction_channel.present?
-      puts "[INFO] 対話機能動作チャンネル: #{$interaction_channel.name} (#{$interaction_channel.id})"
-    else
-      puts "[INFO] 対話機能動作チャンネル: なし"
-    end
-    if $food_channel.present?
-      puts "[INFO] 飯テロ機能動作チャンネル: #{$food_channel.name} (#{$food_channel.id})"
-    else
-      puts "[INFO] 飯テロ機能動作チャンネル: なし"
-    end
-    if ENV['DISCORD_BOT_TWITTER_DISABLE'].present?
-      puts "[INFO] Twitter連携機能: オフ"
-    end
+    puts "[INFO] 対話機能動作チャンネル: #{$interaction_channel.present? ? $interaction_channel.name : "なし"}"
+    puts "[INFO] 飯テロ機能動作チャンネル: #{$food_channel.present? ? $food_channel.name : "なし"}"
+    puts "[INFO] 天気機能動作チャンネル: #{$weather_channel.present? ? $weather_channel.name : "なし"}"
+    puts "[INFO] Twitter連携機能: #{ENV['DISCORD_BOT_TWITTER_DISABLE'].present? ? "オン" : "オフ"}"
 
     loop do
       begin
@@ -91,8 +83,14 @@ class Bot < inheritance
 
   def get_message(message_event)
     begin
-      # text channel or private channel (Direct Message)
-      if message_event.channel.type == 1 || $recruitment_channel == message_event.channel
+
+      if message_event.channel.type == 1
+        if match_keywords(message_event, $KEYWORDS_SHOW_RECRUITMENT)
+          RecruitmentController::show(message_event)
+        end
+      end
+
+      if $recruitment_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_OPEN_RECRUITMENT)
           RecruitmentController::open(message_event)
         elsif match_keywords(message_event, $KEYWORDS_CLOSE_RECRUITMENT)
@@ -101,12 +99,10 @@ class Bot < inheritance
           RecruitmentController::join(message_event)
         elsif match_keywords(message_event, $KEYWORDS_LEAVE_RECRUITMENT)
           RecruitmentController::leave(message_event)
-        elsif match_keywords(message_event, $KEYWORDS_SHOW_RECRUITMENT)
-          RecruitmentController::show(message_event)
         end
       end
 
-      if message_event.channel.type == 1 || $interaction_channel == message_event.channel
+      if $interaction_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_INTERACTION_CREATE)
           InteractionController::interaction_create(message_event)
         elsif match_keywords(message_event, $KEYWORDS_INTERACTION_DESTROY)
@@ -116,9 +112,15 @@ class Bot < inheritance
         end
       end
 
-      if message_event.channel.type == 1 || $food_channel == message_event.channel
+      if $food_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_FOOD_RESPONSE)
           Flickr.put_food_image(message_event)
+        end
+      end
+
+      if $weather_channel == message_event.channel
+        if match_keywords(message_event, $KEYWORDS_WEATHER_RESPONSE)
+          Weather.get(message_event)
         end
       end
 

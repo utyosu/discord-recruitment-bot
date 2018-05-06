@@ -86,6 +86,9 @@ export DISCORD_BOT_INTERACTION_CHANNEL_ID="<チャンネルID>"
 # bot の飯テロ機能が動作するチャンネル ID
 export DISCORD_BOT_FOOD_CHANNEL_ID="<チャンネルID>"
 
+# bot の天気機能が動作するチャンネル ID
+export DISCORD_BOT_WEATHER_CHANNEL_ID="<チャンネルID>"
+
 # twitter の CONSUMER_KEY
 export DISCORD_BOT_TWITTER_CONSUMER_KEY=""
 
@@ -103,6 +106,12 @@ export DISCORD_BOT_TWITTER_NOTICE_TITLE="募集通知"
 
 # Flickr の API キー
 export DISCORD_BOT_FLICKR_API_KEY=""
+
+# Yahoo!ジオコーダ API キー
+export DISCORD_BOT_GEOCODE_APPID=""
+
+# Open Weather Map の API キー
+export DISCORD_BOT_WEATHER_APPID=""
 
 # 解析機能の動作間隔 (秒)
 export DISCORD_BOT_ANALYSIS_INTERVAL=1800
