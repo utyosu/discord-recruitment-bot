@@ -10,7 +10,7 @@ module Analysis
     $bot.servers.each do |server_id, server|
       server.voice_channels.each do |voice_channel|
         voice_channel.users.each do |user|
-          Api::UserStatus.create(user_discord_id: user.id, user_name: user.nick, channel_id: voice_channel.id, channel_name: voice_channel.name, interval: ANALYSIS_INTERVAL)
+          Api::UserStatus.create(user_discord_id: user.id, user_name: user.display_name, channel_id: voice_channel.id, channel_name: voice_channel.name, interval: ANALYSIS_INTERVAL)
         end
       end
     end

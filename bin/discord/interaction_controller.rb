@@ -4,7 +4,7 @@ module InteractionController
   def interaction_create(message_event)
     command, keyword, response, other = get_message_content(message_event).gsub(/\p{blank}/," ").split
     return if keyword.size < 1 || 64 < keyword.size || keyword =~ $KEYWORDS_INTERACTION_RESPONSE || response.size < 1 || 64 < response.size || other.present?
-    interaction = JSON.parse(Api::Interaction.create(keyword: keyword, response: response, registered_user_name:  message_event.author.nick, registered_user_discord_id: message_event.author.id).body)
+    interaction = JSON.parse(Api::Interaction.create(keyword: keyword, response: response, registered_user_name:  message_event.author.display_name, registered_user_discord_id: message_event.author.id).body)
     message_event.send_message("「#{interaction['keyword']}」を「#{interaction['response']}」と覚えました。")
   end
 
