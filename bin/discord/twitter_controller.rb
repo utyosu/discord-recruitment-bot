@@ -11,7 +11,7 @@ class TwitterController
   end
 
   def self.recruitment_close(recruitment)
-    tweet(recruitment, "【#{ENV['DISCORD_BOT_TWITTER_NOTICE_TITLE']}】\nこの募集は終了しました。")
+    tweet(recruitment, "【#{ENV['DISCORD_BOT_TWITTER_NOTICE_TITLE']}】(ID:#{recruitment['id']})\nこの募集は終了しました。")
   end
 
   def self.recruitment_join(recruitment)
@@ -26,7 +26,7 @@ class TwitterController
 
   def self.recruitment_message(recruitment)
     recruitment = update_recruitment(recruitment)
-    message = "【#{ENV['DISCORD_BOT_TWITTER_NOTICE_TITLE']}】\n#{recruitment['content']} by #{recruitment['participants'].first['name']} (#{recruitment['participants'].size-1}/#{extraction_recruit_user_count(recruitment['content'])})"
+    message = "【#{ENV['DISCORD_BOT_TWITTER_NOTICE_TITLE']}】(ID:#{recruitment['id']})\n#{recruitment['content']} by #{recruitment['participants'].first['name']} (#{recruitment['participants'].size-1}/#{extraction_recruit_user_count(recruitment['content'])})"
     if recruitment['participants'].present? && 1 < recruitment['participants'].size
       message += "\n参加者: #{recruitment['participants'][1..-1].map{|a|a['name']}.join(", ")}"
     end
