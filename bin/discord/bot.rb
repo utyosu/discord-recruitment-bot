@@ -67,7 +67,7 @@ class Bot < inheritance
     puts "[INFO] 飯テロ機能動作チャンネル: #{$food_channel.present? ? $food_channel.name : "なし"}"
     puts "[INFO] 天気機能動作チャンネル: #{$weather_channel.present? ? $weather_channel.name : "なし"}"
     puts "[INFO] おみくじ機能動作チャンネル: #{$fortune_channel.present? ? $fortune_channel.name : "なし"}"
-    puts "[INFO] Twitter連携機能: #{ENV['DISCORD_BOT_TWITTER_DISABLE'].present? ? "オン" : "オフ"}"
+    puts "[INFO] Twitter連携機能: #{ENV['DISCORD_BOT_TWITTER_DISABLE'].present? ? "オフ" : "オン"}"
 
     loop do
       begin
@@ -86,7 +86,6 @@ class Bot < inheritance
 
   def get_message(message_event)
     begin
-
       if message_event.channel.type == 1 || $recruitment_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_SHOW_RECRUITMENT)
           RecruitmentController::show(message_event)

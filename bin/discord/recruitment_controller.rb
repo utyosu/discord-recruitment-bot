@@ -57,11 +57,11 @@ module RecruitmentController
   def open(message_event)
     recruit_message = get_message_content(message_event)
     recruitment = JSON.parse(Api::Recruitment.create(content: recruit_message, reserve_at: extraction_time(recruit_message).to_s).body)
-    Api::Participant.join(recruitment, name: message_event.author.username, discord_id: message_event.author.id)
+    Api::Participant.join(recruitment, name: message_event.author.nick, discord_id: message_event.author.id)
     if recruitment['reserve_at'].present?
-      send_message_all(message_event, "#{message_event.author.username}さんから [#{recruitment['label_id']}] を予定時間 #{view_datetime(recruitment['reserve_at'])} で受け付けました。")
+      send_message_all(message_event, "#{message_event.author.nick}さんから [#{recruitment['label_id']}] を予定時間 #{view_datetime(recruitment['reserve_at'])} で受け付けました。")
     else
-      send_message_all(message_event, "#{message_event.author.username}さんから [#{recruitment['label_id']}] を期限 #{view_datetime(recruitment['created_at'].in_time_zone + EXPIRE_TIME)} で受け付けました。")
+      send_message_all(message_event, "#{message_event.author.nick}さんから [#{recruitment['label_id']}] を期限 #{view_datetime(recruitment['created_at'].in_time_zone + EXPIRE_TIME)} で受け付けました。")
     end
     send_message_all(message_event, recruitments_message)
     TwitterController.recruitment_open(recruitment)
@@ -75,7 +75,7 @@ module RecruitmentController
     JSON.parse(Api::Recruitment.index.body).each do |recruitment, recruitment_index|
       if number == recruitment['label_id']
         Api::Recruitment.destroy(recruitment)
-        send_message_all(message_event, "#{message_event.author.username}さんが [#{recruitment['label_id']}] を終了しました。")
+        send_message_all(message_event, "#{message_event.author.nick}さんが [#{recruitment['label_id']}] を終了しました。")
         send_message_all(message_event, recruitments_message)
         TwitterController.recruitment_close(recruitment)
         return
@@ -89,8 +89,8 @@ module RecruitmentController
     recruitments = JSON.parse(Api::Recruitment.index.body)
     recruitments.each do |recruitment|
       if number == recruitment['label_id'] && !recruitment['participants'].any?{|p|p['discord_id'] == message_event.author.id.to_s}
-        Api::Participant.join(recruitment, name: message_event.author.username, discord_id: message_event.author.id)
-        send_message_all(message_event, "#{message_event.author.username}さんが [#{recruitment['label_id']}] に参加しました。")
+        Api::Participant.join(recruitment, name: message_event.author.nick, discord_id: message_event.author.id)
+        send_message_all(message_event, "#{message_event.author.nick}さんが [#{recruitment['label_id']}] に参加しました。")
         send_message_all(message_event, recruitments_message)
         TwitterController.recruitment_join(recruitment)
         if recruitment['participants'].size >= extraction_recruit_user_count(recruitment['content'])
@@ -120,7 +120,7 @@ module RecruitmentController
       recruitment['participants'].each do |participant|
         if participant['discord_id'] == my_discord_id
           Api::Participant.leave(recruitment, participant)
-          send_message_all(message_event, "#{message_event.author.username}さんが [#{recruitment['label_id']}] の参加をキャンセルしました。")
+          send_message_all(message_event, "#{message_event.author.nick}さんが [#{recruitment['label_id']}] の参加をキャンセルしました。")
           send_message_all(message_event, recruitments_message)
           TwitterController.recruitment_leave(recruitment)
           return
