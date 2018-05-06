@@ -1,9 +1,12 @@
 module Api
   class ParticipantsController < ApplicationController
     def create
+      user = User.find_or_initialize_by(discord_id: participant_params[:discord_id])
+      user.update(name: participant_params[:name])
+
       recruitment = Recruitment.find(params[:recruitment_id])
-      return head 400 if recruitment.participants.find_by(discord_id: participant_params[:discord_id])
-      participant = recruitment.participants.create!(participant_params)
+      return head 400 if recruitment.participants.find_by(user: user)
+      participant = recruitment.participants.create!(user: user)
       render json: recruitment, status: 201
     end
 

@@ -6,10 +6,12 @@ module Api
 
     def create
       interaction = Interaction.find_by(keyword: interaction_params[:keyword])
+      user = User.find_or_initialize_by(discord_id: params[:interaction][:registered_user_discord_id])
+      user.update(name: params[:interaction][:registered_user_name])
       if interaction.present?
-        interaction.update(interaction_params)
+        interaction.update(interaction_params.merge(user: user))
       else
-        interaction = Interaction.create!(interaction_params)
+        interaction = Interaction.create!(interaction_params.merge(user: user))
       end
       render json: interaction, status: 201
     end
@@ -31,7 +33,7 @@ module Api
     private
 
     def interaction_params
-      params.require(:interaction).permit(:keyword, :response, :registered_user_name, :registered_user_discord_id)
+      params.require(:interaction).permit(:keyword, :response)
     end
   end
 end
