@@ -10,6 +10,7 @@ module HelpController
       ret << "`<数字>参加` - 募集に参加"
       ret << "`<数字>キャンセル` - 募集から参加をキャンセル"
       ret << "`<数字>しめ` - 募集を終了"
+      ret << "`案件` - 現在の募集を表示"
       ret << ""
     end
     if $interaction_channel == message_event.channel
