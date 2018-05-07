@@ -1,4 +1,4 @@
-module Analysis
+module AnalysisController
   extend self
 
   ANALYSIS_INTERVAL = ENV['DISCORD_BOT_ANALYSIS_INTERVAL'].to_i

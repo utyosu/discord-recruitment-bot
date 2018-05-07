@@ -1,4 +1,4 @@
-module Weather
+module WeatherController
   extend self
 
   WEATHER_PATTERNS = {

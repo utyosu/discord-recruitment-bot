@@ -1,6 +1,6 @@
 require 'open-uri'
 
-module Flickr
+module FlickrController
   extend self
   FOOD_WORDS = %w(chicken ramen udon pasta steak grilledmeat hamburger cake pancake sushi pizza friedrice riceball tempura donut)
 

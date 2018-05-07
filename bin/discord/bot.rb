@@ -7,10 +7,10 @@ require_relative 'keywords'
 require_relative 'recruitment_controller'
 require_relative 'interaction_controller'
 require_relative 'twitter_controller'
-require_relative 'flickr'
-require_relative 'analysis'
-require_relative 'weather'
-require_relative 'fortune'
+require_relative 'flickr_controller'
+require_relative 'analysis_controller'
+require_relative 'weather_controller'
+require_relative 'fortune_controller'
 require_relative 'help_controller'
 
 # 時間指定のない募集の期限 (秒)
@@ -57,7 +57,7 @@ class Bot < inheritance
         $fortune_channel = channel if ENV['DISCORD_BOT_FORTUNE_CHANNEL_ID'] == channel.id.to_s
       end
     end
-    puts "[INFO] 解析インターバル: #{Analysis::ANALYSIS_INTERVAL} (0なら無効)"
+    puts "[INFO] 解析インターバル: #{AnalysisController::ANALYSIS_INTERVAL} (0なら無効)"
     if $recruitment_channel.present?
       puts "[INFO] 募集機能動作チャンネル: #{$recruitment_channel.name} (#{$recruitment_channel.id})"
     else
@@ -73,7 +73,7 @@ class Bot < inheritance
     loop do
       begin
         RecruitmentController::destroy_expired_recruitment
-        Analysis::voice_channels
+        AnalysisController::voice_channels
       rescue HTTP::ConnectionError => e
         STDERR.puts "[ERROR] サーバへのアクセスに失敗しました。"
       rescue Api::InvalidStatusError => e
@@ -117,19 +117,19 @@ class Bot < inheritance
 
       if $food_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_FOOD_RESPONSE)
-          Flickr.put_food_image(message_event)
+          FlickrController.put_food_image(message_event)
         end
       end
 
       if $weather_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_WEATHER_RESPONSE)
-          Weather.get(message_event)
+          WeatherController.get(message_event)
         end
       end
 
       if $fortune_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_FORTUNE_RESPONSE)
-          Fortune.get(message_event)
+          FortuneController.get(message_event)
         end
       end
 
