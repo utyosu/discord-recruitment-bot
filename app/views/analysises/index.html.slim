@@ -23,7 +23,7 @@ table border=1
   - @channel_use_time_list.each do |channel, use_time|
     tr
       td = channel.name
-      td = use_time.to_f / (60 * 60)
+      td = "%.1f" % (use_time.to_f / (60 * 60))
 
 h2 = "Users"
 table border=1
@@ -33,4 +33,4 @@ table border=1
   - @user_login_time_list.each do |user, login_time|
     tr
       td = user.name
-      td = login_time.to_f / (60 * 60)
+      td = "%.1f" % (login_time.to_f / (60 * 60))
