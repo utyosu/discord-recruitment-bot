@@ -11,6 +11,7 @@ require_relative 'flickr'
 require_relative 'analysis'
 require_relative 'weather'
 require_relative 'fortune'
+require_relative 'help_controller'
 
 # 時間指定のない募集の期限 (秒)
 EXPIRE_TIME = 60 * 60
@@ -130,6 +131,10 @@ class Bot < inheritance
         if match_keywords(message_event, $KEYWORDS_FORTUNE_RESPONSE)
           Fortune.get(message_event)
         end
+      end
+
+      if match_keywords(message_event, $KEYWORDS_HELP_RESPONSE)
+        HelpController.help(message_event)
       end
 
       # only text channel
