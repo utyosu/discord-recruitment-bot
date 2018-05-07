@@ -92,6 +92,9 @@ export DISCORD_BOT_WEATHER_CHANNEL_ID="<チャンネルID>"
 # bot のおみくじ機能が動作するチャンネル ID
 export DISCORD_BOT_FORTUNE_CHANNEL_ID="<チャンネルID>"
 
+# bot のあだ名作成機能が動作するチャンネル ID
+export DISCORD_BOT_NICKNAME_CHANNEL_ID="<チャンネルID>"
+
 # twitter の CONSUMER_KEY
 export DISCORD_BOT_TWITTER_CONSUMER_KEY=""
 

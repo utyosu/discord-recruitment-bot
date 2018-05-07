@@ -31,5 +31,8 @@ $KEYWORDS_WEATHER_RESPONSE = /\A(.+)の(天気|てんき)/
 # おみくじキーワード
 $KEYWORDS_FORTUNE_RESPONSE = /おみくじ/
 
+# ニックネームキーワード
+$KEYWORDS_NICKNAME_RESPONSE = /あだ名|通り名|ニックネーム/
+
 # 使い方キーワード
 $KEYWORDS_HELP_RESPONSE = /使い方|ヘルプ|help/
