@@ -39,6 +39,12 @@ module HelpController
       ret << "`おみくじ` - 今日の運勢を表示"
       ret << ""
     end
+    if $nickname_channel == message_event.channel
+      ret << "__あだ名作成機能__"
+      ret << ""
+      ret << "`あだ名` - 今日のあなたのあだ名を命名"
+      ret << ""
+    end
     if ret.present?
       message_event.send_message(ret.join("\n"))
     end
