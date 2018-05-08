@@ -1,4 +1,17 @@
 GIT
+  remote: git://github.com/meew0/discordrb.git
+  revision: a7baf7b47c052c0414d84134197002bc81ca24ca
+  specs:
+    discordrb (3.2.1)
+      discordrb-webhooks (~> 3.2.0.1)
+      opus-ruby
+      rbnacl (~> 3.4.0)
+      rest-client (>= 2.1.0.rc1)
+      websocket-client-simple (>= 0.3.0)
+    discordrb-webhooks (3.2.0.1)
+      rest-client (>= 2.1.0.rc1)
+
+GIT
   remote: https://github.com/flyerhzm/bullet.git
   revision: 2640fc9cffbce36eebde159ccc22dcd596fd35aa
   specs:
@@ -92,14 +105,6 @@ GEM
     daemon-spawn (0.4.2)
     debug_inspector (0.0.3)
     diffy (3.2.0)
-    discordrb (3.2.1)
-      discordrb-webhooks (~> 3.2.0.1)
-      opus-ruby
-      rbnacl (~> 3.4.0)
-      rest-client
-      websocket-client-simple (>= 0.3.0)
-    discordrb-webhooks (3.2.0.1)
-      rest-client
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.11)
@@ -118,6 +123,7 @@ GEM
       http-cookie (~> 1.0)
       http-form_data (~> 2.0)
       http_parser.rb (~> 0.6.0)
+    http-accept (1.7.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     http-form_data (2.1.0)
@@ -206,7 +212,8 @@ GEM
       ffi (>= 0.5.0, < 2)
     rbnacl (3.4.0)
       ffi
-    rest-client (2.0.2)
+    rest-client (2.1.0.rc1)
+      http-accept (>= 1.7.0, < 2.0)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
@@ -226,7 +233,7 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    selenium-webdriver (3.11.0)
+    selenium-webdriver (3.12.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2)
     simple_oauth (0.3.1)
@@ -301,7 +308,7 @@ DEPENDENCIES
   chromedriver-helper
   coffee-rails (~> 4.2)
   daemon-spawn
-  discordrb
+  discordrb!
   hirb
   hirb-unicode
   http
