@@ -42,7 +42,7 @@ module HelpController
     if $nickname_channel == message_event.channel
       ret << "__あだ名作成機能__"
       ret << ""
-      ret << "`あだ名` - 今日のあなたのあだ名を命名"
+      ret << "`あだ名` - 今日のあだ名を命名"
       ret << ""
     end
     if ret.present?
