@@ -113,7 +113,6 @@ module RecruitmentController
         if participant['discord_id'] == my_discord_id
           Api::Participant.leave(recruitment, participant)
           message_event.send_message("#{message_event.author.display_name}さんが [#{recruitment['label_id']}] の参加をキャンセルしました。")
-          #send_embed(message_event, recruitments_message)
           self.show(message_event.channel)
           TwitterController.recruitment_leave(recruitment)
           return
