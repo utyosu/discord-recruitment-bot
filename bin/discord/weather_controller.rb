@@ -96,7 +96,6 @@ module WeatherController
     temp_min = "%.1f" % (weather['main']['temp_min'].to_f - 273.15)
     weather_string = WEATHER_PATTERNS[weather['weather'].first['id'].to_s]
     res = []
-    res << "#{city['Name']}の天気"
     res << "天気 : #{weather_string}"
     res << "気温 : #{temp}度 (#{temp_min}度～#{temp_max}度)"
     res << "湿度 : #{weather['main']['humidity']}%"
@@ -104,6 +103,10 @@ module WeatherController
     res << "風速 : #{weather['wind']['speed']} m/s"
     res << "日の出 : #{Time.at(weather['sys']['sunrise']).strftime('%H:%M')}"
     res << "日の入 : #{Time.at(weather['sys']['sunset']).strftime('%H:%M')}"
-    message_event.send_message("```\n#{res.join("\n")}\n```")
+    message_event.channel.send_embed do |embed|
+      embed.title = "#{city['Name']}の天気"
+      embed.description = res.join("\n")
+      embed.color = 0x5882FA
+    end
   end
 end

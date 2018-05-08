@@ -55,11 +55,6 @@ def send_message_command(message_event)
   $recruitment_channel.send_message(message)
 end
 
-def send_message_all(message_event, message)
-  message_event.send_message(message)
-  $recruitment_channel.send_message(message) if message_event.channel.type == 1
-end
-
 def check_limit(message_event, type, limit)
   refresh_time = 8
   user = JSON.parse(Api::User.get_from_discord_id(message_event.author.id).body)

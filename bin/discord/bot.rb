@@ -92,7 +92,7 @@ class Bot < inheritance
     begin
       if message_event.channel.type == 1 || $recruitment_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_SHOW_RECRUITMENT)
-          return RecruitmentController::show(message_event)
+          return RecruitmentController::show(message_event.channel)
         end
       end
 
