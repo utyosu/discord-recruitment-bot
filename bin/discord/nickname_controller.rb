@@ -6,10 +6,10 @@ module NicknameController
   SUFFIX = %w(ちゃん さん っち たん きゅん おじさん おばさん 爺 子 大明神 様 君 娘 兄貴 陛下 座長 殿下 姫 公 卿 殿 王子 先生 教授 会長 社長 部長 課長 係長 宴会部長 氏www 嬢 坊 先輩 長老 村長 市長 大統領 総理 大臣 閣下 大魔神 大魔王 大王 番長 特攻隊長 大将 軍曹 選手 名人 十段 チャンピオン 師匠 太郎 容疑者 ンゴ 助 パパ ママ エル 地蔵 マン エリオン ボーイ ぴっぴ♪ でござる と愉快な仲間達 Z ぽん ・ザ・キッド ・ザ・ハーデス ・ザ・ゴッド ゾネス 神殿 草 ウホ ボス キュア マスター 丸 号 ンち SOS ロボ セブン の奇妙な冒険 えもん ゲリオン 工務店 ブラザーズ 親方 横綱 (18歳) (3歳) ッティ 3世 バスターズ か…いい奴だったよ って誰だっけ？ は静かに暮らしたい ～そして伝説へ…～ 博士 モン 銀行 運送 の丸焼き 神社 サポートセンター 花子 という名の紳士 画伯 48)
 
   def do(message_event)
-    r = Random.new(message_event.author.id + Date.today.ld)
+    return if !check_limit(message_event, "nickname", 1)
     name = message_event.author.display_name.dup
     (PREFIX + SUFFIX).each{|k|name.gsub!(/#{k}/, "")}
-    nick = "#{PREFIX[r.rand(PREFIX.size)]}#{name}#{SUFFIX[r.rand(SUFFIX.size)]}"
+    nick = "#{PREFIX[rand(PREFIX.size)]}#{name}#{SUFFIX[rand(SUFFIX.size)]}"
     if message_event.author.display_name != nick && nick.length <= 32
       message_event.send_message("<@#{message_event.author.id}>よ…今日からお前は「#{nick}」だ！")
       message_event.author.nick = nick

@@ -64,5 +64,15 @@ module Api
     end
   end
 
+  class User
+    def self.get_from_discord_id(discord_id)
+      Api.check_response HTTP.get("#{BASE_URI}/users/get_from_discord_id/#{discord_id}")
+    end
+
+    def self.update(user)
+      Api.check_response HTTP.patch("#{BASE_URI}/users/#{user['id']}", params: Api.contained_params("user", user))
+    end
+  end
+
   class InvalidStatusError < StandardError; end
 end

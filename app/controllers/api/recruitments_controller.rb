@@ -11,7 +11,7 @@ module Api
 
     def update
       recruitment = Recruitment.find(params[:id]).update(recruitment_params)
-      render json: recruitment, statis: 200
+      render json: recruitment
     end
 
     def destroy
