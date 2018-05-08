@@ -92,64 +92,64 @@ class Bot < inheritance
     begin
       if message_event.channel.type == 1 || $recruitment_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_SHOW_RECRUITMENT)
-          RecruitmentController::show(message_event)
+          return RecruitmentController::show(message_event)
         end
       end
 
       if $recruitment_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_OPEN_RECRUITMENT)
-          RecruitmentController::open(message_event)
+          return RecruitmentController::open(message_event)
         elsif match_keywords(message_event, $KEYWORDS_CLOSE_RECRUITMENT)
-          RecruitmentController::close(message_event)
+          return RecruitmentController::close(message_event)
         elsif match_keywords(message_event, $KEYWORDS_JOIN_RECRUITMENT)
-          RecruitmentController::join(message_event)
+          return RecruitmentController::join(message_event)
         elsif match_keywords(message_event, $KEYWORDS_LEAVE_RECRUITMENT)
-          RecruitmentController::leave(message_event)
+          return RecruitmentController::leave(message_event)
         end
       end
 
       if $interaction_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_INTERACTION_CREATE)
-          InteractionController::interaction_create(message_event)
+          return InteractionController::interaction_create(message_event)
         elsif match_keywords(message_event, $KEYWORDS_INTERACTION_DESTROY)
-          InteractionController::interaction_destroy(message_event)
+          return InteractionController::interaction_destroy(message_event)
         elsif match_keywords(message_event, $KEYWORDS_INTERACTION_RESPONSE)
-          InteractionController::interaction_response(message_event)
+          return InteractionController::interaction_response(message_event)
         end
       end
 
       if $food_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_FOOD_RESPONSE)
-          FlickrController.put_food_image(message_event)
+          return FlickrController.put_food_image(message_event)
         end
       end
 
       if $weather_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_WEATHER_RESPONSE)
-          WeatherController.get(message_event)
+          return WeatherController.get(message_event)
         end
       end
 
       if $fortune_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_FORTUNE_RESPONSE)
-          FortuneController.get(message_event)
+          return FortuneController.get(message_event)
         end
       end
 
       if $nickname_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_NICKNAME_RESPONSE)
-          NicknameController.do(message_event)
+          return NicknameController.do(message_event)
         end
       end
 
       if match_keywords(message_event, $KEYWORDS_HELP_RESPONSE)
-        HelpController.help(message_event)
+        return HelpController.help(message_event)
       end
 
       # only text channel
       if message_event.channel.type == 1
         if message_event.content =~ /\A\/talk/
-          send_message_command(message_event)
+          return send_message_command(message_event)
         end
       end
 
