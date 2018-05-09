@@ -34,5 +34,11 @@ $KEYWORDS_FORTUNE_RESPONSE = /おみくじ/
 # ニックネームキーワード
 $KEYWORDS_NICKNAME_RESPONSE = /あだ名|通り名|ニックネーム/
 
+# 役職追加
+$KEYWORDS_ROLE_ADD = /入園/
+
+# 役職追加
+$KEYWORDS_ROLE_REMOVE = /退園/
+
 # 使い方キーワード
 $KEYWORDS_HELP_RESPONSE = /使い方|ヘルプ|help/

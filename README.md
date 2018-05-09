@@ -95,6 +95,9 @@ export DISCORD_BOT_FORTUNE_CHANNEL_ID="<チャンネルID>"
 # bot のあだ名作成機能が動作するチャンネル ID
 export DISCORD_BOT_NICKNAME_CHANNEL_ID="<チャンネルID>"
 
+# bot の役職変更機能が動作するチャンネル ID
+export DISCORD_BOT_ROLE_CHANNEL_ID="<チャンネルID>"
+
 # twitter の CONSUMER_KEY
 export DISCORD_BOT_TWITTER_CONSUMER_KEY=""
 
@@ -118,6 +121,9 @@ export DISCORD_BOT_GEOCODE_APPID=""
 
 # Open Weather Map の API キー
 export DISCORD_BOT_WEATHER_APPID=""
+
+# botで操作する役職名
+export DISCORD_BOT_ROLE=""
 
 # 解析機能の動作間隔 (秒)
 export DISCORD_BOT_ANALYSIS_INTERVAL=1800
