@@ -3,6 +3,7 @@ create_table "recruitments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CH
   t.integer  "label_id"
   t.datetime "reserve_at"
   t.text     "tweet_id", limit: 65535
+  t.boolean  "notificated", default: false
   t.datetime "created_at"
   t.datetime "updated_at"
 end

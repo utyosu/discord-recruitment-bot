@@ -22,7 +22,7 @@ module Api
     private
 
     def recruitment_params
-      params.require(:recruitment).permit(:content, :reserve_at, :tweet_id)
+      params.require(:recruitment).permit(:content, :reserve_at, :tweet_id, :notificated)
     end
   end
 end

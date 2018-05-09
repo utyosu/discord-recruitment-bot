@@ -1,6 +1,8 @@
 module RecruitmentController
   extend self
 
+  RESERVE_OVER_TIME = 30
+
   def show(channel)
     channel.send_message("```\n#{recruitments_message}\n```")
   end
@@ -10,29 +12,14 @@ module RecruitmentController
     destroyed_recruitments = []
     recruitments.each do |recruitment|
       if recruitment['reserve_at'].present?
-        if recruitment['reserve_at'].in_time_zone < Time.zone.now
-          Api::Recruitment.destroy(recruitment)
-          if 1 >= recruitment['participants'].size
-            $recruitment_channel.send_message("[#{recruitment['label_id']}] は予定時間になりましたが参加者が集まらなかったので終了します。(´・ω・｀)ｼｮﾎﾞｰﾝ")
-            self.show($recruitment_channel)
-          else
-            mention = build_mention_from_participants(recruitment['participants'])
-            $recruitment_channel.send_message("#{mention}\n[#{recruitment['label_id']}] の予定時間です。(*´∀`)ﾉ ｲﾃﾗｰ")
-            $recruitment_channel.send_embed do |embed|
-              embed.description = format_recruitment_to_string(recruitment)
-              embed.color = 0x5858FA
-            end
-            $recruitment_channel.send_message("[#{recruitment['label_id']}] は予定時間になったので終了します。")
-            self.show($recruitment_channel)
-          end
-          TwitterController.recruitment_close(recruitment)
+        if recruitment['reserve_at'].in_time_zone < Time.zone.now - (60 * RESERVE_OVER_TIME)
+          reserve_recruitment_over_time(recruitment)
+        elsif recruitment['reserve_at'].in_time_zone < Time.zone.now
+          reserve_recruitment_on_time(recruitment)
         end
       else
         if (recruitment['created_at'].in_time_zone + EXPIRE_TIME) < Time.zone.now
-          Api::Recruitment.destroy(recruitment)
-          $recruitment_channel.send_message("[#{recruitment['label_id']}] は期限を過ぎたので終了します。")
-          self.show($recruitment_channel)
-          TwitterController.recruitment_close(recruitment)
+          temporary_recruitment_expired(recruitment)
         end
       end
     end
@@ -86,7 +73,7 @@ module RecruitmentController
         self.show(message_event.channel)
         TwitterController.recruitment_join(recruitment)
         if recruitment['participants'].size >= extraction_recruit_user_count(recruitment['content'])
-          if recruitment['reserve_at'].present?
+          if recruitment['reserve_at'].present? && recruitment['reserve_at'].in_time_zone > Time.zone.now
             message_event.send_message("メンバーが集まりました。\n#{view_datetime(recruitment['reserve_at'])} になったら連絡するね(・∀・)b")
           else
             recruitment = update_recruitment(recruitment)
@@ -132,5 +119,40 @@ module RecruitmentController
       format_recruitment_to_string(recruitment)
     }.join("\n")
     return recruitment_message
+  end
+
+  def reserve_recruitment_on_time(recruitment)
+    if 1 >= recruitment['participants'].size
+      Api::Recruitment.destroy(recruitment)
+      $recruitment_channel.send_message("[#{recruitment['label_id']}] は予定時間になりましたが参加者が集まらなかったので終了します。(´・ω・｀)ｼｮﾎﾞｰﾝ")
+      self.show($recruitment_channel)
+      TwitterController.recruitment_close(recruitment)
+    elsif extraction_recruit_user_count(recruitment['content']) <= (recruitment['participants'].size-1)
+      Api::Recruitment.destroy(recruitment)
+      mention = build_mention_from_participants(recruitment['participants'])
+      $recruitment_channel.send_message("#{mention}\n[#{recruitment['label_id']}] の予定時間です。(*´∀`)ﾉ ｲﾃﾗｰ")
+      $recruitment_channel.send_message("```\n#{format_recruitment_to_string(recruitment)}\n```")
+      $recruitment_channel.send_message("[#{recruitment['label_id']}] は予定時間になったので終了します。")
+      self.show($recruitment_channel)
+      TwitterController.recruitment_close(recruitment)
+    elsif !recruitment['notificated']
+      Api::Recruitment.update(recruitment, {notificated: true})
+      $recruitment_channel.send_message("[#{recruitment['label_id']}] の開始時間になりました。あと#{extraction_recruit_user_count(recruitment['content']) - (recruitment['participants'].size-1)}人ｲﾅｲｶﾅ?(o・ω・)")
+      self.show($recruitment_channel)
+    end
+  end
+
+  def reserve_recruitment_over_time(recruitment)
+    Api::Recruitment.destroy(recruitment)
+    $recruitment_channel.send_message("[#{recruitment['label_id']}] は開始時間を#{RESERVE_OVER_TIME}分過ぎたので終了します。")
+    self.show($recruitment_channel)
+    TwitterController.recruitment_close(recruitment)
+  end
+
+  def temporary_recruitment_expired(recruitment)
+    Api::Recruitment.destroy(recruitment)
+    $recruitment_channel.send_message("[#{recruitment['label_id']}] は期限を過ぎたので終了します。")
+    self.show($recruitment_channel)
+    TwitterController.recruitment_close(recruitment)
   end
 end
