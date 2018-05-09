@@ -58,7 +58,6 @@ class Bot < inheritance
         $weather_channel = channel if ENV['DISCORD_BOT_WEATHER_CHANNEL_ID'] == channel.id.to_s
         $fortune_channel = channel if ENV['DISCORD_BOT_FORTUNE_CHANNEL_ID'] == channel.id.to_s
         $nickname_channel = channel if ENV['DISCORD_BOT_NICKNAME_CHANNEL_ID'] == channel.id.to_s
-        $role_channel = channel if ENV['DISCORD_BOT_ROLE_CHANNEL_ID'] == channel.id.to_s
       end
     end
     puts "[INFO] 解析インターバル: #{AnalysisController::ANALYSIS_INTERVAL} (0なら無効)"
@@ -74,7 +73,6 @@ class Bot < inheritance
     puts "[INFO] 天気機能動作チャンネル: #{$weather_channel.present? ? $weather_channel.name : "なし"}"
     puts "[INFO] おみくじ機能動作チャンネル: #{$fortune_channel.present? ? $fortune_channel.name : "なし"}"
     puts "[INFO] あだ名作成機能動作チャンネル: #{$nickname_channel.present? ? $nickname_channel.name : "なし"}"
-    puts "[INFO] 役職変更機能動作チャンネル: #{$role_channel.present? ? $role_channel.name : "なし"}"
     puts "[INFO] Twitter連携機能: #{ENV['DISCORD_BOT_TWITTER_DISABLE'].present? ? "オフ" : "オン"}"
 
     loop do
@@ -146,7 +144,7 @@ class Bot < inheritance
         end
       end
 
-      if $role_channel == message_event.channel
+      if message_event.channel.type == 1
         if match_keywords(message_event, $KEYWORDS_ROLE_ADD)
           RoleController.set(message_event, ENV['DISCORD_BOT_ROLE'])
         elsif match_keywords(message_event, $KEYWORDS_ROLE_REMOVE)
