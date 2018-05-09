@@ -8,7 +8,6 @@ module Api
     end
 
     def update
-      p user_params
       user = User.find(params[:id]).update(user_params)
       render json: user
     end
