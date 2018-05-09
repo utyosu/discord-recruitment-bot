@@ -58,7 +58,7 @@ class Bot < inheritance
         $weather_channel = channel if ENV['DISCORD_BOT_WEATHER_CHANNEL_ID'] == channel.id.to_s
         $fortune_channel = channel if ENV['DISCORD_BOT_FORTUNE_CHANNEL_ID'] == channel.id.to_s
         $nickname_channel = channel if ENV['DISCORD_BOT_NICKNAME_CHANNEL_ID'] == channel.id.to_s
-        $role_channel = channel if ENV['DISCORD_BOT_NICKNAME_CHANNEL_ID'] == channel.id.to_s
+        $role_channel = channel if ENV['DISCORD_BOT_ROLE_CHANNEL_ID'] == channel.id.to_s
       end
     end
     puts "[INFO] 解析インターバル: #{AnalysisController::ANALYSIS_INTERVAL} (0なら無効)"
