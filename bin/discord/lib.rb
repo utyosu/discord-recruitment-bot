@@ -60,10 +60,8 @@ def check_limit(message_event, type, limit)
   user = JSON.parse(Api::User.get_from_discord_id(message_event.author.id).body)
   last_at = user["#{type}_at"].in_time_zone rescue (Time.zone.now - (60 * 60 * 24))
   refresh_at = Date.today.in_time_zone + (60 * 60 * refresh_time)
-  if last_at < refresh_at
-    user["#{type}_count"] = 0
-  end
-  if user["#{type}_count"].to_i < limit
+  user["#{type}_count"] = 0 if last_at < refresh_at
+  if user["#{type}_count"].to_i < limit.to_i
     user["#{type}_count"] = user["#{type}_count"].to_i + 1
     user["#{type}_at"] = Time.zone.now.to_s
     Api::User.update(user)
