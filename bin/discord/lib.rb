@@ -50,9 +50,10 @@ def get_message_content(message_event)
 end
 
 def send_message_command(message_event)
-  message = message_event.content.split(" ", 2)[1]
+  command, channel_name, message = message_event.content.split(" ", 3)
   return if message.blank?
-  $recruitment_channel.send_message(message)
+  channel = $bot.servers.map{|server_id, server| server.channels.find{|channel| channel.name == channel_name}}.first
+  channel.send_message(message) if channel.present?
 end
 
 def check_limit(message_event, type, limit)
