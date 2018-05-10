@@ -131,9 +131,6 @@ export DISCORD_BOT_FORTUNE_LIMIT="1"
 # 1日あたりのあだ名機能制限回数
 export DISCORD_BOT_NICKNAME_LIMIT="1"
 
-# botで操作する役職名
-export DISCORD_BOT_ROLE=""
-
 # 解析機能の動作間隔 (秒)
 export DISCORD_BOT_ANALYSIS_INTERVAL=1800
 

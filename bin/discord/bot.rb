@@ -13,7 +13,6 @@ require_relative 'weather_controller'
 require_relative 'fortune_controller'
 require_relative 'help_controller'
 require_relative 'nickname_controller'
-require_relative 'role_controller'
 
 # 時間指定のない募集の期限 (秒)
 EXPIRE_TIME = 60 * 60
@@ -141,14 +140,6 @@ class Bot < inheritance
       if $nickname_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_NICKNAME_RESPONSE)
           return NicknameController.do(message_event)
-        end
-      end
-
-      if message_event.channel.type == 1
-        if match_keywords(message_event, $KEYWORDS_ROLE_ADD)
-          RoleController.set(message_event, ENV['DISCORD_BOT_ROLE'])
-        elsif match_keywords(message_event, $KEYWORDS_ROLE_REMOVE)
-          RoleController.unset(message_event, ENV['DISCORD_BOT_ROLE'])
         end
       end
 
