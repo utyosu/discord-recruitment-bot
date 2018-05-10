@@ -8,7 +8,8 @@ module NicknameController
   def do(message_event)
     return if !check_limit(message_event, "nickname", ENV['DISCORD_BOT_NICKNAME_LIMIT'] || 1)
     name = message_event.author.display_name.dup
-    (PREFIX + SUFFIX).each{|k|name.gsub!(/#{k}/, "")}
+    PREFIX.each{|k|name.gsub!(/\A#{k}/, "")}
+    SUFFIX.each{|k|name.gsub!(/#{k}\Z/, "")}
     nick = "#{PREFIX[rand(PREFIX.size)]}#{name}#{SUFFIX[rand(SUFFIX.size)]}"
     if message_event.author.display_name != nick && nick.length <= 32
       message_event.send_message("#{message_event.author.display_name}よ…今日からお前は「#{nick}」だ！")
