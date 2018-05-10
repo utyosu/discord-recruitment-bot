@@ -109,16 +109,6 @@ class Bot < inheritance
         end
       end
 
-      if $interaction_channel == message_event.channel
-        if match_keywords(message_event, $KEYWORDS_INTERACTION_CREATE)
-          return InteractionController::interaction_create(message_event)
-        elsif match_keywords(message_event, $KEYWORDS_INTERACTION_DESTROY)
-          return InteractionController::interaction_destroy(message_event)
-        elsif match_keywords(message_event, $KEYWORDS_INTERACTION_RESPONSE)
-          return InteractionController::interaction_response(message_event)
-        end
-      end
-
       if $food_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_FOOD_RESPONSE)
           return FlickrController.put_food_image(message_event)
@@ -147,11 +137,22 @@ class Bot < inheritance
         return HelpController.help(message_event)
       end
 
-      # only text channel
+      # only private channel
       if message_event.channel.type == 1
         if message_event.content =~ /\A\/talk/
           return send_message_command(message_event)
         end
+      end
+
+      if $interaction_channel == message_event.channel
+        if match_keywords(message_event, $KEYWORDS_INTERACTION_CREATE)
+          return InteractionController::interaction_create(message_event)
+        elsif match_keywords(message_event, $KEYWORDS_INTERACTION_DESTROY)
+          return InteractionController::interaction_destroy(message_event)
+        elsif match_keywords(message_event, $KEYWORDS_INTERACTION_RESPONSE)
+          return InteractionController::interaction_list(message_event)
+        end
+        return InteractionController::interaction_response(message_event)
       end
 
     rescue HTTP::ConnectionError => e
