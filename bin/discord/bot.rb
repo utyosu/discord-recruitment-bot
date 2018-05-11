@@ -13,6 +13,7 @@ require_relative 'weather_controller'
 require_relative 'fortune_controller'
 require_relative 'help_controller'
 require_relative 'nickname_controller'
+require_relative 'talk_controller'
 
 # 時間指定のない募集の期限 (秒)
 EXPIRE_TIME = 60 * 60
@@ -57,6 +58,7 @@ class Bot < inheritance
         $weather_channel = channel if ENV['DISCORD_BOT_WEATHER_CHANNEL_ID'] == channel.id.to_s
         $fortune_channel = channel if ENV['DISCORD_BOT_FORTUNE_CHANNEL_ID'] == channel.id.to_s
         $nickname_channel = channel if ENV['DISCORD_BOT_NICKNAME_CHANNEL_ID'] == channel.id.to_s
+        $talk_channel = channel if ENV['DISCORD_BOT_TALK_CHANNEL_ID'] == channel.id.to_s
       end
     end
     puts "[INFO] 解析インターバル: #{AnalysisController::ANALYSIS_INTERVAL} (0なら無効)"
@@ -72,6 +74,7 @@ class Bot < inheritance
     puts "[INFO] 天気機能動作チャンネル: #{$weather_channel.present? ? $weather_channel.name : "なし"}"
     puts "[INFO] おみくじ機能動作チャンネル: #{$fortune_channel.present? ? $fortune_channel.name : "なし"}"
     puts "[INFO] あだ名作成機能動作チャンネル: #{$nickname_channel.present? ? $nickname_channel.name : "なし"}"
+    puts "[INFO] トーク機能動作チャンネル: #{$talk_channel.present? ? $talk_channel.name : "なし"}"
     puts "[INFO] Twitter連携機能: #{ENV['DISCORD_BOT_TWITTER_DISABLE'].present? ? "オフ" : "オン"}"
 
     loop do
@@ -130,6 +133,12 @@ class Bot < inheritance
       if $nickname_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_NICKNAME_RESPONSE)
           return NicknameController.do(message_event)
+        end
+      end
+
+      if $talk_channel == message_event.channel
+        if match_keywords(message_event, TalkController::TALK_REGEXP)
+          return TalkController.talk(message_event)
         end
       end
 

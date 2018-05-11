@@ -68,7 +68,7 @@ def check_limit(message_event, type, limit)
     Api::User.update(user)
     return true
   end
-  message_event.send_message("この機能は1日#{limit}回までしか利用できません。#{"%02d" % refresh_time}:00になるとリセットされます。")
+  message_event.send_message("ごめん、もう疲れちゃった…。朝#{refresh_time}時以降にして下さい。")
   return false
 end
 

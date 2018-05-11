@@ -95,6 +95,12 @@ export DISCORD_BOT_FORTUNE_CHANNEL_ID="<チャンネルID>"
 # bot のあだ名作成機能が動作するチャンネル ID
 export DISCORD_BOT_NICKNAME_CHANNEL_ID="<チャンネルID>"
 
+# bot のトーク機能が動作するチャンネル ID
+export DISCORD_BOT_TALK_CHANNEL_ID="<チャンネルID>"
+
+# bot のトーク機能で反応するワード
+export DISCORD_BOT_TALK_WORD=""
+
 # twitter の CONSUMER_KEY
 export DISCORD_BOT_TWITTER_CONSUMER_KEY=""
 
@@ -116,6 +122,9 @@ export DISCORD_BOT_FLICKR_API_KEY=""
 # Yahoo!ジオコーダ API キー
 export DISCORD_BOT_GEOCODE_APPID=""
 
+# Talk API キー
+export DISCORD_BOT_TALK_APIKEY=""
+
 # Open Weather Map の API キー
 export DISCORD_BOT_WEATHER_APPID=""
 
@@ -130,6 +139,9 @@ export DISCORD_BOT_FORTUNE_LIMIT="1"
 
 # 1日あたりのあだ名機能制限回数
 export DISCORD_BOT_NICKNAME_LIMIT="1"
+
+# 1日あたりのトーク機能制限回数
+export DISCORD_BOT_TALK_LIMIT="1"
 
 # 解析機能の動作間隔 (秒)
 export DISCORD_BOT_ANALYSIS_INTERVAL=1800
