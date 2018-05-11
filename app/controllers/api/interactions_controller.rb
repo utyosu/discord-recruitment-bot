@@ -19,7 +19,7 @@ module Api
     end
 
     def search
-      interaction = Interaction.where("keyword like '%#{params[:keyword]}%'").sample
+      interaction = Interaction.all.select{|interaction| params[:keyword] =~ /#{interaction.keyword}/}.sample
       return render json: {response: interaction.response} if interaction.present?
       return render json: {}
     end
