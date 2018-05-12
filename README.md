@@ -80,23 +80,8 @@ export DISCORD_BOT_CLIENT_ID="<botのクライアントIDを入力>"
 # bot のメンバー募集機能が動作するチャンネル ID
 export DISCORD_BOT_RECRUITMENT_CHANNEL_ID="<チャンネルID>"
 
-# bot の対話機能が動作するチャンネル ID
-export DISCORD_BOT_INTERACTION_CHANNEL_ID="<チャンネルID>"
-
-# bot の飯テロ機能が動作するチャンネル ID
-export DISCORD_BOT_FOOD_CHANNEL_ID="<チャンネルID>"
-
-# bot の天気機能が動作するチャンネル ID
-export DISCORD_BOT_WEATHER_CHANNEL_ID="<チャンネルID>"
-
-# bot のおみくじ機能が動作するチャンネル ID
-export DISCORD_BOT_FORTUNE_CHANNEL_ID="<チャンネルID>"
-
-# bot のあだ名作成機能が動作するチャンネル ID
-export DISCORD_BOT_NICKNAME_CHANNEL_ID="<チャンネルID>"
-
-# bot のトーク機能が動作するチャンネル ID
-export DISCORD_BOT_TALK_CHANNEL_ID="<チャンネルID>"
+# bot の遊び機能が動作するチャンネル ID
+export DISCORD_PLAY_CHANNEL_ID="<チャンネルID>"
 
 # bot のトーク機能で反応するワード
 export DISCORD_BOT_TALK_WORD=""
@@ -128,20 +113,8 @@ export DISCORD_BOT_TALK_APIKEY=""
 # Open Weather Map の API キー
 export DISCORD_BOT_WEATHER_APPID=""
 
-# 1日あたり飯テロ機能制限回数
-export DISCORD_BOT_FLICKR_LIMIT="1"
-
-# 1日あたり天気機能制限回数
-export DISCORD_BOT_WEATHER_LIMIT="1"
-
-# 1日あたりのおみくじ機能制限回数
-export DISCORD_BOT_FORTUNE_LIMIT="1"
-
-# 1日あたりのあだ名機能制限回数
-export DISCORD_BOT_NICKNAME_LIMIT="1"
-
-# 1日あたりのトーク機能制限回数
-export DISCORD_BOT_TALK_LIMIT="1"
+# 1日あたり遊び機能制限回数
+export DISCORD_BOT_PLAY_LIMIT="10"
 
 # 解析機能の動作間隔 (秒)
 export DISCORD_BOT_ANALYSIS_INTERVAL=1800

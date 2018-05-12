@@ -68,7 +68,7 @@ def check_limit(message_event, type, limit)
     Api::User.update(user)
     return true
   end
-  message_event.send_message("ごめん、もう疲れちゃった…。朝#{refresh_time}時以降にして下さい。")
+  message_event.send_message("#{ENV['DISCORD_BOT_TALK_WORD']}でばかり遊んでいないで、リーグかサーモンの募集をしてはどうですか？")
   return false
 end
 

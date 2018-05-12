@@ -53,28 +53,18 @@ class Bot < inheritance
     $bot.servers.each do |server_id, server|
       server.channels.each do |channel|
         $recruitment_channel = channel if ENV['DISCORD_BOT_RECRUITMENT_CHANNEL_ID'] == channel.id.to_s
-        $interaction_channel = channel if ENV['DISCORD_BOT_INTERACTION_CHANNEL_ID'] == channel.id.to_s
-        $food_channel = channel if ENV['DISCORD_BOT_FOOD_CHANNEL_ID'] == channel.id.to_s
-        $weather_channel = channel if ENV['DISCORD_BOT_WEATHER_CHANNEL_ID'] == channel.id.to_s
-        $fortune_channel = channel if ENV['DISCORD_BOT_FORTUNE_CHANNEL_ID'] == channel.id.to_s
-        $nickname_channel = channel if ENV['DISCORD_BOT_NICKNAME_CHANNEL_ID'] == channel.id.to_s
-        $talk_channel = channel if ENV['DISCORD_BOT_TALK_CHANNEL_ID'] == channel.id.to_s
+        $play_channel = channel if ENV['DISCORD_BOT_PLAY_CHANNEL_ID'] == channel.id.to_s
       end
     end
     puts "[INFO] 解析インターバル: #{AnalysisController::ANALYSIS_INTERVAL} (0なら無効)"
     if $recruitment_channel.present?
-      puts "[INFO] 募集機能動作チャンネル: #{$recruitment_channel.name} (#{$recruitment_channel.id})"
+      puts "[INFO] 募集機能動作チャンネル: #{$recruitment_channel.name})"
     else
       STDERR.puts "[ERROR] 募集機能動作チャンネルがないので終了します。"
       exit
     end
 
-    puts "[INFO] 対話機能動作チャンネル: #{$interaction_channel.present? ? $interaction_channel.name : "なし"}"
-    puts "[INFO] 飯テロ機能動作チャンネル: #{$food_channel.present? ? $food_channel.name : "なし"}"
-    puts "[INFO] 天気機能動作チャンネル: #{$weather_channel.present? ? $weather_channel.name : "なし"}"
-    puts "[INFO] おみくじ機能動作チャンネル: #{$fortune_channel.present? ? $fortune_channel.name : "なし"}"
-    puts "[INFO] あだ名作成機能動作チャンネル: #{$nickname_channel.present? ? $nickname_channel.name : "なし"}"
-    puts "[INFO] トーク機能動作チャンネル: #{$talk_channel.present? ? $talk_channel.name : "なし"}"
+    puts "[INFO] 遊び機能動作チャンネル: #{$play_channel.present? ? $play_channel.name : "なし"}"
     puts "[INFO] Twitter連携機能: #{ENV['DISCORD_BOT_TWITTER_DISABLE'].present? ? "オフ" : "オン"}"
 
     loop do
@@ -112,32 +102,16 @@ class Bot < inheritance
         end
       end
 
-      if $food_channel == message_event.channel
+      if $play_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_FOOD_RESPONSE)
           return FlickrController.put_food_image(message_event)
-        end
-      end
-
-      if $weather_channel == message_event.channel
-        if match_keywords(message_event, $KEYWORDS_WEATHER_RESPONSE)
+        elsif match_keywords(message_event, $KEYWORDS_WEATHER_RESPONSE)
           return WeatherController.get(message_event)
-        end
-      end
-
-      if $fortune_channel == message_event.channel
-        if match_keywords(message_event, $KEYWORDS_FORTUNE_RESPONSE)
+        elsif match_keywords(message_event, $KEYWORDS_FORTUNE_RESPONSE)
           return FortuneController.get(message_event)
-        end
-      end
-
-      if $nickname_channel == message_event.channel
-        if match_keywords(message_event, $KEYWORDS_NICKNAME_RESPONSE)
+        elsif match_keywords(message_event, $KEYWORDS_NICKNAME_RESPONSE)
           return NicknameController.do(message_event)
-        end
-      end
-
-      if $talk_channel == message_event.channel
-        if match_keywords(message_event, TalkController::TALK_REGEXP)
+        elsif match_keywords(message_event, TalkController::TALK_REGEXP)
           return TalkController.talk(message_event)
         end
       end
@@ -153,7 +127,7 @@ class Bot < inheritance
         end
       end
 
-      if $interaction_channel == message_event.channel
+      if $play_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_INTERACTION_CREATE)
           return InteractionController::interaction_create(message_event)
         elsif match_keywords(message_event, $KEYWORDS_INTERACTION_DESTROY)

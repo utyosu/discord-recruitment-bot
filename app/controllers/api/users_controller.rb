@@ -15,7 +15,7 @@ module Api
     private
 
     def user_params
-      params.require(:user).permit(:flickr_at, :flickr_count, :fortune_at, :fortune_count, :nickname_at, :nickname_count, :weather_at, :weather_count, :talk_at, :talk_count)
+      params.require(:user).permit(:play_at, :play_count)
     end
   end
 end

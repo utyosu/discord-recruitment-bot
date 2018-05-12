@@ -8,7 +8,7 @@ module NicknameController
   DECORATION = %w(☆ † 卍 ♪ ❤ 💪).map{|k|Regexp.escape(k)}
 
   def do(message_event)
-    return if !check_limit(message_event, "nickname", ENV['DISCORD_BOT_NICKNAME_LIMIT'] || 1)
+    return if !check_limit(message_event, "play", ENV['DISCORD_BOT_PLAY_LIMIT'] || 10)
     name = message_event.author.display_name.dup
     DECORATION.each{|k|name.gsub!(/\A#{k}|#{k}\Z/,"")}
     PREFIX.each{|k|name.gsub!(/\A#{k}/, "")}
