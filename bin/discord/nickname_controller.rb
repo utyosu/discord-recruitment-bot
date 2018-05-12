@@ -20,7 +20,6 @@ module NicknameController
     end
     if message_event.author.display_name != nick && nick.length <= 32
       message_event.send_message("#{message_event.author.display_name}よ…今日からお前は「#{nick}」だ！")
-      message_event.author.nick = nick
     end
   end
 end
