@@ -7,6 +7,7 @@ def build_mention_from_participants(participants)
 end
 
 def to_safe(str)
+  # <@\d+> is discord mention
   str.tr('０-９ａ-ｚＡ-Ｚ＠？：', '0-9a-zA-Z@?:').gsub(/<@\d+>/, "")
 end
 

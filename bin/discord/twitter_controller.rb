@@ -36,10 +36,18 @@ class TwitterController
   def self.tweet(recruitment, message)
     return if ENV['DISCORD_BOT_TWITTER_DISABLE'].present?
     begin
-      tweet = @@twitter_client.update(message, in_reply_to_status_id: recruitment['tweet_id'])
+      tweet = @@twitter_client.update(to_twitter_safe(message), in_reply_to_status_id: recruitment['tweet_id'])
       Api::Recruitment.update(recruitment, {tweet_id: tweet.id})
     rescue Twitter::Error => e
       STDERR.puts e.message
     end
+  end
+
+  def self.to_twitter_safe(str)
+    ret = str.dup
+    str.scan(/@\d+/) do |word|
+      ret.gsub!(/#{Regexp.escape(word)}/, word.tr('0-9@', '０-９＠'))
+    end
+    return ret
   end
 end
