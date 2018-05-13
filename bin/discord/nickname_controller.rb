@@ -18,8 +18,6 @@ module NicknameController
       decoration = DECORATION.sample
       nick = "#{decoration}#{nick}#{decoration}"
     end
-    if message_event.author.display_name != nick && nick.length <= 32
-      message_event.send_message("#{message_event.author.display_name}よ…今日からお前は「#{nick}」だ！")
-    end
+    message_event.send_message("#{message_event.author.display_name}よ…今日からお前は「#{nick}」だ！")
   end
 end
