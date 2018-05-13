@@ -11,6 +11,12 @@ module Api
       render json: user_status, status: 201
     end
 
+    def last_updated
+      user_status = UserStatus.last
+      updated_at = user_status.present? ? user_status.created_at : Time.zone.now
+      render json: {updated_at: updated_at}
+    end
+
     private
 
     def user_create_or_update

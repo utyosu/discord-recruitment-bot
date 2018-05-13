@@ -62,6 +62,10 @@ module Api
     def self.create(params)
       Api.check_response HTTP.post("#{BASE_URI}/user_statuses", params: Api.contained_params("user_status", params))
     end
+
+    def self.last_updated
+      Api.check_response HTTP.get("#{BASE_URI}/user_statuses/last_updated")
+    end
   end
 
   class User
