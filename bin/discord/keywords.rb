@@ -5,7 +5,7 @@ $KEYWORDS_OPEN_RECRUITMENT = /@\d+/
 $KEYWORDS_CLOSE_RECRUITMENT = /しめ|締め|〆|滅|sime|shime/
 
 # 参加キーワード
-$KEYWORDS_JOIN_RECRUITMENT = /いく|行く|いきま|行きま|やる|やりま|さんか|参加|ひゃっはー|うほ|ウホ|ごわす|ゴワス|参る|go|join|участие|Συμμετοχή|参与|參與|참여|ပါဝင်ဆောင်ရွက်/
+$KEYWORDS_JOIN_RECRUITMENT = /いく|行く|いき|行き|やる|やりま|さんか|参加|ひゃっはー|うほ|ウホ|ごわす|ゴワス|参る|go|join|участие|Συμμετοχή|参与|參與|참여|ပါဝင်ဆောင်ရွက်/
 
 # 参加キャンセルキーワード
 $KEYWORDS_LEAVE_RECRUITMENT = /キャンセル|悲しみ/
