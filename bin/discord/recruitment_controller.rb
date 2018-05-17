@@ -122,12 +122,7 @@ module RecruitmentController
   end
 
   def reserve_recruitment_on_time(recruitment)
-    if 1 >= recruitment['participants'].size
-      Api::Recruitment.destroy(recruitment)
-      $recruitment_channel.send_message("[#{recruitment['label_id']}] は予定時間になりましたが参加者が集まらなかったので終了します。(´・ω・｀)ｼｮﾎﾞｰﾝ")
-      self.show($recruitment_channel)
-      TwitterController.recruitment_close(recruitment)
-    elsif extraction_recruit_user_count(recruitment['content']) <= (recruitment['participants'].size-1)
+    if extraction_recruit_user_count(recruitment['content']) <= (recruitment['participants'].size-1)
       Api::Recruitment.destroy(recruitment)
       mention = build_mention_from_participants(recruitment['participants'])
       $recruitment_channel.send_message("#{mention}\n[#{recruitment['label_id']}] の予定時間です。(*´∀`)ﾉ ｲﾃﾗｰ")
