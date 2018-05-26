@@ -21,11 +21,6 @@ end
 def extraction_number(str)
   tmp = to_safe(str).gsub(/[^\d]/, "")
   return tmp.to_i if tmp =~ /\d/
-  return 1 if str =~ /one|ファースト|一|壱|Ⅰ/
-  return 2 if str =~ /two|セカンド|二|弐|Ⅱ/
-  return 3 if str =~ /three|サード|三|参|Ⅲ/
-  return 4 if str =~ /four|フォース|四|肆|Ⅳ/
-  return 5 if str =~ /five|フィフス|五|伍|Ⅴ/
   return nil
 end
 
