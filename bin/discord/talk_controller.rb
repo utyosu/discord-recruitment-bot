@@ -2,7 +2,7 @@ require_relative 'api'
 module TalkController
   extend self
 
-  TALK_REGEXP = /\A#{ENV['DISCORD_BOT_TALK_WORD']}、(.+)/
+  TALK_REGEXP = /\A#{ENV['DISCORD_BOT_TALK_WORD']}(.+)/
 
   def talk(message_event)
     return if !check_limit(message_event, "play", ENV['DISCORD_BOT_PLAY_LIMIT'] || 10)
