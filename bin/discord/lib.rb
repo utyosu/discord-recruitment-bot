@@ -102,18 +102,18 @@ class ExtractionTime
       # do nothing
     end
 
-    # n時 style
-    begin
-      match = to_safe(str).gsub(/\d{1,2}時間/, "").match(/(\d{1,2})時/)
-      return to_datetime(match[1], "00") if match
-    rescue ArgumentError, NoMethodError => e
-      # do nothing
-    end
-
     # n時半 style
     begin
       match = to_safe(str).gsub(/\d{1,2}時間/, "").match(/(\d{1,2})時半/)
       return to_datetime(match[1], "30") if match
+    rescue ArgumentError, NoMethodError => e
+      # do nothing
+    end
+
+    # n時 style
+    begin
+      match = to_safe(str).gsub(/\d{1,2}時間/, "").match(/(\d{1,2})時/)
+      return to_datetime(match[1], "00") if match
     rescue ArgumentError, NoMethodError => e
       # do nothing
     end
