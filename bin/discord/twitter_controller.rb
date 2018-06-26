@@ -11,7 +11,7 @@ class TwitterController
   end
 
   def self.recruitment_close(recruitment)
-    tweet(recruitment, "【#{ENV['DISCORD_BOT_TWITTER_NOTICE_TITLE']}】(ID:#{recruitment['id']})\nこの募集は終了しました。")
+    tweet(recruitment, "【#{ENV['DISCORD_BOT_TWITTER_NOTICE_TITLE']}】\nこの募集は終了しました。")
   end
 
   def self.recruitment_join(recruitment)
