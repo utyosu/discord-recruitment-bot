@@ -36,6 +36,14 @@ class Bot < inheritance
       end
     end
 
+    loop do
+      self.sequence()
+      STDERR.puts "[INFO] BOTを再起動して復旧を試みます。"
+      sleep 60
+    end
+  end
+
+  def sequence
     $bot = Discordrb::Commands::CommandBot.new ({
       token: ENV['DISCORD_BOT_TOKEN'],
       client_id: ENV['DISCORD_BOT_CLIENT_ID'],
@@ -61,8 +69,8 @@ class Bot < inheritance
     if $recruitment_channel.present?
       puts "[INFO] 募集機能動作チャンネル: #{$recruitment_channel.name})"
     else
-      STDERR.puts "[ERROR] 募集機能動作チャンネルがないので終了します。"
-      exit
+      STDERR.puts "[ERROR] 募集機能動作チャンネルがないので動作できません。"
+      raise StandardError.new("Not found channel.")
     end
 
     puts "[INFO] 遊び機能動作チャンネル: #{$play_channel.present? ? $play_channel.name : "なし"}"
@@ -77,8 +85,12 @@ class Bot < inheritance
       rescue Api::InvalidStatusError => e
         STDERR.puts "[ERROR] #{e.message}"
       end
+
       sleep 10
     end
+  rescue => e
+    STDERR.puts "[ERROR] #{e.message}"
+    $bot.stop
   end
 
   def stop; end
