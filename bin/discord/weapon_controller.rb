@@ -99,6 +99,7 @@ module WeaponController
     カーリング
     ロボット
     ポイズン
+    チェイス
   ).map{|k|Regexp.escape(k)}
 
   WEAPON_SUB_OPTION = %w(
@@ -107,6 +108,7 @@ module WeaponController
     シールド
     センサー
     ミスト
+    ボール
   ).map{|k|Regexp.escape(k)}
 
   WEAPON_SPECIAL_KIND = %w(
@@ -122,6 +124,8 @@ module WeaponController
     インク
     イカ
     バブル
+    ダイオウ
+    メガホン
   ).map{|k|Regexp.escape(k)}
 
   WEAPON_SPECIAL_OPTION = %w(
@@ -134,6 +138,12 @@ module WeaponController
     アーマー
     スフィア
     ランチャー
+    センサー
+    イカ
+    トルネード
+    ショット
+    レーザー
+    ラッシュ
   ).map{|k|Regexp.escape(k)}
 
   def do(message_event)
