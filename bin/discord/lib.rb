@@ -167,7 +167,7 @@ class ExtractionTime
   def self.adjust_alright(datetime, str)
     return datetime if datetime.blank?
 
-    # 「明日」というキーワードがあれば12時間足す
+    # 「明日」というキーワードがあれば24時間足す
     if str =~ /明日/
       datetime += 60 * 60 * 24
     end
