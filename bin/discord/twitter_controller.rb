@@ -44,10 +44,6 @@ class TwitterController
   end
 
   def self.to_twitter_safe(str)
-    ret = str.dup
-    str.scan(/@\d+/) do |word|
-      ret.gsub!(/#{Regexp.escape(word)}/, word.tr('0-9@', '０-９＠'))
-    end
-    return ret
+    return str.tr('0-9@', '０-９＠')
   end
 end
