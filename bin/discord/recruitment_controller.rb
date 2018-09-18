@@ -108,6 +108,13 @@ module RecruitmentController
     end
   end
 
+  def resurrection(message_event)
+    recruitment = JSON.parse(Api::Recruitment.resurrection.body)
+    message_event.send_message("#{message_event.author.display_name}さんが [#{recruitment['label_id']}] を復活させました。")
+    self.show(message_event.channel)
+    return
+  end
+
   private
 
   def recruitments_message

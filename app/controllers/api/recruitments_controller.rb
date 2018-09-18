@@ -1,7 +1,7 @@
 module Api
   class RecruitmentsController < ApplicationController
     def index
-      @recruitments = Recruitment.all
+      @recruitments = Recruitment.where(enable: true)
     end
 
     def create
@@ -15,8 +15,15 @@ module Api
     end
 
     def destroy
-      Recruitment.find(params[:id]).destroy
+      Recruitment.find(params[:id]).update(enable: false)
       head 200
+    end
+
+    def resurrection
+      recruitment = Recruitment.order("updated_at ASC").where(enable: false).last
+      recruitment.set_label_id
+      recruitment.update(enable: true)
+      render json: recruitment, status: 200
     end
 
     private

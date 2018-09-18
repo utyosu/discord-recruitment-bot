@@ -4,7 +4,7 @@ class Recruitment < ApplicationRecord
   before_create :set_label_id
 
   def set_label_id
-    label_ids = Recruitment.all.map{|r|r.label_id}
+    label_ids = Recruitment.where(enable: true).map{|r|r.label_id}
     id = 1
     while(label_ids.include?(id)) do
       id += 1

@@ -10,6 +10,9 @@ $KEYWORDS_JOIN_RECRUITMENT = /いく|行く|いき|行き|やる|やりま|さ�
 # 参加キャンセルキーワード
 $KEYWORDS_LEAVE_RECRUITMENT = /キャンセル|悲しみ/
 
+# 募集復活キーワード
+$KEYWORDS_RESURRECTION_RECRUITMENT = /戻して|もどして|復活/
+
 # 募集状況確認キーワード
 $KEYWORDS_SHOW_RECRUITMENT = /案件/
 

@@ -112,6 +112,8 @@ class Bot < inheritance
           return RecruitmentController::join(message_event)
         elsif match_keywords(message_event, $KEYWORDS_LEAVE_RECRUITMENT)
           return RecruitmentController::leave(message_event)
+        elsif match_keywords(message_event, $KEYWORDS_RESURRECTION_RECRUITMENT)
+          return RecruitmentController::resurrection(message_event)
         end
       end
 

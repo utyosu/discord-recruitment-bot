@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       resources :participants, only: [:create, :destroy]
     end
     resources :interactions, only: [:index, :create]
+    post '/recruitments/resurrection', to: 'recruitments#resurrection'
     get '/interactions/search', to: 'interactions#search'
     delete '/interactions/destroy_by_keyword', to: 'interactions#destroy_by_keyword'
     resources :user_statuses, only: [:index, :create]

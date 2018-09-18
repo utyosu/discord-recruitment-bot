@@ -28,6 +28,12 @@ module Api
     def self.destroy(recruitment)
       Api.check_response HTTP.delete("#{BASE_URI}/recruitments/#{recruitment['id']}")
     end
+
+    def self.resurrection
+      ret = Api.check_response HTTP.post("#{BASE_URI}/recruitments/resurrection")
+      p ret
+      return ret
+    end
   end
 
   class Participant
