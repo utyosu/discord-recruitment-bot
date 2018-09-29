@@ -40,5 +40,8 @@ $KEYWORDS_NICKNAME_RESPONSE = /あだな|あだ名|通り名|ニックネーム/
 # ブキキーワード
 $KEYWORDS_WEAPON_RESPONSE = /ブキ|武器/
 
+# ブキキーワード
+$KEYWORDS_LUCKY_COLOR_RESPONSE = /ラッキー/
+
 # 使い方キーワード
 $KEYWORDS_HELP_RESPONSE = /使い方|ヘルプ|help/
