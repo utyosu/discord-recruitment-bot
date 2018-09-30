@@ -7,7 +7,7 @@ require_relative 'keywords'
 require_relative 'recruitment_controller'
 require_relative 'interaction_controller'
 require_relative 'twitter_controller'
-require_relative 'flickr_controller'
+require_relative 'food_porn_controller'
 require_relative 'analysis_controller'
 require_relative 'weather_controller'
 require_relative 'fortune_controller'
@@ -121,7 +121,7 @@ class Bot < inheritance
 
       if $play_channel == message_event.channel
         if match_keywords(message_event, $KEYWORDS_FOOD_RESPONSE)
-          return FlickrController.put_food_image(message_event)
+          return FoodPornController.do(message_event)
         elsif match_keywords(message_event, $KEYWORDS_WEATHER_RESPONSE)
           return WeatherController.get(message_event)
         elsif match_keywords(message_event, $KEYWORDS_FORTUNE_RESPONSE)
