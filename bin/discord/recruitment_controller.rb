@@ -48,7 +48,6 @@ module RecruitmentController
 
   def close(message_event)
     number = extraction_number(get_message_content(message_event))
-    return if number.blank?
     my_discord_id = message_event.author.id.to_s
     closed_recruitments = []
     JSON.parse(Api::Recruitment.index.body).each do |recruitment, recruitment_index|
@@ -60,11 +59,11 @@ module RecruitmentController
         return
       end
     end
+    message_event.send_message("終了を受け付けられませんでした。次の原因が考えられます。\n・該当する募集がない。\n・複数の数字が含まれている。")
   end
 
   def join(message_event)
     number = extraction_number(get_message_content(message_event))
-    return if number.blank?
     recruitments = JSON.parse(Api::Recruitment.index.body)
     recruitments.each do |recruitment|
       if number == recruitment['label_id'] && !recruitment['participants'].any?{|p|p['discord_id'] == message_event.author.id.to_s}
@@ -88,11 +87,11 @@ module RecruitmentController
         return
       end
     end
+    message_event.send_message("参加を受け付けられませんでした。次の原因が考えられます。\n・該当する募集がない。\n・複数の数字が含まれている。\n・既に参加している。")
   end
 
   def leave(message_event)
     number = extraction_number(get_message_content(message_event))
-    return if number.blank?
     my_discord_id = message_event.author.id.to_s
     JSON.parse(Api::Recruitment.index.body).each do |recruitment|
       next if number != recruitment['label_id']
@@ -106,6 +105,7 @@ module RecruitmentController
         end
       end
     end
+    message_event.send_message("キャンセルを受け付けられませんでした。次の原因が考えられます。\n・該当する募集がない。\n・複数の数字が含まれている。\n・参加していない募集を指定した。")
   end
 
   def resurrection(message_event)
