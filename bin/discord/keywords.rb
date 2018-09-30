@@ -38,7 +38,7 @@ $KEYWORDS_FORTUNE_RESPONSE = /おみくじ/
 $KEYWORDS_NICKNAME_RESPONSE = /あだな|あだ名|通り名|ニックネーム/
 
 # ブキキーワード
-$KEYWORDS_WEAPON_RESPONSE = /ブキ|武器/
+$KEYWORDS_WEAPON_RESPONSE = /ブキ|ぶき|武器/
 
 # ブキキーワード
 $KEYWORDS_LUCKY_COLOR_RESPONSE = /ラッキー/
