@@ -16,6 +16,7 @@ require_relative 'nickname_controller'
 require_relative 'talk_controller'
 require_relative 'weapon_controller'
 require_relative 'lucky_color_controller'
+require_relative 'battle_power_controller'
 
 # 時間指定のない募集の期限 (秒)
 EXPIRE_TIME = 60 * 60
@@ -133,6 +134,8 @@ class Bot < inheritance
           return WeaponController.do(message_event)
         elsif match_keywords(message_event, $KEYWORDS_LUCKY_COLOR_RESPONSE)
           return LuckyColorController.do(message_event)
+        elsif match_keywords(message_event, $KEYWORDS_BATTLE_POWER_RESPONSE)
+          return BattlePowerController.do(message_event)
         end
       end
 

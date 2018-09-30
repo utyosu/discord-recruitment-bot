@@ -43,5 +43,8 @@ $KEYWORDS_WEAPON_RESPONSE = /ブキ|ぶき|武器/
 # ブキキーワード
 $KEYWORDS_LUCKY_COLOR_RESPONSE = /ラッキー/
 
+# 戦闘力キーワード
+$KEYWORDS_BATTLE_POWER_RESPONSE = /戦闘力|スカウター/
+
 # 使い方キーワード
 $KEYWORDS_HELP_RESPONSE = /使い方|ヘルプ|help/
