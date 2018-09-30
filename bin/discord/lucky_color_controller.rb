@@ -10,6 +10,10 @@ module LuckyColorController
     return if !check_limit(message_event, "play", ENV['DISCORD_BOT_PLAY_LIMIT'] || 10)
     lucky_color_index = rand(LUCKY_COLOR_JAPANESE.count)
     http = HTTP.get("https://www.googleapis.com/customsearch/v1", params: {key: ENV['DISCORD_BOT_GOOGLE_API_KEY'], cx: ENV['DISCORD_BOT_GOOGLE_API_CX'], q: "#{WORDS.sample}", num: 1, start: rand(10)+1, searchType: "image", imgDominantColor: LUCKY_COLOR_ENGLISH[lucky_color_index]})
+    if http.status != 200
+      message_event.send_message("画像検索上限のため結果を表示できません。明日以降に試して下さい。")
+      return
+    end
     response = JSON.parse(http.body)
     photo_source = response['items'].sample
     path = "tmp/cache/image.jpg"
