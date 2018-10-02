@@ -59,7 +59,6 @@ module RecruitmentController
         return
       end
     end
-    message_event.send_message("終了を受け付けられませんでした。次の原因が考えられます。\n・該当する募集がない。\n・複数の数字が含まれている。")
   end
 
   def join(message_event)
@@ -87,7 +86,6 @@ module RecruitmentController
         return
       end
     end
-    message_event.send_message("参加を受け付けられませんでした。次の原因が考えられます。\n・該当する募集がない。\n・複数の数字が含まれている。\n・既に参加している。")
   end
 
   def leave(message_event)
@@ -105,7 +103,6 @@ module RecruitmentController
         end
       end
     end
-    message_event.send_message("キャンセルを受け付けられませんでした。次の原因が考えられます。\n・該当する募集がない。\n・複数の数字が含まれている。\n・参加していない募集を指定した。")
   end
 
   def resurrection(message_event)
