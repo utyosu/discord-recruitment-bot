@@ -32,8 +32,10 @@ def view_datetime(input)
   datetime = input.in_time_zone
   if datetime.to_date == Date.today
     datetime.strftime("%H:%M")
-  else
+  elsif datetime.year == Date.today.year
     datetime.strftime("%m/%d %H:%M")
+  else
+    datetime.strftime("%Y/%m/%d %H:%M")
   end
 end
 
@@ -106,6 +108,12 @@ class ExtractionTime
     # trimming
     str = str.gsub(/(\d+時|\d+:\d+)[^\d]*まで/, "")
     str = str.gsub(/[～-](\d+時|\d+:\d+)/, "")
+
+    # yyyy/mm/dd hh:mm style
+    begin
+      return to_safe(str).slice(/\d{4}\/\d{1,2}\/\d{1,2}\s+\d{1,2}:\d{2}/).in_time_zone
+    rescue ArgumentError, NoMethodError => e
+    end
 
     # mm/dd hh:mm style
     begin
