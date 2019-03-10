@@ -19,9 +19,7 @@ def extraction_recruit_user_count(str)
 end
 
 def extraction_number(str)
-  tmp = to_safe(str).gsub(/[^\d]/, "")
-  return tmp.to_i if tmp =~ /\d/
-  return nil
+  return to_safe(str).gsub(/[^\d]/,",").gsub(/,+/,",").split(",").map(&:to_i).min
 end
 
 def extraction_time(str)
