@@ -86,6 +86,9 @@ export DISCORD_PLAY_CHANNEL_ID="<チャンネルID>"
 # bot のトーク機能で反応するワード
 export DISCORD_BOT_TALK_WORD=""
 
+# bot の遊び機能が制限を超えたときのメッセージ
+export DISCORD_BOT_TALK_WARNING_MESSAGE=""
+
 # twitter の CONSUMER_KEY
 export DISCORD_BOT_TWITTER_CONSUMER_KEY=""
 
