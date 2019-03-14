@@ -73,4 +73,4 @@ gem 'slim-rails'
 gem 'discordrb', :git => "git://github.com/meew0/discordrb.git"
 gem 'http'
 gem 'daemon-spawn', :require => 'daemon_spawn'
-gem 'twitter'
+gem 'twitter', '~> 5.16'
