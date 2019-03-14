@@ -48,6 +48,7 @@ module RecruitmentController
 
   def close(message_event)
     number = extraction_number(get_message_content(message_event))
+    return message_event.send_message("数字が2つ以上入っているので分かりませんでした(´・ω・｀)ｼｮﾎﾞｰﾝ") if number.nil?
     my_discord_id = message_event.author.id.to_s
     closed_recruitments = []
     JSON.parse(Api::Recruitment.index.body).each do |recruitment, recruitment_index|
@@ -63,6 +64,7 @@ module RecruitmentController
 
   def join(message_event)
     number = extraction_number(get_message_content(message_event))
+    return message_event.send_message("数字が2つ以上入っているので分かりませんでした(´・ω・｀)ｼｮﾎﾞｰﾝ") if number.nil?
     recruitments = JSON.parse(Api::Recruitment.index.body)
     recruitments.each do |recruitment|
       if number == recruitment['label_id'] && !recruitment['participants'].any?{|p|p['discord_id'] == message_event.author.id.to_s}
@@ -90,6 +92,7 @@ module RecruitmentController
 
   def leave(message_event)
     number = extraction_number(get_message_content(message_event))
+    return message_event.send_message("数字が2つ以上入っているので分かりませんでした(´・ω・｀)ｼｮﾎﾞｰﾝ") if number.nil?
     my_discord_id = message_event.author.id.to_s
     JSON.parse(Api::Recruitment.index.body).each do |recruitment|
       next if number != recruitment['label_id']
