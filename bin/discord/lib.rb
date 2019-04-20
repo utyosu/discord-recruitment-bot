@@ -45,7 +45,7 @@ def match_keywords(message_event, keywords)
 end
 
 def get_message_content(message_event)
-  message_event.content.split(/\r\n|\r|\n/).first
+  message_event.content.gsub(/\r\n|\r|\n/, "")
 end
 
 def send_message_command(message_event)
