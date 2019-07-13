@@ -1,7 +1,6 @@
-require 'open-uri'
-
 module LuckyColorController
   extend self
+
   WORDS = %w(イラスト 花 デザート フルーツ 魚 ケーキ 車 本 飲み物 野菜 かわいい動物 dragon-quest-monsters splatoon-weapon splatoon-characters マリオ 植物 惑星 ドラゴン 悪魔 ディズニーキャラクター 日用品 旗 メガネ 鼻眼鏡 歴史上の人物 帽子 ワンピース服 パン パスタ ピエロ ギター 笛 えんぴつ ボールペン 飴 マグカップ 夜景 スマホケース カバン イヤホン 飛行機 グミ 伝説上の生き物 ぬいぐるみ 座布団 靴 服)
   LUCKY_COLOR_JAPANESE = %w(黒 青 茶 灰 緑 橙 桃 紫 赤 青緑 白 黄)
   LUCKY_COLOR_ENGLISH = %w(black blue brown gray green orange pink purple red teal white yellow)

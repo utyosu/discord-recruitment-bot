@@ -3,6 +3,7 @@ module HelpController
 
   def help(message_event)
     ret = []
+
     if $recruitment_channel == message_event.channel
       ret << "__募集機能__"
       ret << ""
@@ -14,6 +15,7 @@ module HelpController
       ret << "`案件` - 現在の募集を表示"
       ret << ""
     end
+
     if $interaction_channel == message_event.channel
       ret << "__記憶機能__"
       ret << ""
@@ -23,30 +25,35 @@ module HelpController
       ret << "`リスト` - キーワード一覧を表示"
       ret << ""
     end
+
     if $food_channel == message_event.channel
       ret << "__飯テロ機能__"
       ret << ""
       ret << "`お腹空いた` - おいしい(たぶん)食事の画像を表示"
       ret << ""
     end
+
     if $weather_channel == message_event.channel
       ret << "__お天気機能__"
       ret << ""
       ret << "`<場所>の天気` - 指定した場所の天気を表示"
       ret << ""
     end
+
     if $fortune_channel == message_event.channel
       ret << "__おみくじ機能__"
       ret << ""
       ret << "`おみくじ` - 今日の運勢を表示"
       ret << ""
     end
+
     if $nickname_channel == message_event.channel
       ret << "__あだ名作成機能__"
       ret << ""
       ret << "`あだ名` - 今日のあだ名を命名"
       ret << ""
     end
+
     if ret.present?
       message_event.send_message(ret.join("\n"))
     end

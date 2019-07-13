@@ -1,4 +1,3 @@
-require 'http'
 module Api
   extend self
   BASE_URI = "http://localhost:3000/api"

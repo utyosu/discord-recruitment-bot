@@ -1,8 +1,6 @@
 module RecruitmentController
   extend self
 
-  RESERVE_OVER_TIME = 30
-
   def show(channel)
     channel.send_message("```\n#{recruitments_message}\n```")
   end
@@ -12,13 +10,13 @@ module RecruitmentController
     destroyed_recruitments = []
     recruitments.each do |recruitment|
       if recruitment['reserve_at'].present?
-        if recruitment['reserve_at'].in_time_zone < Time.zone.now - (60 * RESERVE_OVER_TIME)
+        if recruitment['reserve_at'].in_time_zone < Time.zone.now - Settings::RESERVE_OVER_TIME
           reserve_recruitment_over_time(recruitment)
         elsif recruitment['reserve_at'].in_time_zone < Time.zone.now
           reserve_recruitment_on_time(recruitment)
         end
       else
-        if (recruitment['created_at'].in_time_zone + EXPIRE_TIME) < Time.zone.now
+        if (recruitment['created_at'].in_time_zone + Settings::EXPIRE_TIME) < Time.zone.now
           temporary_recruitment_expired(recruitment)
         end
       end
@@ -26,7 +24,7 @@ module RecruitmentController
   end
 
   def format_recruitment_to_string(recruitment)
-    recruitment_message = "[#{recruitment['label_id']}] #{recruitment['content']} by #{recruitment['participants'].first['name']} (#{recruitment['participants'].size-1}/#{extraction_recruit_user_count(recruitment['content'])})"
+    recruitment_message = "[#{recruitment['label_id']}] #{recruitment['content']} by #{recruitment['participants'].first['name']} (#{recruitment['participants'].size-1}/#{Extractor.extraction_recruit_user_count(recruitment['content'])})"
     if 2 <= recruitment['participants'].size
       recruitment_message += "\n    参加者: #{recruitment['participants'][1..-1].map{|p|p['name']}.join(', ')}"
     end
@@ -35,19 +33,19 @@ module RecruitmentController
 
   def open(message_event)
     recruit_message = get_message_content(message_event)
-    recruitment = JSON.parse(Api::Recruitment.create(content: recruit_message, reserve_at: extraction_time(recruit_message).to_s).body)
+    recruitment = JSON.parse(Api::Recruitment.create(content: recruit_message, reserve_at: Extractor.extraction_time(recruit_message).to_s).body)
     Api::Participant.join(recruitment, name: message_event.author.display_name, discord_id: message_event.author.id)
     if recruitment['reserve_at'].present?
       message_event.send_message("#{message_event.author.display_name}さんから [#{recruitment['label_id']}] を予定時間 #{view_datetime(recruitment['reserve_at'])} で受け付けました。")
     else
-      message_event.send_message("#{message_event.author.display_name}さんから [#{recruitment['label_id']}] を期限 #{view_datetime(recruitment['created_at'].in_time_zone + EXPIRE_TIME)} で受け付けました。")
+      message_event.send_message("#{message_event.author.display_name}さんから [#{recruitment['label_id']}] を期限 #{view_datetime(recruitment['created_at'].in_time_zone + Settings::EXPIRE_TIME)} で受け付けました。")
     end
     self.show(message_event.channel)
     TwitterController.recruitment_open(recruitment)
   end
 
   def close(message_event)
-    number = extraction_number(get_message_content(message_event))
+    number = Extractor.extraction_number(get_message_content(message_event))
     return message_event.send_message("数字が2つ以上入っているので分かりませんでした(´・ω・｀)ｼｮﾎﾞｰﾝ") if number.nil?
     my_discord_id = message_event.author.id.to_s
     closed_recruitments = []
@@ -63,7 +61,7 @@ module RecruitmentController
   end
 
   def join(message_event)
-    number = extraction_number(get_message_content(message_event))
+    number = Extractor.extraction_number(get_message_content(message_event))
     return message_event.send_message("数字が2つ以上入っているので分かりませんでした(´・ω・｀)ｼｮﾎﾞｰﾝ") if number.nil?
     recruitments = JSON.parse(Api::Recruitment.index.body)
     recruitments.each do |recruitment|
@@ -72,7 +70,7 @@ module RecruitmentController
         message_event.send_message("#{message_event.author.display_name}さんが [#{recruitment['label_id']}] に参加しました。")
         self.show(message_event.channel)
         TwitterController.recruitment_join(recruitment)
-        if recruitment['participants'].size >= extraction_recruit_user_count(recruitment['content'])
+        if recruitment['participants'].size >= Extractor.extraction_recruit_user_count(recruitment['content'])
           if recruitment['reserve_at'].present? && recruitment['reserve_at'].in_time_zone > Time.zone.now
             message_event.send_message("メンバーが集まりました。\n#{view_datetime(recruitment['reserve_at'])} になったら連絡するね(・∀・)b")
           else
@@ -129,7 +127,7 @@ module RecruitmentController
   end
 
   def reserve_recruitment_on_time(recruitment)
-    if extraction_recruit_user_count(recruitment['content']) <= (recruitment['participants'].size-1)
+    if Extractor.extraction_recruit_user_count(recruitment['content']) <= (recruitment['participants'].size-1)
       Api::Recruitment.destroy(recruitment)
       mention = build_mention_from_participants(recruitment['participants'])
       $recruitment_channel.send_message("#{mention}\n[#{recruitment['label_id']}] の予定時間です。(*´∀`)ﾉ ｲﾃﾗｰ")
@@ -139,14 +137,14 @@ module RecruitmentController
       TwitterController.recruitment_close(recruitment)
     elsif !recruitment['notificated']
       Api::Recruitment.update(recruitment, {notificated: true})
-      $recruitment_channel.send_message("[#{recruitment['label_id']}] の開始時間になりました。あと#{extraction_recruit_user_count(recruitment['content']) - (recruitment['participants'].size-1)}人ｲﾅｲｶﾅ?(o・ω・)")
+      $recruitment_channel.send_message("[#{recruitment['label_id']}] の開始時間になりました。あと#{Extractor.extraction_recruit_user_count(recruitment['content']) - (recruitment['participants'].size-1)}人ｲﾅｲｶﾅ?(o・ω・)")
       self.show($recruitment_channel)
     end
   end
 
   def reserve_recruitment_over_time(recruitment)
     Api::Recruitment.destroy(recruitment)
-    $recruitment_channel.send_message("[#{recruitment['label_id']}] は開始時間を#{RESERVE_OVER_TIME}分過ぎたので終了します。")
+    $recruitment_channel.send_message("[#{recruitment['label_id']}] は開始時間を#{Settings::RESERVE_OVER_TIME/60}分過ぎたので終了します。")
     self.show($recruitment_channel)
     TwitterController.recruitment_close(recruitment)
   end
@@ -156,5 +154,22 @@ module RecruitmentController
     $recruitment_channel.send_message("[#{recruitment['label_id']}] は期限を過ぎたので終了します。")
     self.show($recruitment_channel)
     TwitterController.recruitment_close(recruitment)
+  end
+
+  private
+
+  def build_mention_from_participants(participants)
+    participants.map{|p|"<@#{p['discord_id']}>"}.join(" ")
+  end
+
+  def view_datetime(input)
+    datetime = input.in_time_zone
+    if datetime.to_date == Date.today
+      datetime.strftime("%H:%M")
+    elsif datetime.year == Date.today.year
+      datetime.strftime("%m/%d %H:%M")
+    else
+      datetime.strftime("%Y/%m/%d %H:%M")
+    end
   end
 end

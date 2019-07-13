@@ -1,7 +1,6 @@
-require 'open-uri'
-
 module FoodPornController
   extend self
+
   FOOD_WORDS = %w(焼き鳥 ラーメン パスタ うどん ステーキ ハンバーガー ケーキ パンケーキ パフェ 寿司 ピザ 焼き飯 チャーハン おにぎり てんぷら ドーナッツ 牛丼 ハンバーグ オムライス 中華料理 カレーライス 焼肉)
 
   def do(message_event)
