@@ -19,10 +19,10 @@ def send_message_command(message_event)
 end
 
 def check_limit(message_event, type, limit)
-  refresh_time = 8
+  refresh_time = 8.hours
   user = JSON.parse(Api::User.get_from_discord_id(message_event.author.id).body)
-  last_at = user["#{type}_at"].in_time_zone rescue (Time.zone.now - (60 * 60 * 24))
-  refresh_at = (Time.zone.now - (60 * 60 * refresh_time)).to_date.in_time_zone + (60 * 60 * refresh_time)
+  last_at = user["#{type}_at"].in_time_zone rescue (Time.zone.now - 1.day)
+  refresh_at = (Time.zone.now - Settings::REFRESH_TIME).to_date.in_time_zone + Settings::REFRESH_TIME
   user["#{type}_count"] = 0 if last_at < refresh_at
   if user["#{type}_count"].to_i < limit.to_i
     user["#{type}_count"] = user["#{type}_count"].to_i + 1

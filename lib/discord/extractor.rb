@@ -71,7 +71,7 @@ class Extractor
     # Old Japanese Style
     if str =~ /丑三つ時/
       datetime = Time.zone.parse("02:00")
-      datetime += (60 * 60 * 24) if datetime < Time.zone.now
+      datetime += 24.hours if datetime < Time.zone.now
       return datetime
     end
 
@@ -81,7 +81,7 @@ class Extractor
   def self.to_datetime(hour, min)
     raise ArgumentError if hour.blank? || min.blank?
     if 24 <= hour.to_i
-      return "#{hour.to_i-24}:#{min}".in_time_zone + (60 * 60 * 24)
+      return "#{hour.to_i-24}:#{min}".in_time_zone + 24.hours
     else
       return "#{hour}:#{min}".in_time_zone
     end
@@ -92,11 +92,15 @@ class Extractor
 
     # 「明日」というキーワードがあれば24時間足す
     if str =~ /明日/
-      datetime += 60 * 60 * 24
+      datetime += 24.hours
     end
 
     # 時間が過ぎている
-    2.times{datetime += 60 * 60 * 12 if datetime < Time.zone.now}
+    if datetime.hour < 12
+      2.times { datetime += 12.hours if datetime < Time.zone.now }
+    else
+      datetime += 24.hours if datetime < Time.zone.now
+    end
 
     return datetime
   end

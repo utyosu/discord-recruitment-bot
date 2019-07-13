@@ -12,6 +12,10 @@ development:
   <<: *default
   database: discord_recruitment_bot_development
 
+test:
+  <<: *default
+  database: discord_recruitment_bot_test
+
 production:
   <<: *default
   database: discord_recruitment_bot_production
