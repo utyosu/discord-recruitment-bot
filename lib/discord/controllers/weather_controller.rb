@@ -82,8 +82,7 @@ module WeatherController
       STDERR.puts "DISCORD_BOT_GEOCODE_APPID もしくは DISCORD_BOT_WEATHER_APPID が未定義です。"
       return
     end
-    return if !check_limit(message_event, "play", ENV['DISCORD_BOT_PLAY_LIMIT'] || 10)
-    qurty_string = message_event.content.match($KEYWORDS_WEATHER_RESPONSE)[1]
+    qurty_string = message_event.content.match(Settings::WEATHER_RESPONSE)[1]
     geocode_response = HTTP.get("https://map.yahooapis.jp/geocode/V1/geoCoder", params: {output: "json", appid: ENV['DISCORD_BOT_GEOCODE_APPID'], query: qurty_string, al: 3, ar: "le"})
     return if geocode_response.status != 200 || JSON.parse(geocode_response)['Feature'].blank?
     city = JSON.parse(geocode_response)['Feature'].sample

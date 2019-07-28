@@ -66,7 +66,6 @@ module FortuneController
   )
 
   def get(message_event)
-    return if !check_limit(message_event, "play", ENV['DISCORD_BOT_PLAY_LIMIT'] || 10)
     message_event.send_message("#{message_event.author.display_name} : #{PREFIX[rand(PREFIX.size)] + WORD[rand(WORD.size)]}")
   end
 end

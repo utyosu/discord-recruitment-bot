@@ -21,19 +21,20 @@ class Extractor
 
   def self.base(str)
     # trimming
-    str = str.gsub(/(\d+時|\d+:\d+)[^\d]*まで/, "")
-    str = str.gsub(/[～-](\d+時|\d+:\d+)/, "")
+    str = str.gsub(/(\d+時|\d+:\d+)[^\d]*まで/, "").gsub(/[～-](\d+時|\d+:\d+)/, "")
 
     # yyyy/mm/dd hh:mm style
     begin
       return to_safe(str).slice(/\d{4}\/\d{1,2}\/\d{1,2}\s+\d{1,2}:\d{2}/).in_time_zone
     rescue ArgumentError, NoMethodError => e
+      # do nothing
     end
 
     # mm/dd hh:mm style
     begin
       return to_safe(str).slice(/\d{1,2}\/\d{1,2}\s+\d{1,2}:\d{2}/).in_time_zone
     rescue ArgumentError, NoMethodError => e
+      # do nothing
     end
 
     # hh:mm style
@@ -90,10 +91,7 @@ class Extractor
   def self.adjust_alright(datetime, str)
     return datetime if datetime.blank?
 
-    # 「明日」というキーワードがあれば24時間足す
-    if str =~ /明日/
-      datetime += 24.hours
-    end
+    datetime += 24.hours if str =~ /明日/
 
     # 時間が過ぎている
     if datetime.hour < 12

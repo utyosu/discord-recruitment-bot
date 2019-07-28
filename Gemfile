@@ -2,25 +2,25 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.1'
-gem 'rails', '~> 5.2.0'
-gem 'mysql2', '>= 0.4.4', '< 0.6.0'
-gem 'puma', '~> 3.11'
-gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
+gem 'rails'
+gem 'mysql2'
+gem 'puma'
+gem 'sass-rails'
+gem 'uglifier'
 gem 'mini_racer', platforms: :ruby
-gem 'coffee-rails', '~> 4.2'
-gem 'jbuilder', '~> 2.5'
-gem 'bootsnap', '>= 1.1.0', require: false
+gem 'coffee-rails'
+gem 'jbuilder'
+gem 'rails-i18n'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem "factory_bot_rails"
+  gem 'database_cleaner'
 end
 
 group :development do
-  gem 'web-console', '>= 3.3.0'
-  gem 'listen', '>= 3.0.5', '< 3.2'
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'web-console'
+  gem 'listen'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'hirb'
@@ -31,9 +31,9 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '>= 2.15', '< 4.0'
+  gem 'capybara'
   gem 'selenium-webdriver'
-  gem 'chromedriver-helper'
+  gem 'webdrivers'
   gem 'rspec-rails'
 end
 
@@ -42,7 +42,7 @@ gem 'tzinfo'
 # Additional
 gem 'ridgepole'
 gem 'slim-rails'
-gem 'discordrb', :git => "git://github.com/meew0/discordrb.git"
+gem 'discordrb'
 gem 'http'
 gem 'daemon-spawn', :require => 'daemon_spawn'
-gem 'twitter', '~> 5.16'
+gem 'twitter'

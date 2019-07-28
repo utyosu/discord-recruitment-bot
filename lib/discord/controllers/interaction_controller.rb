@@ -1,31 +1,33 @@
 module InteractionController
   extend self
 
-  def interaction_create(message_event)
+  def create(message_event)
     command, keyword, response = get_message_content(message_event).gsub(/\p{blank}/," ").split(/ /, 3)
     return if keyword.size < 1 || 64 < keyword.size || keyword =~ $KEYWORDS_INTERACTION_RESPONSE || response.size < 1 || 64 < response.size
-    interaction = JSON.parse(Api::Interaction.create(keyword: keyword, response: response, registered_user_name:  message_event.author.display_name, registered_user_discord_id: message_event.author.id).body)
-    message_event.send_message("「#{interaction['keyword']}」を「#{interaction['response']}」と覚えました。")
+    user = User.get_by_discord_user(message_event.author)
+    interaction = Interaction.create(user: user, keyword: keyword, response: response)
+    message_event.send_message(I18n.t('interaction.remember', keyword: keyword, response: response))
   end
 
-  def interaction_destroy(message_event)
-    src = get_message_content(message_event).gsub(/\p{blank}/," ").split
-    return if src.size != 2 || src[1].size < 1
-    response = Api::Interaction.destroy(src[1])
-    message_event.send_message("「#{src[1]}」を忘れました。") if response.status == 200
-  end
-
-  def interaction_response(message_event)
-    interaction = JSON.parse(Api::Interaction.search(get_message_content(message_event)).body)
-    if interaction['response'].present?
-      message_event.send_message(interaction['response'])
+  def destroy(message_event)
+    command, keyword, other = get_message_content(message_event).gsub(/\p{blank}/," ").split
+    return if keyword.blank? || other.present?
+    interactions = Interaction.where(keyword: keyword)
+    if interactions.present?
+      interactions.destroy_all
+      message_event.send_message(I18n.t('interaction.forget', keyword: keyword))
     end
   end
 
-  def interaction_list(message_event)
-    interactions = JSON.parse(Api::Interaction.index.body)
-    keywords = interactions.map{|interaction| interaction['keyword']}
-    message_event.send_message("記憶している単語一覧です。")
+  def response(message_event)
+    keyword = get_message_content(message_event)
+    interaction = Interaction.all.select { |i| keyword =~ /#{i.keyword}/ }.sample
+    message_event.send_message(interaction.response) if interaction.present?
+  end
+
+  def list(message_event)
+    keywords = Interaction.all.map{|interaction| interaction['keyword']}
+    message_event.send_message(I18n.t('interaction.list'))
     message_event.send_message("```\n#{keywords.join(', ')}\n```")
   end
 end

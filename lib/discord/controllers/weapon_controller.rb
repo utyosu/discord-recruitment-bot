@@ -143,6 +143,6 @@ module WeaponController
   ).map{|k|Regexp.escape(k)}
 
   def do(message_event)
-    message_event.send_message("#{message_event.author.display_name}さんの今日のオススメブキは【**#{WEAPON_MAIN_KIND.sample}**】でし！")
+    message_event.send_message(I18n.t('weapon.display', name: message_event.author.display_name, weapon: WEAPON_MAIN_KIND.sample))
   end
 end

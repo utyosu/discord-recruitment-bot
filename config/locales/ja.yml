@@ -1,0 +1,52 @@
+ja:
+  recruitment:
+    open_reserved: "%{name}さんから [%{label_id}] を予定時間 %{time} で受け付けました。"
+    open_standard: "%{name}さんから [%{label_id}] を期限 %{time}  で受け付けました。"
+    close: "%{name}さんが [%{label_id}] を終了しました。"
+    join: "%{name}さんが [%{label_id}] に参加しました"
+    reserve_full: "メンバーが集まりました。\n%{time} になったら連絡するね(・∀・)b"
+    one_time_notification: "メンバーが集まりました。(｀・ω・´)ﾔｯﾀﾈ"
+    one_time_close: "[%{label_id}] を終了しました。"
+    not_found: "募集はありません"
+    cancel: "%{name}さんが [%{label_id}] の参加をキャンセルしました。"
+    resurrection: "%{name}さんが [%{label_id}] を復活させました。"
+    error_two_numbers: "数字が2つ以上入っているので分かりませんでした(´・ω・｀)ｼｮﾎﾞｰﾝ"
+    reserve_notification: "[%{label_id}] の予定時間です。(*´∀`)ﾉ ｲﾃﾗｰ"
+    reserve_close: "[%{label_id}] は予定時間になったので終了します。"
+    reserve_on_time: "[%{label_id}] の開始時間になりました。あと%{vacant}人ｲﾅｲｶﾅ?(o・ω・)"
+    one_time_over: "[%{label_id}] は開始時間を%{time}分過ぎたので終了します。"
+    reserve_over: "[%{label_id}] は期限を過ぎたので終了します。"
+  battle_power:
+    display: "%{name}さんの戦闘力は…%{battle_power}！\n「%{character}」と同じくらいだ…！"
+  food_porn:
+    error: "画像検索上限のため結果を表示できません。明日以降に試して下さい。"
+  insider_game:
+    error_no_voice_channel: "インサイダーゲームを遊ぶにはボイスチャンネルに接続して下さい。"
+    error_no_insider: "インサイダーがいません。"
+    insider: "[インサイダーゲーム] あなたは「インサイダー」です。お題は「%{subject}」です。"
+    master: "[インサイダーゲーム] あなたは「マスター」です。お題は「%{subject}」です。"
+    common: "[インサイダーゲーム] あなたは「庶民」です。お題は分かりません。"
+  interaction:
+    remember: "「%{keyword}」を「%{response}」と覚えました。"
+    forget: "「%{keyword}」を忘れました。"
+    list: "記憶している単語一覧です。"
+  lucky_color:
+    error: "画像検索上限のため結果を表示できません。明日以降に試して下さい。"
+    display: "%{name}さんの今日のラッキーカラーは「%{color}」です。ラッキーアイテムはこちら！"
+  nickname:
+    display: "%{name}よ…今日からお前は「%{nick}」だ！"
+  talk:
+    error: "よく分かりません"
+  twitter:
+    participants: "参加者"
+    close: "この募集は終了しました。"
+  weapon:
+    display: "%{name}さんの今日のオススメブキは【**%{weapon}**】でし！"
+  bot:
+    error_env: "[ERROR] 必須の環境変数 %{name} が定義されていません。プログラムを終了します。"
+    reboot: "[INFO] BOTを再起動して復旧を試みます。"
+    analysis_interval: "[INFO] 解析インターバル: %{interval}sec (0なら無効)"
+    recruitment_channel: "[INFO] 募集機能動作チャンネル: %{name}"
+    error_no_recruitment_channel: "[ERROR] 募集機能動作チャンネルがないので動作できません。"
+    play_channel: "[INFO] 遊び機能動作チャンネル : %{name}"
+    use_twitter: "[INFO] Twitter連携機能 : %{bool}"

@@ -28,14 +28,14 @@ class Bot < inheritance
       DISCORD_BOT_TWITTER_NOTICE_TITLE
     ).each do |name|
       if ENV[name].blank?
-        STDERR.puts "[ERROR] 必須の環境変数 #{name} が定義されていません。プログラムを終了します。"
+        STDERR.puts I18n.t('bot.error_env', name: name)
         exit
       end
     end
 
     loop do
       self.sequence()
-      STDERR.puts "[INFO] BOTを再起動して復旧を試みます。"
+      STDERR.puts I18n.t('bot.reboot')
       sleep 60
     end
   end
@@ -63,33 +63,26 @@ class Bot < inheritance
       end
     end
 
-    puts "[INFO] 解析インターバル: #{AnalysisController::ANALYSIS_INTERVAL} (0なら無効)"
+    puts I18n.t('bot.analysis_interval', interval: AnalysisController::ANALYSIS_INTERVAL)
 
     if $recruitment_channel.present?
-      puts "[INFO] 募集機能動作チャンネル: #{$recruitment_channel.name})"
+      puts I18n.t('bot.recruitment_channel', name: $recruitment_channel.name)
     else
-      STDERR.puts "[ERROR] 募集機能動作チャンネルがないので動作できません。"
+      STDERR.puts I18n.t('bot.error_no_recruitment_channel')
       raise StandardError.new("Not found channel.")
     end
 
-    puts "[INFO] 遊び機能動作チャンネル: #{$play_channel.present? ? $play_channel.name : "なし"}"
-    puts "[INFO] Twitter連携機能: #{ENV['DISCORD_BOT_TWITTER_DISABLE'].present? ? "オフ" : "オン"}"
+    puts I18n.t('bot.play_channel', name: $play_channel.try(:name))
+    puts I18n.t('bot.use_twitter', bool: ENV['DISCORD_BOT_TWITTER_DISABLE'].present?)
 
     loop do
-      begin
-        RecruitmentController.destroy_expired_recruitment
-        AnalysisController.voice_channels
-      rescue HTTP::ConnectionError => e
-        STDERR.puts "[ERROR] サーバへのアクセスに失敗しました。"
-      rescue Api::InvalidStatusError => e
-        STDERR.puts "[ERROR] #{e.message}"
-      end
-
+      RecruitmentController.destroy_expired_recruitment
+      AnalysisController.voice_channels
       sleep 10
     end
   rescue => e
-    STDERR.puts "[ERROR] #{e.message}"
-    $bot.stop
+   STDERR.puts "[ERROR] #{e.message}"
+   $bot.stop
   end
 
   def stop; end

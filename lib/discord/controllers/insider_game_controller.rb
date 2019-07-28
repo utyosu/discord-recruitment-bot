@@ -13,7 +13,7 @@ module InsiderGameController
     }.flatten.first
 
     if voice_channel.blank?
-      author.pm("インサイダーゲームを遊ぶにはボイスチャンネルに接続して下さい。")
+      author.pm(I18n.t('insider_game.error_no_voice_channel'))
       return
     end
 
@@ -21,17 +21,17 @@ module InsiderGameController
     insider = users.reject{|user| user.id == author.id}.sample
 
     if insider.blank?
-      author.pm("インサイダーがいません。")
+      author.pm(I18n.t('insider_game.error_no_insider'))
       return
     end
 
     users.each do |user|
       if user.id == insider.id
-        user.pm("[インサイダーゲーム] あなたは「インサイダー」です。お題は「#{subject}」です。")
+        user.pm(I18n.t('insider_game.insider', subject: subject))
       elsif user.id == author.id
-        user.pm("[インサイダーゲーム] あなたは「マスター」です。お題は「#{subject}」です。")
+        user.pm(I18n.t('insider_game.master', subject: subject))
       else
-        user.pm("[インサイダーゲーム] あなたは「庶民」です。お題は分かりません。")
+        user.pm(I18n.t('insider_game.common'))
       end
     end
   end

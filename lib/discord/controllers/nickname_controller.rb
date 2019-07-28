@@ -272,16 +272,15 @@ module NicknameController
   ).map{|k|Regexp.escape(k)}
 
   def do(message_event)
-    return if !check_limit(message_event, "play", ENV['DISCORD_BOT_PLAY_LIMIT'] || 10)
-    name = message_event.author.display_name.dup
-    DECORATION.each{|k|name.gsub!(/\A#{k}|#{k}\Z/,"")}
-    PREFIX.each{|k|name.gsub!(/\A#{k}/, "")}
-    SUFFIX.each{|k|name.gsub!(/#{k}\Z/, "")}
-    nick = "#{PREFIX.sample}#{name}#{SUFFIX.sample}"
+    nick = message_event.author.display_name.dup
+    DECORATION.each{|k|nick.gsub!(/\A#{k}|#{k}\Z/,"")}
+    PREFIX.each{|k|nick.gsub!(/\A#{k}/, "")}
+    SUFFIX.each{|k|nick.gsub!(/#{k}\Z/, "")}
+    nick = "#{PREFIX.sample}#{nick}#{SUFFIX.sample}"
     if rand(6) == 0
       decoration = DECORATION.sample
       nick = "#{decoration}#{nick}#{decoration}"
     end
-    message_event.send_message("#{message_event.author.display_name}よ…今日からお前は「#{nick}」だ！")
+    message_event.send_message(I18n.t('nickname.display', name: message_event.author.display_name, nick: nick))
   end
 end

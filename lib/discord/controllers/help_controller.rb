@@ -16,7 +16,7 @@ module HelpController
       ret << ""
     end
 
-    if $interaction_channel == message_event.channel
+    if $play_channel == message_event.channel
       ret << "__記憶機能__"
       ret << ""
       ret << "`記憶 <キーワード> <説明>` - <キーワード> を <説明> と記憶"
@@ -26,28 +26,28 @@ module HelpController
       ret << ""
     end
 
-    if $food_channel == message_event.channel
+    if $play_channel == message_event.channel
       ret << "__飯テロ機能__"
       ret << ""
       ret << "`お腹空いた` - おいしい(たぶん)食事の画像を表示"
       ret << ""
     end
 
-    if $weather_channel == message_event.channel
+    if $play_channel == message_event.channel
       ret << "__お天気機能__"
       ret << ""
       ret << "`<場所>の天気` - 指定した場所の天気を表示"
       ret << ""
     end
 
-    if $fortune_channel == message_event.channel
+    if $play_channel == message_event.channel
       ret << "__おみくじ機能__"
       ret << ""
       ret << "`おみくじ` - 今日の運勢を表示"
       ret << ""
     end
 
-    if $nickname_channel == message_event.channel
+    if $play_channel == message_event.channel
       ret << "__あだ名作成機能__"
       ret << ""
       ret << "`あだ名` - 今日のあだ名を命名"

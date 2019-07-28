@@ -11,7 +11,7 @@ class TwitterController
   end
 
   def self.recruitment_close(recruitment)
-    tweet(recruitment, "【#{ENV['DISCORD_BOT_TWITTER_NOTICE_TITLE']}】\nこの募集は終了しました。")
+    tweet(recruitment, "【#{ENV['DISCORD_BOT_TWITTER_NOTICE_TITLE']}】\n#{I18n.t('twitter.close')}")
   end
 
   def self.recruitment_join(recruitment)
@@ -25,19 +25,16 @@ class TwitterController
   private
 
   def self.recruitment_message(recruitment)
-    recruitment = update_recruitment(recruitment)
-    message = "【#{ENV['DISCORD_BOT_TWITTER_NOTICE_TITLE']}】\n#{recruitment['content']} by #{recruitment['participants'].first['name']} (#{recruitment['participants'].size-1}/#{Extractor.extraction_recruit_user_count(recruitment['content'])})"
-    if recruitment['participants'].present? && 1 < recruitment['participants'].size
-      message += "\n参加者: #{recruitment['participants'][1..-1].map{|a|a['name']}.join(", ")}"
-    end
+    message = "【#{ENV['DISCORD_BOT_TWITTER_NOTICE_TITLE']}】\n#{recruitment.content} by #{recruitment.author.name} (#{recruitment.reserved}/#{recruitment.capacity})"
+    message += "\n#{I18n.t('twitter:participants')}: #{recruitment.participants[1..-1].map{|a|a.user.name}.join(", ")}" if 0 < recruitment.reserved
     return message
   end
 
   def self.tweet(recruitment, message)
     return if ENV['DISCORD_BOT_TWITTER_DISABLE'].present?
     begin
-      tweet = @@twitter_client.update(to_twitter_safe(message), in_reply_to_status_id: recruitment['tweet_id'])
-      Api::Recruitment.update(recruitment, {tweet_id: tweet.id})
+      tweet = @@twitter_client.update(to_twitter_safe(message), in_reply_to_status_id: recruitment.tweet_id)
+      recruitment.update(tweet_id: tweet.id)
     rescue Twitter::Error => e
       STDERR.puts e.message
     end

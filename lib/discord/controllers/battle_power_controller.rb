@@ -47,10 +47,9 @@ module BattlePowerController
   )
 
   def do(message_event)
-    return if !check_limit(message_event, "play", ENV['DISCORD_BOT_PLAY_LIMIT'] || 10)
     index = rand(BATTLE_POWER_LIST.size/2)
     battle_power = BATTLE_POWER_LIST[index*2]
     character = BATTLE_POWER_LIST[index*2+1]
-    message_event.send_message("#{message_event.author.display_name}さんの戦闘力は…#{battle_power}！\n「#{character}」と同じくらいだ…！")
+    message_event.send_message(I18n.t('battle_power.display', name: message_event.author.display_name, battle_power: battle_power, character: character))
   end
 end
