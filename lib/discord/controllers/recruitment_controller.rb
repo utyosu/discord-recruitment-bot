@@ -80,7 +80,7 @@ module RecruitmentController
 
   def resurrection(message_event)
     user = User.get_by_discord_user(message_event.author)
-    recruitment = Recruitment.order("updated_at ASC").where(enable: false).first
+    recruitment = Recruitment.order("updated_at DESC").where(enable: false).first
     return if recruitment.blank?
     recruitment.set_label_id
     recruitment.update(enable: true)
