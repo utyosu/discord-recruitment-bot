@@ -73,7 +73,7 @@ class Bot < inheritance
     end
 
     puts I18n.t('bot.play_channel', name: $play_channel.try(:name))
-    puts I18n.t('bot.use_twitter', bool: ENV['DISCORD_BOT_TWITTER_DISABLE'].present?)
+    puts I18n.t('bot.use_twitter', bool: ENV['DISCORD_BOT_TWITTER_DISABLE'].blank?)
 
     loop do
       RecruitmentController.destroy_expired_recruitment
