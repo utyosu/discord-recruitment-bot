@@ -1,9 +1,9 @@
 module RecruitmentController
   extend self
 
-  def show
+  def show(channel = $recruitment_channel)
     Recruitment.clean_invalid
-    $recruitment_channel.send_message("```\n#{recruitments_message}\n```")
+    channel.send_message("```\n#{recruitments_message}\n```")
   end
 
   def destroy_expired_recruitment

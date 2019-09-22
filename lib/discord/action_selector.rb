@@ -4,7 +4,7 @@ module ActionSelector
   def get_message(message_event)
     if message_event.channel.type == 1 || $recruitment_channel == message_event.channel
       if match_keywords(message_event, Settings::SHOW_RECRUITMENT)
-        return RecruitmentController::show
+        return RecruitmentController::show(message_event.channel)
       end
     end
 
