@@ -50,3 +50,18 @@ ja:
     error_no_recruitment_channel: "[ERROR] 募集機能動作チャンネルがないので動作できません。"
     play_channel: "[INFO] 遊び機能動作チャンネル : %{name}"
     use_twitter: "[INFO] Twitter連携機能 : %{bool}"
+  analysis:
+    record:
+      title: 記録
+      count_label: 回
+      time_label: 時間
+      recruit_count: 募集回数
+      participant_count: 参加回数
+      calling_time: 通話時間
+    king:
+      tobe: 今後実装予定！
+      title: イーズ四天王
+    hourlyactive:
+      title: 時間帯別平均アクティブ人数
+    monthlyactive:
+      title: アクティブメンバー数
