@@ -45,6 +45,7 @@ class TwitterController
     str.scan(/[＠@]\d+/) do |word|
       ret.gsub!(/#{Regexp.escape(word)}/, word.tr('0-9@', '０-９＠'))
     end
+    ret.tr!('*', '＊')
     return ret
   end
 end
