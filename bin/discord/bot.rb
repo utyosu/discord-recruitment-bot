@@ -25,7 +25,6 @@ class Bot < inheritance
       DISCORD_BOT_TWITTER_CONSUMER_SECRET
       DISCORD_BOT_TWITTER_ACCESS_TOKEN
       DISCORD_BOT_TWITTER_ACCESS_TOKEN_SECRET
-      DISCORD_BOT_TWITTER_NOTICE_TITLE
     ).each do |name|
       if ENV[name].blank?
         STDERR.puts I18n.t('bot.error_env', name: name)
