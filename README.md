@@ -6,187 +6,56 @@
 
 ## インストール
 
-### Ubuntuセットアップ
+### セットアップ
+
+OS: Ubuntu 16.04 LTS
 
 ```
-sudo apt update
-sudo apt upgrade -y
-sudo apt install -y apt-file
-sudo apt-file update
-sudo apt install -y software-properties-common
-sudo apt-add-repository ppa:brightbox/ruby-ng
-sudo apt update
-sudo apt install -y git bundler gem zlib1g-dev libsqlite3-dev autoconf libxml2-dev libxslt1-dev libmysqlclient-dev mysql-server ruby2.5 ruby2.5-dev
-sudo gem update --system
-sudo gem install bundler
-wget https://download.libsodium.org/libsodium/releases/LATEST.tar.gz
-tar zxvf LATEST.tar.gz
-cd libsodium-stable
-./configure
-make && make check
-sudo make install
+ansible-playbook -i tools/ansible/inventories/production tools/ansible/rails_server.yml --diff --ask-vault-pass
 ```
 
-### アプリケーション
+### デプロイ
 
 ```
-git clone https://github.com/utyosu/discord-recruitment-bot.git
-cd discord-recruitment-bot
-bundle install --path vendor/bundler
-sudo mysql
-> create user ops;
-> grant all on *.* to 'ops';
-> create database discord_recruitment_bot_production character set utf8mb4;
-> \d
-sudo bundle exec ridgepole -c config/database.yml --apply -f db/schema -E production
+bundle exec cap production deploy
 ```
 
-### 起動スクリプト
+## メンテナンス
 
-1. `/etc/init.d/discord-recruitment-bot` を作成します。
-
-```
-#!/bin/sh
-
-### BEGIN INIT INFO
-# Provides:          discord-recruitment-bot
-# Required-Start:    $local_fs $remote_fs $network $syslog $named
-# Required-Stop:     $local_fs $remote_fs $network $syslog $named
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: starts the discord-recruitment-bot
-# Description:       starts discord-recruitment-bot using start-stop-daemon
-### END INIT INFO
-
-export NAME="discord-recruitment-bot"
-
-# 環境
-#   本番: production
-#   開発: development
-export RAILS_ENV="production"
-
-# `bundle exec rake secret` で発行したシークレットを入力
-export SECRET_KEY_BASE="<シークレットを入力する>"
-
-# MySQL のパスワードを入力
-export DATABASE_PASSWORD=""
-
-# bot のトークン
-export DISCORD_BOT_TOKEN="<botのトークンを入力>"
-
-# bot のクライアント ID
-export DISCORD_BOT_CLIENT_ID="<botのクライアントIDを入力>"
-
-# bot のメンバー募集機能が動作するチャンネル ID
-export DISCORD_BOT_RECRUITMENT_CHANNEL_ID="<チャンネルID>"
-
-# bot の遊び機能が動作するチャンネル ID
-export DISCORD_PLAY_CHANNEL_ID="<チャンネルID>"
-
-# bot のトーク機能で反応するワード
-export DISCORD_BOT_TALK_WORD=""
-
-# twitter の CONSUMER_KEY
-export DISCORD_BOT_TWITTER_CONSUMER_KEY=""
-
-# twitter の CONSUMER_SECRET
-export DISCORD_BOT_TWITTER_CONSUMER_SECRET=""
-
-# twitter の ACCESS_TOKEN
-export DISCORD_BOT_TWITTER_ACCESS_TOKEN=""
-
-# twitter の ACCESS_TOKEN_SECRET
-export DISCORD_BOT_TWITTER_ACCESS_TOKEN_SECRET=""
-
-# Flickr の API キー
-export DISCORD_BOT_FLICKR_API_KEY=""
-
-# Yahoo!ジオコーダ API キー
-export DISCORD_BOT_GEOCODE_APPID=""
-
-# Talk API キー
-export DISCORD_BOT_TALK_APIKEY=""
-
-# Open Weather Map の API キー
-export DISCORD_BOT_WEATHER_APPID=""
-
-# 解析機能の動作間隔 (秒)
-export DISCORD_BOT_ANALYSIS_INTERVAL=1800
-
-# discord-recruitment-bot のパス
-export ROOT_DIR="/<パス>/discord-recruitment-bot"
-
-export PID="/var/tmp/pids/${NAME}.pid"
-export BUNDLE_GEMFILE="${ROOT_DIR}/Gemfile"
-
-export RAILS_SERVE_STATIC_FILES=true
-
-start()
-{
-  if [ -e $PID ]; then
-    echo "$NAME already started"
-    exit 1
-  fi
-  echo "start $NAME"
-  cd $ROOT_DIR
-  bundle exec rake assets:clobber
-  bundle exec rails assets:precompile
-  bundle exec puma -w 1 -d
-  bundle exec ruby bin/discord/bot.rb start
-}
-
-stop()
-{
-  if [ ! -e $PID ]; then
-    echo "$NAME not started"
-  else
-    echo "stop $NAME"
-    kill -QUIT `cat ${PID}`
-    rm ${PID} 2>/dev/null
-  fi
-  cd $ROOT_DIR
-  bundle exec ruby bin/discord/bot.rb stop
-}
-
-restart()
-{
-    stop
-    sleep 3
-    start
-}
-
-case "$1" in
-  start)
-    restart
-    ;;
-  stop)
-    stop
-    ;;
-  restart)
-    restart
-    ;;
-  *)
-    echo "Syntax Error: release [start|stop|restart]"
-    ;;
-esac
-```
-
-2. 実行権限を付与します。
+- Railsサーバの停止
 
 ```
-sudo chmod +x /etc/init.d/discord-recruitment-bot
+bundle exec cap production puma:stop
 ```
 
-3. OS起動時に実行されるように設定します。
+- Railsサーバの起動
 
 ```
-sudo update-rc.d discord-recruitment-bot defaults
+bundle exec cap production puma:start
 ```
 
-4. 起動します。
+- Railsサーバの再起動
 
 ```
-sudo service discord-recruitment-bot start
+bundle exec cap production puma:restart
+```
+
+- Botの停止
+
+```
+bundle exec cap production bot:stop
+```
+
+- Botの起動
+
+```
+bundle exec cap production bot:start
+```
+
+- Botの再起動
+
+```
+bundle exec cap production bot:restart
 ```
 
 ## 開発環境
@@ -203,17 +72,7 @@ bot の起動
 export DISCORD_BOT_TOKEN="<botのトークンを入力>"
 export DISCORD_BOT_CLIENT_ID="<botのクライアントIDを入力>"
 export DISCORD_BOT_RECRUITMENT_CHANNEL_ID="<botが動作するチャンネルID>"
-sudo -E bundle exec ruby bin/discord/bot.rb nodaemon
-```
-
-## 更新
-
-```
-sudo service discord-recruitment-bot stop
-git pull
-bundle install
-sudo bundle exec ridgepole -c config/database.yml --apply -f db/schema -E production
-sudo service discord-recruitment-bot start
+bundle exec ruby bin/discord/bot.rb nodaemon
 ```
 
 ## bot の動かし方が分からん！
