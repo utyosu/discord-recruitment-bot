@@ -46,3 +46,8 @@ gem 'discordrb'
 gem 'http'
 gem 'daemon-spawn', :require => 'daemon_spawn'
 gem 'twitter', '>= 5.17'
+gem 'capistrano'
+gem 'capistrano-rails'
+gem 'capistrano3-puma'
+gem 'capistrano-bundler'
+gem 'capistrano-rbenv',   require: false

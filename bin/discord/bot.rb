@@ -25,7 +25,6 @@ class Bot < inheritance
       DISCORD_BOT_TWITTER_CONSUMER_SECRET
       DISCORD_BOT_TWITTER_ACCESS_TOKEN
       DISCORD_BOT_TWITTER_ACCESS_TOKEN_SECRET
-      DISCORD_BOT_TWITTER_NOTICE_TITLE
     ).each do |name|
       if ENV[name].blank?
         STDERR.puts I18n.t('bot.error_env', name: name)
@@ -94,8 +93,8 @@ if ARGV[0] == "nodaemon"
 else
   Bot.spawn!({
     :working_dir => Rails.root,
-    :pid_file => '/var/tmp/pids/discord_recruitment_bot_client.pid',
-    :log_file => '/var/log/discord_recruitment_bot_client.log',
+    :pid_file => 'tmp/pids/discord_recruitment_bot_client.pid',
+    :log_file => 'log/discord_recruitment_bot_client.log',
     :sync_log => true,
     :singleton => true,
   })

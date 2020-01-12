@@ -1,0 +1,15 @@
+- name: install nginx
+  become: yes
+  apt:
+    name:
+      - nginx
+
+- name: nginx setting
+  become: yes
+  copy:
+    src: ../files/discord-recruitment-bot.conf
+    dest: /etc/nginx/conf.d/discord-recruitment-bot.conf
+
+- name: reload nginx setting
+  become: yes
+  shell: nginx -s reload
