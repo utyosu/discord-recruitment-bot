@@ -1,0 +1,16 @@
+- name: install mysql-server
+  become: yes
+  apt:
+    name:
+      - mysql-server
+
+- name: show users in mysql
+  become: yes
+  shell: mysql -e 'SELECT User FROM mysql.user;'
+  register: mysql_users
+  changed_when: False
+
+- name: setup mysql server
+  become: yes
+  shell: mysql -e 'create user ops; grant all on *.* to 'ops'; create database discord_recruitment_bot_production character set utf8mb4;'
+  when: '"ops" not in mysql_users.stdout'

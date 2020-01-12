@@ -1,0 +1,36 @@
+- name: install libraries for rbenv
+  become: yes
+  apt:
+    name:
+      - rbenv
+      - libssl-dev
+      - libreadline-dev
+      - gcc
+      - make
+
+- name: clone ruby-build
+  git:
+    repo: https://github.com/sstephenson/ruby-build.git
+    dest: ~/.rbenv/plugins/ruby-build
+
+- name: install ruby
+  shell: rbenv install 2.5.1 -s
+
+- name: rehash rbenv
+  shell: rbenv rehash
+
+- name: change ruby version 2.5.1
+  shell: rbenv global 2.5.1
+
+- name: setting for rbenv
+  lineinfile:
+    path: ~/.bashrc
+    line: eval "$(rbenv init -)"
+
+- name: gem update
+  shell: gem update --system
+
+- name: install bundler
+  gem:
+    name: bundler
+    version: 1.16.1

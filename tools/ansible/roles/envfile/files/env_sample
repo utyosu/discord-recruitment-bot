@@ -1,0 +1,59 @@
+# `bundle exec rake secret` で発行したシークレットを入力
+export SECRET_KEY_BASE=""
+
+# MySQL のパスワードを入力
+export DATABASE_PASSWORD=""
+
+# botのトークン
+export DISCORD_BOT_TOKEN=""
+
+# botのクライアントID
+export DISCORD_BOT_CLIENT_ID=""
+
+# bot のメンバー募集機能が動作するチャンネル ID
+export DISCORD_BOT_RECRUITMENT_CHANNEL_ID=""
+
+# bot の遊び機能が動作するチャンネル ID
+export DISCORD_BOT_PLAY_CHANNEL_ID=""
+
+# bot のトーク機能で反応するワード
+export DISCORD_BOT_TALK_WORD=""
+
+# twitter の CONSUMER_KEY
+export DISCORD_BOT_TWITTER_CONSUMER_KEY=""
+
+# twitter の CONSUMER_SECRET
+export DISCORD_BOT_TWITTER_CONSUMER_SECRET=""
+
+# twitter の ACCESS_TOKEN
+export DISCORD_BOT_TWITTER_ACCESS_TOKEN=""
+
+# twitter の ACCESS_TOKEN_SECRET
+export DISCORD_BOT_TWITTER_ACCESS_TOKEN_SECRET=""
+
+# twitter の通知のタイトル
+export DISCORD_BOT_TWITTER_NOTICE_TITLE=""
+
+# Flickr の API キー
+export DISCORD_BOT_FLICKR_API_KEY=""
+
+# Yahoo!ジオコーダ API キー
+export DISCORD_BOT_GEOCODE_APPID="-"
+
+# Talk API キー
+export DISCORD_BOT_TALK_APIKEY=""
+
+# Open Weather Map の API キー
+export DISCORD_BOT_WEATHER_APPID=""
+
+# Google 画像検索 API キー
+export DISCORD_BOT_GOOGLE_API_KEY=""
+
+# Google 画像検索カスタム検索エンジンID
+export DISCORD_BOT_GOOGLE_API_CX=""
+
+# 1日あたり遊び機能制限回数
+export DISCORD_BOT_PLAY_LIMIT=""
+
+# 解析機能の動作間隔 (秒)
+export DISCORD_BOT_ANALYSIS_INTERVAL=1800

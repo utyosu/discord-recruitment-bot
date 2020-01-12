@@ -1,0 +1,9 @@
+- name: setup environment variable
+  copy:
+    src: ../files/production_env
+    dest: ~/.production_env
+
+- name: load environment file when login
+  lineinfile:
+    path: ~/.bashrc
+    line: source ~/.production_env
