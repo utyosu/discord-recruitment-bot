@@ -1,9 +1,6 @@
 # Load rails framework
 require_relative '../../config/environment'
 
-# Load standard library
-require 'open-uri'
-
 # Load discord-recruitment-bot scripts
 Dir['lib/discord/**/*.rb'].each {|file| require './' + file }
 

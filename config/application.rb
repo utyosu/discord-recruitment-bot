@@ -1,5 +1,6 @@
 require_relative 'boot'
 require 'rails/all'
+require 'open-uri'
 
 Bundler.require(*Rails.groups)
 
