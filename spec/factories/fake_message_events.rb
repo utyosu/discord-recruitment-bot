@@ -12,6 +12,10 @@ class FakeMessageEvent
   def include_message?(text)
     @messages.any?{|m|m.include?(text)}
   end
+
+  def send_file(file)
+    # Do nothing
+  end
 end
 
 FactoryBot.define do

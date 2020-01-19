@@ -2,6 +2,8 @@ module InteractionController
   extend self
 
   def create(message_event)
+    Activity.add(message_event.author, :interaction_create)
+
     command, keyword, response = get_message_content(message_event).gsub(/\p{blank}/," ").split(/ /, 3)
     return if keyword.size < 1 || 64 < keyword.size || keyword =~ $KEYWORDS_INTERACTION_RESPONSE || response.size < 1 || 64 < response.size
     user = User.get_by_discord_user(message_event.author)
@@ -10,6 +12,8 @@ module InteractionController
   end
 
   def destroy(message_event)
+    Activity.add(message_event.author, :interaction_destroy)
+
     command, keyword, other = get_message_content(message_event).gsub(/\p{blank}/," ").split
     return if keyword.blank? || other.present?
     interactions = Interaction.where(keyword: keyword)
@@ -22,10 +26,15 @@ module InteractionController
   def response(message_event)
     keyword = get_message_content(message_event)
     interaction = Interaction.all.select { |i| keyword =~ /#{i.keyword}/ }.sample
-    message_event.send_message(interaction.response) if interaction.present?
+    if interaction.present?
+      Activity.add(message_event.author, :interaction_response)
+      message_event.send_message(interaction.response)
+    end
   end
 
   def list(message_event)
+    Activity.add(message_event.author, :interaction_list)
+
     keywords = Interaction.all.map{|interaction| interaction['keyword']}
     message_event.send_message(I18n.t('interaction.list'))
     message_event.send_message("```\n#{keywords.join(', ')}\n```")

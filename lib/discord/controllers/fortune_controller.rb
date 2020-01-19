@@ -66,6 +66,8 @@ module FortuneController
   )
 
   def get(message_event)
+    Activity.add(message_event.author, :fortune)
+
     message_event.send_message("#{message_event.author.display_name} : #{PREFIX[rand(PREFIX.size)] + WORD[rand(WORD.size)]}")
   end
 end

@@ -6,6 +6,8 @@ module LuckyColorController
   LUCKY_COLOR_ENGLISH = %w(black blue brown gray green orange pink purple red teal white yellow)
 
   def do(message_event)
+    Activity.add(message_event.author, :lucky_color)
+
     lucky_color_index = rand(LUCKY_COLOR_JAPANESE.count)
     http = HTTP.get("https://www.googleapis.com/customsearch/v1", params: {key: ENV['DISCORD_BOT_GOOGLE_API_KEY'], cx: ENV['DISCORD_BOT_GOOGLE_API_CX'], q: "#{LUCKY_COLOR_WORDS.sample}", num: 1, start: rand(10)+1, searchType: "image", imgDominantColor: LUCKY_COLOR_ENGLISH[lucky_color_index]})
     if http.status != 200
