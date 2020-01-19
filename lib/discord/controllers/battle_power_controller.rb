@@ -47,6 +47,8 @@ module BattlePowerController
   )
 
   def do(message_event)
+    Activity.add(message_event.author, :battle_power)
+
     index = rand(BATTLE_POWER_LIST.size/2)
     battle_power = BATTLE_POWER_LIST[index*2]
     character = BATTLE_POWER_LIST[index*2+1]

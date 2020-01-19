@@ -2,6 +2,8 @@ module InsiderGameController
   extend self
 
   def insider_game(message_event)
+    Activity.add(message_event.author, :insider_game)
+
     command, subject = message_event.content.split(/[[:blank:]]/, 2)
     author = message_event.author
     voice_channel = $bot.servers.map{ |server_id, server|

@@ -272,6 +272,8 @@ module NicknameController
   ).map{|k|Regexp.escape(k)}
 
   def do(message_event)
+    Activity.add(message_event.author, :nickname)
+
     nick = message_event.author.display_name.dup
     DECORATION.each{|k|nick.gsub!(/\A#{k}|#{k}\Z/,"")}
     PREFIX.each{|k|nick.gsub!(/\A#{k}/, "")}
