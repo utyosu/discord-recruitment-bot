@@ -49,7 +49,7 @@ RUN set -ex \
   && rbenv rehash \
   && rbenv global 2.5.1 \
   && rbenv exec gem update --system \
-  && rbenv exec gem install bundler -v '1.16.1' \
+  && rbenv exec gem install bundler -v '2.1.4' \
   && rbenv rehash \
   && cd /web \
   && bundle install

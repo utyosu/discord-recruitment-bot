@@ -33,4 +33,4 @@
 - name: install bundler
   gem:
     name: bundler
-    version: 1.16.1
+    version: 2.1.4
