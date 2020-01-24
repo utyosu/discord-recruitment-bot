@@ -1,3 +1,0 @@
-steps:
-- name: 'gcr.io/$PROJECT_ID/cloud-build-rails'
-  args: ['/bin/bash', '/web/tools/gcb/build_test.sh', '$BRANCH_NAME']
