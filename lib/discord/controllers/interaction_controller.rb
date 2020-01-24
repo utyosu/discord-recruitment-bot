@@ -31,12 +31,4 @@ module InteractionController
       message_event.send_message(interaction.response)
     end
   end
-
-  def list(message_event)
-    Activity.add(message_event.author, :interaction_list)
-
-    keywords = Interaction.all.map{|interaction| interaction['keyword']}
-    message_event.send_message(I18n.t('interaction.list'))
-    message_event.send_message("```\n#{keywords.join(', ')}\n```")
-  end
 end

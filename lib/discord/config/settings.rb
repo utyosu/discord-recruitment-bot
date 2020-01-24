@@ -23,9 +23,6 @@ module Settings
   # 対話セット削除キーワード
   INTERACTION_DESTROY = /忘却/
 
-  # 対話反応キーワード
-  INTERACTION_RESPONSE = /リスト/
-
   # 飯テロキーワード
   FOOD_RESPONSE = /おなか|お腹|飯テロ/
 
