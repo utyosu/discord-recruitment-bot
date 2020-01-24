@@ -37,14 +37,4 @@ describe InteractionController do
       expect(Activity.last).to have_attributes(user: author, content: 'interaction_response')
     end
   end
-
-  describe '#list' do
-    before { described_class.list(message_event) }
-
-    let(:message) { 'リスト' }
-
-    it 'save activity' do
-      expect(Activity.last).to have_attributes(user: author, content: 'interaction_list')
-    end
-  end
 end

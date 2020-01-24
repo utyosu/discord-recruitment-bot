@@ -60,8 +60,6 @@ module ActionSelector
         return InteractionController::create(message_event)
       elsif match_keywords(message_event, Settings::INTERACTION_DESTROY)
         return InteractionController::destroy(message_event)
-      elsif match_keywords(message_event, Settings::INTERACTION_RESPONSE)
-        return InteractionController::list(message_event)
       end
       return InteractionController::response(message_event)
     end
