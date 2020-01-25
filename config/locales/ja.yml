@@ -16,6 +16,16 @@ ja:
     reserve_on_time: "[%{label_id}] の開始時間になりました。あと%{vacant}人ｲﾅｲｶﾅ?(o・ω・)"
     one_time_over: "[%{label_id}] は開始時間を%{time}分過ぎたので終了します。"
     reserve_over: "[%{label_id}] は期限を過ぎたので終了します。"
+  help:
+    recruitment: |
+      __募集機能__
+
+      `@<数字>` - 募集の開始
+      `<数字>参加` - 募集に参加
+      `<数字>キャンセル` - 募集から参加をキャンセル
+      `<数字>しめ` - 募集を終了
+      `復活` - 最後に締めた募集を復活
+      `案件` - 現在の募集を表示
   insider_game:
     error_no_voice_channel: "インサイダーゲームを遊ぶにはボイスチャンネルに接続して下さい。"
     error_no_insider: "インサイダーがいません。"

@@ -3,7 +3,7 @@ module WeatherController
 
   def get(message_event)
     if ENV['DISCORD_BOT_GEOCODE_APPID'].blank? || ENV['DISCORD_BOT_WEATHER_APPID'].blank?
-      STDERR.puts "DISCORD_BOT_GEOCODE_APPID もしくは DISCORD_BOT_WEATHER_APPID が未定義です。"
+      STDERR.puts "Undefined Variable: DISCORD_BOT_GEOCODE_APPID or DISCORD_BOT_WEATHER_APPID"
       return
     end
 
@@ -23,15 +23,15 @@ module WeatherController
     weather_patterns = I18n.t('weather.patterns').map(&:split).to_h
     weather_string = weather_patterns[weather['weather'].first['id'].to_s]
     res = []
-    res << "天気 : #{weather_string}"
-    res << "気温 : #{temp}度 (#{temp_min}度～#{temp_max}度)"
-    res << "湿度 : #{weather['main']['humidity']}%"
-    res << "気圧 : #{weather['main']['pressure']} hPa"
-    res << "風速 : #{weather['wind']['speed']} m/s"
-    res << "日の出 : #{Time.at(weather['sys']['sunrise']).strftime('%H:%M')}"
-    res << "日の入 : #{Time.at(weather['sys']['sunset']).strftime('%H:%M')}"
+    res << I18n.t('weather.title.weather', weather: weather_string)
+    res << I18n.t('weather.title.temp', temp: temp, temp_min: temp_min, temp_max: temp_max)
+    res << I18n.t('weather.title.humidity', humidity: weather['main']['humidity'])
+    res << I18n.t('weather.title.pressure', pressure: weather['main']['pressure'])
+    res << I18n.t('weather.title.speed', speed: weather['wind']['speed'])
+    res << I18n.t('weather.title.sunrise', sunrise: Time.at(weather['sys']['sunrise']).strftime('%H:%M'))
+    res << I18n.t('weather.title.sunset', sunset: Time.at(weather['sys']['sunset']).strftime('%H:%M'))
     message_event.channel.send_embed do |embed|
-      embed.title = "#{city['Name']}の天気"
+      embed.title = "#{city['Name']}#{I18n.t('weather.display')}"
       embed.description = res.join("\n")
       embed.color = 0x5882FA
     end

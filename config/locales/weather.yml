@@ -1,5 +1,14 @@
 ja:
   weather:
+    display: の天気
+    title:
+      weather: 天気：%{weather}
+      temp: 気温：%{temp}度 (%{temp_min}度～%{temp_max}度)
+      humidity: 湿度：%{humidity}%
+      pressure: 気圧：%{pressure}hPa
+      speed: 風速：%{speed} m/s
+      sunrise: 日の出：%{sunrise}
+      sunset: 日の入：%{sunset}
     patterns:
     - 200 小雨による雷雨
     - 201 雨による雷雨
