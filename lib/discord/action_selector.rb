@@ -50,7 +50,7 @@ module ActionSelector
     if message_event.channel.type == 1
       if message_event.content =~ /\A\/talk/
         return send_message_command(message_event)
-      elsif message_event.content =~ /\Aインサイダーゲーム/
+      elsif match_keywords(message_event, Settings::INSIDER_GAME_KEYWORD)
         return InsiderGameController::insider_game(message_event)
       end
     end

@@ -1,5 +1,9 @@
 class FakeDiscordUser
   attr_accessor :id, :display_name
+
+  def pm(message)
+    # Do nothing
+  end
 end
 
 FactoryBot.define do

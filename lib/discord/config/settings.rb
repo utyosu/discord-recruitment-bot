@@ -44,6 +44,9 @@ module Settings
   # 戦闘力キーワード
   BATTLE_POWER_RESPONSE = /戦闘力|スカウター/
 
+  # インサイダーゲームキーワード
+  INSIDER_GAME_KEYWORD = /\Aインサイダーゲーム/
+
   # 使い方キーワード
   HELP_RESPONSE = /使い方|ヘルプ|help/
 

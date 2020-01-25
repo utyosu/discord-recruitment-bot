@@ -1,31 +1,18 @@
 module InsiderGameController
   extend self
 
+  class InsiderGameError < StandardError; end
+
   def insider_game(message_event)
     Activity.add(message_event.author, :insider_game)
 
     command, subject = message_event.content.split(/[[:blank:]]/, 2)
     author = message_event.author
-    voice_channel = $bot.servers.map{ |server_id, server|
-      server.voice_channels.find{ |voice_channel|
-        voice_channel.users.any?{ |user|
-          user.id == author.id
-        }
-      }
-    }.flatten.first
-
-    if voice_channel.blank?
-      author.pm(I18n.t('insider_game.error_no_voice_channel'))
-      return
-    end
-
+    voice_channel = get_voice_channel(author)
+    raise InsiderGameError.new(I18n.t('insider_game.error_no_voice_channel')) if voice_channel.blank?
     users = voice_channel.users
-    insider = users.reject{|user| user.id == author.id}.sample
-
-    if insider.blank?
-      author.pm(I18n.t('insider_game.error_no_insider'))
-      return
-    end
+    insider = decide_insider(users, author)
+    raise InsiderGameError.new(I18n.t('insider_game.error_no_insider')) if insider.blank?
 
     users.each do |user|
       if user.id == insider.id
@@ -36,5 +23,23 @@ module InsiderGameController
         user.pm(I18n.t('insider_game.common'))
       end
     end
+  rescue InsiderGameError => e
+    author.pm(e.message)
+  end
+
+  private
+
+  def get_voice_channel(author)
+    $bot.servers.map{ |server_id, server|
+      server.voice_channels.find{ |voice_channel|
+        voice_channel.users.any?{ |user|
+          user.id == author.id
+        }
+      }
+    }.flatten.first
+  end
+
+  def decide_insider(users, author)
+    users.reject{ |user| user.id == author.id }.sample
   end
 end
