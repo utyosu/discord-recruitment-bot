@@ -26,9 +26,6 @@ ja:
     remember: "「%{keyword}」を「%{response}」と覚えました。"
     forget: "「%{keyword}」を忘れました。"
     list: "記憶している単語一覧です。"
-  lucky_color:
-    error: "画像検索上限のため結果を表示できません。明日以降に試して下さい。"
-    display: "%{name}さんの今日のラッキーカラーは「%{color}」です。ラッキーアイテムはこちら！"
   nickname:
     display: "%{name}よ…今日からお前は「%{nick}」だ！"
   talk:
