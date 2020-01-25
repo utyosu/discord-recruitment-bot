@@ -1,0 +1,16 @@
+base_locale: ja
+data:
+  read:
+  - config/locales/*.yml
+  yaml:
+    write:
+      line_width: -1
+search:
+  paths:
+   - app/
+   - lib/
+   - bin/
+  exclude:
+    - app/assets/images
+    - app/assets/fonts
+    - app/assets/videos

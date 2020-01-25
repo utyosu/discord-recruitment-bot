@@ -1,0 +1,69 @@
+---
+ja:
+  analysis:
+    hourlyactive:
+      title: 時間帯別平均アクティブ人数
+    king:
+      title: イーズ四天王
+      tobe: 今後実装予定！
+    monthlyactive:
+      title: アクティブメンバー数
+    record:
+      calling_time: 通話時間
+      count_label: 回
+      participant_count: 参加回数
+      recruit_count: 募集回数
+      time_label: 時間
+      title: 記録
+  bot:
+    analysis_interval: "[INFO] 解析インターバル: %{interval}sec (0なら無効)"
+    error_env: "[ERROR] 必須の環境変数 %{name} が定義されていません。プログラムを終了します。"
+    error_no_recruitment_channel: "[ERROR] 募集機能動作チャンネルがないので動作できません。"
+    play_channel: "[INFO] 遊び機能動作チャンネル : %{name}"
+    reboot: "[INFO] BOTを再起動して復旧を試みます。"
+    recruitment_channel: "[INFO] 募集機能動作チャンネル: %{name}"
+    use_twitter: "[INFO] Twitter連携機能 : %{bool}"
+  help:
+    recruitment: |
+      __募集機能__
+
+      `@<数字>` - 募集の開始
+      `<数字>参加` - 募集に参加
+      `<数字>キャンセル` - 募集から参加をキャンセル
+      `<数字>しめ` - 募集を終了
+      `復活` - 最後に締めた募集を復活
+      `案件` - 現在の募集を表示
+  insider_game:
+    common: "[インサイダーゲーム] あなたは「庶民」です。お題は分かりません。"
+    error_no_insider: インサイダーがいません。
+    error_no_voice_channel: インサイダーゲームを遊ぶにはボイスチャンネルに接続して下さい。
+    insider: "[インサイダーゲーム] あなたは「インサイダー」です。お題は「%{subject}」です。"
+    master: "[インサイダーゲーム] あなたは「マスター」です。お題は「%{subject}」です。"
+  interaction:
+    forget: "「%{keyword}」を忘れました。"
+    remember: "「%{keyword}」を「%{response}」と覚えました。"
+  recruitment:
+    cancel: "%{name}さんが [%{label_id}] の参加をキャンセルしました。"
+    close: "%{name}さんが [%{label_id}] を終了しました。"
+    error_two_numbers: 数字が2つ以上入っているので分かりませんでした(´・ω・｀)ｼｮﾎﾞｰﾝ
+    join: "%{name}さんが [%{label_id}] に参加しました"
+    not_found: 募集はありません
+    one_time_close: "[%{label_id}] を終了しました。"
+    one_time_notification: メンバーが集まりました。(｀・ω・´)ﾔｯﾀﾈ
+    one_time_over: "[%{label_id}] は開始時間を%{time}分過ぎたので終了します。"
+    open_reserved: "%{name}さんから [%{label_id}] を予定時間 %{time} で受け付けました。"
+    open_standard: "%{name}さんから [%{label_id}] を期限 %{time}  で受け付けました。"
+    reserve_close: "[%{label_id}] は予定時間になったので終了します。"
+    reserve_full: |-
+      メンバーが集まりました。
+      %{time} になったら連絡するね(・∀・)b
+    reserve_notification: "[%{label_id}] の予定時間です。(*´∀`)ﾉ ｲﾃﾗｰ"
+    reserve_on_time: "[%{label_id}] の開始時間になりました。あと%{vacant}人ｲﾅｲｶﾅ?(o・ω・)"
+    reserve_over: "[%{label_id}] は期限を過ぎたので終了します。"
+    resurrection: "%{name}さんが [%{label_id}] を復活させました。"
+  talk:
+    error: よく分かりません
+  twitter:
+    close: この募集は終了しました。
+    participants: 参加者
+    title: イーズ募集通知

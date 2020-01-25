@@ -1,6 +1,6 @@
+---
 ja:
   battle_power:
-    display: "%{name}さんの戦闘力は…%{battle_power}！\n「%{character}」と同じくらいだ…！"
     content:
     - 5 農夫
     - 416 ラディッツ編の悟空
@@ -44,3 +44,6 @@ ja:
     - 3500 界王
     - 2500000000 ゴジータ
     - 1400000000 超サイヤ人ブロリー
+    display: |-
+      %{name}さんの戦闘力は…%{battle_power}！
+      「%{character}」と同じくらいだ…！
