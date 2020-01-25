@@ -1,0 +1,26 @@
+name: deploy
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    container:
+      image: utyosu/build-rails:latest
+
+    steps:
+    - uses: actions/checkout@master
+    - run: |
+        mkdir -p /root/.ssh/
+        echo "${{ secrets.GCE_DEPLOY_SSH_CONFIG }}" >> /etc/ssh/ssh_config
+        echo "${{ secrets.GCE_PRIVATE_KEY }}" > /root/.ssh/id_rsa
+        chmod 600 /root/.ssh/id_rsa
+        eval `ssh-agent`
+        ssh-add /root/.ssh/id_rsa
+        bundle config set without development
+        bundle install
+        bundle exec cap production deploy BRANCH=add_deploy_workflow
