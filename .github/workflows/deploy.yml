@@ -23,4 +23,4 @@ jobs:
         ssh-add /root/.ssh/id_rsa
         bundle config set without development
         bundle install
-        bundle exec cap production deploy BRANCH=add_deploy_workflow
+        bundle exec cap production deploy
