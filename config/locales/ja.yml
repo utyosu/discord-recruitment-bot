@@ -32,8 +32,6 @@ ja:
     title: "イーズ募集通知"
     participants: "参加者"
     close: "この募集は終了しました。"
-  weapon:
-    display: "%{name}さんの今日のオススメブキは【**%{weapon}**】でし！"
   bot:
     error_env: "[ERROR] 必須の環境変数 %{name} が定義されていません。プログラムを終了します。"
     reboot: "[INFO] BOTを再起動して復旧を試みます。"
