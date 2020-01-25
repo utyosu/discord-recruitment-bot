@@ -1,5 +1,5 @@
 # ビルド方法 (プロジェクトルートで実行)
-# $ docker build -t build-rails . -f tools/cloud_build/Dockerfile
+# $ docker build -t utyosu/build-rails:latest . -f tools/ci/Dockerfile
 
 FROM ubuntu:16.04
 
