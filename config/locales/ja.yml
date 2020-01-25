@@ -16,8 +16,6 @@ ja:
     reserve_on_time: "[%{label_id}] の開始時間になりました。あと%{vacant}人ｲﾅｲｶﾅ?(o・ω・)"
     one_time_over: "[%{label_id}] は開始時間を%{time}分過ぎたので終了します。"
     reserve_over: "[%{label_id}] は期限を過ぎたので終了します。"
-  food_porn:
-    error: "画像検索上限のため結果を表示できません。明日以降に試して下さい。"
   insider_game:
     error_no_voice_channel: "インサイダーゲームを遊ぶにはボイスチャンネルに接続して下さい。"
     error_no_insider: "インサイダーがいません。"
