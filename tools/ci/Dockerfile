@@ -5,9 +5,10 @@ FROM ubuntu:16.04
 
 SHELL ["/bin/bash", "-c"]
 
-ENV DEBIAN_FRONTEND="noninteractive"
 ENV RUBY_VERSION="2.5.1"
 ENV BUNDLER_VERSION="2.1.4"
+ENV DEBIAN_FRONTEND="noninteractive"
+ENV PATH=/root/.rbenv/bin:/root/.rbenv/shims:$PATH
 
 WORKDIR /app
 
@@ -38,6 +39,5 @@ RUN set -x \
   # bundle install
   && /root/.rbenv/shims/bundle config set without development \
   && /root/.rbenv/shims/bundle install \
+  # delete unused file
   && rm Gemfile Gemfile.lock
-
-COPY /tools/cloud_build/run.sh .

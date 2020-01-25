@@ -1,0 +1,15 @@
+name: CI
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    container:
+      image: utyosu/build-rails:latest
+
+    steps:
+    - uses: actions/checkout@master
+    - name: run test
+      run: . tools/ci/test.sh
