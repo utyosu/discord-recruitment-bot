@@ -39,7 +39,6 @@
     src: ../files/bashrc
     dest: ~/.bashrc
 
-# install libsodium for discordrb
 - name: download libsodium
   get_url:
     url: https://download.libsodium.org/libsodium/releases/LATEST.tar.gz
@@ -60,3 +59,10 @@
 - name: install libsodium
   become: yes
   shell: cd /tmp/libsodium-stable && make install
+
+- name: set locale Asia/Tokyo
+  become: yes
+  file:
+    src: /usr/share/zoneinfo/Asia/Tokyo
+    dest: /etc/localtime
+    state: link
