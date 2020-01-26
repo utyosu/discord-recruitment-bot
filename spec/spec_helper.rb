@@ -26,3 +26,11 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 end
+
+if ENV['CI'].present?
+  require 'coveralls'
+  Coveralls.wear!('rails')
+else
+  require 'simplecov'
+  SimpleCov.start 'rails'
+end
