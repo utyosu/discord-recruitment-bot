@@ -1,5 +1,7 @@
 # Discord メンバー募集 bot
 
+[![Coverage Status](https://coveralls.io/repos/github/utyosu/discord-recruitment-bot/badge.svg?branch=master)](https://coveralls.io/github/utyosu/discord-recruitment-bot?branch=master)
+
 ## 使い方
 
 [イカナカマ2 botの使い方記事](https://ikanakama.ink/posts/51071)
