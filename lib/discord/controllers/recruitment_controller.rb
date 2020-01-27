@@ -1,29 +1,30 @@
 module RecruitmentController
   extend self
 
-  def show(channel = $recruitment_channel)
+  # respondable is MessageEvent or Channel object
+  def show(respondable)
     Recruitment.clean_invalid
-    channel.send_message("```\n#{recruitments_message}\n```")
+    respondable.send_message("```\n#{recruitments_message}\n```")
   end
 
-  def destroy_expired_recruitment
+  def destroy_expired_recruitment(recruitment_channel)
     destroyed_recruitments = []
     Recruitment.active.each do |recruitment|
       if recruitment.reserve_at.present?
         if recruitment.reserve_at < Time.zone.now - Settings::RESERVE_OVER_TIME
-          reserve_recruitment_over_time(recruitment)
+          reserve_recruitment_over_time(recruitment, recruitment_channel)
         elsif recruitment.reserve_at < Time.zone.now
-          reserve_recruitment_on_time(recruitment)
+          reserve_recruitment_on_time(recruitment, recruitment_channel)
         end
       elsif (recruitment.created_at + Settings::EXPIRE_TIME) < Time.zone.now
-        temporary_recruitment_expired(recruitment)
+        temporary_recruitment_expired(recruitment, recruitment_channel)
       end
     end
   end
 
   def open(message_event)
     user = User.get_by_discord_user(message_event.author)
-    recruit_message = get_message_content(message_event)
+    recruit_message = Helper.get_message_content(message_event)
     recruitment = Recruitment.create(content: recruit_message)
     recruitment.join(user)
     if recruitment.reserve_at.present?
@@ -31,7 +32,7 @@ module RecruitmentController
     else
       message_event.send_message(I18n.t('recruitment.open_standard', name: user.name, label_id: recruitment.label_id, time: (recruitment.created_at + Settings::EXPIRE_TIME).to_simply))
     end
-    self.show
+    self.show(message_event)
     TwitterController.recruitment_open(recruitment)
   end
 
@@ -42,7 +43,7 @@ module RecruitmentController
 
     recruitment.update(enable: false)
     message_event.send_message(I18n.t('recruitment.close', name: user.name, label_id: recruitment.label_id))
-    self.show
+    self.show(message_event)
     TwitterController.recruitment_close(recruitment)
   end
 
@@ -53,7 +54,7 @@ module RecruitmentController
 
     recruitment.join(user)
     message_event.send_message(I18n.t('recruitment.join', name: user.name, label_id: recruitment.label_id))
-    self.show
+    self.show(message_event)
     TwitterController.recruitment_join(recruitment)
 
     return unless recruitment.full?
@@ -63,7 +64,7 @@ module RecruitmentController
       recruitment.update(enable: false)
       message_event.send_message("#{recruitment.mentions}\n#{I18n.t('recruitment.one_time_notification')}")
       message_event.send_message(I18n.t("recruitment.one_time_close", label_id: recruitment.label_id))
-      self.show
+      self.show(message_event)
       TwitterController.recruitment_close(recruitment)
     end
   end
@@ -74,7 +75,7 @@ module RecruitmentController
     return if recruitment.blank? || !recruitment.attended?(user)
     TwitterController.recruitment_leave(recruitment)
     message_event.send_message(I18n.t('recruitment.cancel', name: user.name, label_id: recruitment.label_id))
-    self.show
+    self.show(message_event)
     recruitment.leave(user)
   end
 
@@ -85,13 +86,13 @@ module RecruitmentController
     recruitment.set_label_id
     recruitment.update(enable: true)
     message_event.send_message(I18n.t('recruitment.resurrection', name: user.name, label_id: recruitment.label_id))
-    self.show
+    self.show(message_event)
   end
 
   private
 
   def get_recruitment_by_message_event(message_event)
-    label_id = Extractor.extraction_number(get_message_content(message_event))
+    label_id = Extractor.extraction_number(Helper.get_message_content(message_event))
     if label_id.nil?
       message_event.send_message(I18n.t('recruitment.error_two_numbers'))
       return nil
@@ -110,33 +111,33 @@ module RecruitmentController
     return recruitment_message
   end
 
-  def reserve_recruitment_on_time(recruitment)
+  def reserve_recruitment_on_time(recruitment, recruitment_channel)
     if recruitment.capacity <= recruitment.reserved
       recruitment.update(enable: false)
       mention = recruitment.mentions
-      $recruitment_channel.send_message("#{mention}\n#{I18n.t('recruitment.reserve_notification', label_id: recruitment.label_id)}")
-      $recruitment_channel.send_message("```\n#{recruitment.to_format_string}\n```")
-      $recruitment_channel.send_message(I18n.t('recruitment.reserve_close', label_id: recruitment.label_id))
-      self.show
+      recruitment_channel.send_message("#{mention}\n#{I18n.t('recruitment.reserve_notification', label_id: recruitment.label_id)}")
+      recruitment_channel.send_message("```\n#{recruitment.to_format_string}\n```")
+      recruitment_channel.send_message(I18n.t('recruitment.reserve_close', label_id: recruitment.label_id))
+      self.show(recruitment_channel)
       TwitterController.recruitment_close(recruitment)
     elsif !recruitment.notificated
       recruitment.update(notificated: true)
-      $recruitment_channel.send_message(I18n.t('recruitment.reserve_on_time', label_id: recruitment.label_id, vacant: recruitment.vacant))
-      self.show
+      recruitment_channel.send_message(I18n.t('recruitment.reserve_on_time', label_id: recruitment.label_id, vacant: recruitment.vacant))
+      self.show(recruitment_channel)
     end
   end
 
-  def reserve_recruitment_over_time(recruitment)
+  def reserve_recruitment_over_time(recruitment, recruitment_channel)
     recruitment.update(enable: false)
-    $recruitment_channel.send_message(I18n.t('recruitment.one_time_over', label_id: recruitment.label_id, time: Settings::RESERVE_OVER_TIME/60))
-    self.show
+    recruitment_channel.send_message(I18n.t('recruitment.one_time_over', label_id: recruitment.label_id, time: Settings::RESERVE_OVER_TIME/60))
+    self.show(recruitment_channel)
     TwitterController.recruitment_close(recruitment)
   end
 
-  def temporary_recruitment_expired(recruitment)
+  def temporary_recruitment_expired(recruitment, recruitment_channel)
     recruitment.update(enable: false)
-    $recruitment_channel.send_message(I18n.t('recruitment.reserve_over', label_id: recruitment.label_id))
-    self.show
+    recruitment_channel.send_message(I18n.t('recruitment.reserve_over', label_id: recruitment.label_id))
+    self.show(recruitment_channel)
     TwitterController.recruitment_close(recruitment)
   end
 end

@@ -3,12 +3,12 @@ module InsiderGameController
 
   class InsiderGameError < StandardError; end
 
-  def insider_game(message_event)
+  def insider_game(message_event, bot)
     Activity.add(message_event.author, :insider_game)
 
     command, subject = message_event.content.split(/[[:blank:]]/, 2)
     author = message_event.author
-    voice_channel = get_voice_channel(author)
+    voice_channel = get_voice_channel(author, bot)
     raise InsiderGameError.new(I18n.t('insider_game.error_no_voice_channel')) if voice_channel.blank?
     users = voice_channel.users
     insider = decide_insider(users, author)
@@ -29,8 +29,8 @@ module InsiderGameController
 
   private
 
-  def get_voice_channel(author)
-    $bot.servers.map{ |server_id, server|
+  def get_voice_channel(author, bot)
+    bot.servers.map{ |server_id, server|
       server.voice_channels.find{ |voice_channel|
         voice_channel.users.any?{ |user|
           user.id == author.id

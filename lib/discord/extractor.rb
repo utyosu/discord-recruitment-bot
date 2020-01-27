@@ -4,14 +4,14 @@ class Extractor
   end
 
   def self.extraction_recruit_user_count(str)
-    tmp = to_safe(str).gsub(/\d+時|\d+:\d+/,"").match(/@\d+[^\d]+(\d+)/)
+    tmp = Helper.to_safe(str).gsub(/\d+時|\d+:\d+/,"").match(/@\d+[^\d]+(\d+)/)
     return tmp[1].to_i if tmp.present?
-    tmp = to_safe(str).match(/@(\d+)/)
+    tmp = Helper.to_safe(str).match(/@(\d+)/)
     return tmp.blank? ? nil : tmp[1].to_i
   end
 
   def self.extraction_number(str)
-    num_list = to_safe(str).gsub(/[^\d]/,",").gsub(/,+/,",").gsub(/^,/,"").gsub(/,$/,"").split(",").map(&:to_i)
+    num_list = Helper.to_safe(str).gsub(/[^\d]/,",").gsub(/,+/,",").gsub(/^,/,"").gsub(/,$/,"").split(",").map(&:to_i)
     return num_list.first if num_list.size == 1
     return 0 if num_list.size == 0
     return nil
@@ -25,21 +25,21 @@ class Extractor
 
     # yyyy/mm/dd hh:mm style
     begin
-      return to_safe(str).slice(/\d{4}\/\d{1,2}\/\d{1,2}\s+\d{1,2}:\d{2}/).in_time_zone
+      return Helper.to_safe(str).slice(/\d{4}\/\d{1,2}\/\d{1,2}\s+\d{1,2}:\d{2}/).in_time_zone
     rescue ArgumentError, NoMethodError => e
       # do nothing
     end
 
     # mm/dd hh:mm style
     begin
-      return to_safe(str).slice(/\d{1,2}\/\d{1,2}\s+\d{1,2}:\d{2}/).in_time_zone
+      return Helper.to_safe(str).slice(/\d{1,2}\/\d{1,2}\s+\d{1,2}:\d{2}/).in_time_zone
     rescue ArgumentError, NoMethodError => e
       # do nothing
     end
 
     # hh:mm style
     begin
-      match = to_safe(str).match(/(\d{1,2}):(\d{2})/)
+      match = Helper.to_safe(str).match(/(\d{1,2}):(\d{2})/)
       return to_datetime(match[1], match[2]) if match
     rescue ArgumentError, NoMethodError => e
       # do nothing
@@ -47,7 +47,7 @@ class Extractor
 
     # n時m分 style
     begin
-      match = to_safe(str).match(/(\d{1,2})時(\d{1,2})分/)
+      match = Helper.to_safe(str).match(/(\d{1,2})時(\d{1,2})分/)
       return to_datetime(match[1], match[2]) if match
     rescue ArgumentError, NoMethodError => e
       # do nothing
@@ -55,7 +55,7 @@ class Extractor
 
     # n時半 style
     begin
-      match = to_safe(str).gsub(/\d{1,2}時間/, "").match(/(\d{1,2})時半/)
+      match = Helper.to_safe(str).gsub(/\d{1,2}時間/, "").match(/(\d{1,2})時半/)
       return to_datetime(match[1], "30") if match
     rescue ArgumentError, NoMethodError => e
       # do nothing
@@ -63,7 +63,7 @@ class Extractor
 
     # n時 style
     begin
-      match = to_safe(str).gsub(/\d{1,2}時間/, "").match(/(\d{1,2})時/)
+      match = Helper.to_safe(str).gsub(/\d{1,2}時間/, "").match(/(\d{1,2})時/)
       return to_datetime(match[1], "00") if match
     rescue ArgumentError, NoMethodError => e
       # do nothing

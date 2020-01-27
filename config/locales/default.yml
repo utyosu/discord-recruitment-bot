@@ -18,7 +18,6 @@ ja:
   bot:
     analysis_interval: "[INFO] 解析インターバル: %{interval}sec (0なら無効)"
     error_env: "[ERROR] 必須の環境変数 %{name} が定義されていません。プログラムを終了します。"
-    error_no_recruitment_channel: "[ERROR] 募集機能動作チャンネルがないので動作できません。"
     play_channel: "[INFO] 遊び機能動作チャンネル : %{name}"
     reboot: "[INFO] BOTを再起動して復旧を試みます。"
     recruitment_channel: "[INFO] 募集機能動作チャンネル: %{name}"

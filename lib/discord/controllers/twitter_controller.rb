@@ -22,6 +22,16 @@ class TwitterController
     tweet(recruitment, recruitment_message(recruitment))
   end
 
+  def self.ready?
+    %w(
+      DISCORD_BOT_TWITTER_CONSUMER_KEY
+      DISCORD_BOT_TWITTER_CONSUMER_SECRET
+      DISCORD_BOT_TWITTER_ACCESS_TOKEN
+      DISCORD_BOT_TWITTER_ACCESS_TOKEN_SECRET
+    ).map { |name| ENV[name] }.all?(&:present?) &&
+      ENV['DISCORD_BOT_TWITTER_DISABLE'].blank?
+  end
+
   private
 
   def self.recruitment_message(recruitment)
@@ -31,7 +41,7 @@ class TwitterController
   end
 
   def self.tweet(recruitment, message)
-    return if ENV['DISCORD_BOT_TWITTER_DISABLE'].present?
+    return unless ready?
     begin
       tweet = @@twitter_client.update(to_twitter_safe(message), in_reply_to_status_id: recruitment.tweet_id)
       recruitment.update(tweet_id: tweet.id)

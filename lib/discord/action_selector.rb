@@ -1,14 +1,14 @@
 module ActionSelector
   extend self
 
-  def get_message(message_event)
-    if message_event.channel.type == 1 || $recruitment_channel == message_event.channel
+  def get_message(message_event, bot)
+    if Helper.pm?(message_event) || Helper.recruitment?(message_event)
       if match_keywords(message_event, Settings::SHOW_RECRUITMENT)
-        return RecruitmentController::show(message_event.channel)
+        return RecruitmentController::show(message_event)
       end
     end
 
-    if $recruitment_channel == message_event.channel
+    if Helper.recruitment?(message_event)
       if match_keywords(message_event, Settings::OPEN_RECRUITMENT)
         return RecruitmentController::open(message_event)
       elsif match_keywords(message_event, Settings::CLOSE_RECRUITMENT)
@@ -22,7 +22,7 @@ module ActionSelector
       end
     end
 
-    if $play_channel == message_event.channel
+    if Helper.play?(message_event)
       if match_keywords(message_event, Settings::FOOD_RESPONSE)
         return FoodPornController.do(message_event)
       elsif match_keywords(message_event, Settings::WEATHER_RESPONSE)
@@ -46,16 +46,15 @@ module ActionSelector
       return HelpController.help(message_event)
     end
 
-    # only private channel
-    if message_event.channel.type == 1
+    if Helper.pm?(message_event)
       if message_event.content =~ /\A\/talk/
-        return send_message_command(message_event)
+        return Helper.send_message_command(message_event, bot)
       elsif match_keywords(message_event, Settings::INSIDER_GAME_KEYWORD)
-        return InsiderGameController::insider_game(message_event)
+        return InsiderGameController::insider_game(message_event, bot)
       end
     end
 
-    if $play_channel == message_event.channel
+    if Helper.play?(message_event)
       if match_keywords(message_event, Settings::INTERACTION_CREATE)
         return InteractionController::create(message_event)
       elsif match_keywords(message_event, Settings::INTERACTION_DESTROY)
@@ -68,6 +67,6 @@ module ActionSelector
   private
 
   def match_keywords(message_event, keywords)
-    to_safe(get_message_content(message_event)) =~ keywords
+    Helper.to_safe(Helper.get_message_content(message_event)) =~ keywords
   end
 end
