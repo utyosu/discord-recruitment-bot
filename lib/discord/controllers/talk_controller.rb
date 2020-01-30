@@ -1,7 +1,7 @@
 module TalkController
   extend self
 
-  def talk(message_event)
+  def do(message_event)
     Activity.add(message_event.author, :talk)
 
     query = message_event.content.match(Settings::TALK_REGEXP)[1..-1].join

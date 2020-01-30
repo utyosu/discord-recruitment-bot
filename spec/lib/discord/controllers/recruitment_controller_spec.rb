@@ -3,7 +3,7 @@ require './spec/spec_helper'
 
 describe RecruitmentController do
   before do
-    $recruitment_channel = build(:fake_message_event)
+    allow(Helper).to receive(:get_channel).and_return(recruitment_channel)
     ENV['DISCORD_BOT_TWITTER_DISABLE'] = "1"
   end
 
@@ -11,29 +11,30 @@ describe RecruitmentController do
   let(:author) { User.get_by_discord_user(discord_author) }
   let(:message_event) { build(:fake_message_event, author: discord_author, content: message) }
   let(:message) { '' }
+  let(:recruitment_channel) { build(:fake_channel) }
 
   describe '#show' do
-    subject { RecruitmentController.show }
+    subject { RecruitmentController.show(recruitment_channel) }
 
     context 'when exist active recruitment' do
       before { create(:recruitment, content: recruitment_content) }
       let(:recruitment_content) { "わっしょい＠９９９" }
       it do
         subject
-        expect($recruitment_channel).to be_include_message(recruitment_content)
+        expect(recruitment_channel).to be_include_message(recruitment_content)
       end
     end
 
     context 'when not exist active recruitment' do
       it do
         subject
-        expect($recruitment_channel).to be_include_message(I18n.t('recruitment.not_found'))
+        expect(recruitment_channel).to be_include_message(I18n.t('recruitment.not_found'))
       end
     end
   end
 
   describe '#destroy_expired_recruitment' do
-    subject { RecruitmentController.destroy_expired_recruitment }
+    subject { RecruitmentController.destroy_expired_recruitment(recruitment_channel) }
     context 'when expire standard-recruitment' do
       let(:recruitment) { create(:recruitment) }
       before { recruitment.update(created_at: 1.hours.ago) }

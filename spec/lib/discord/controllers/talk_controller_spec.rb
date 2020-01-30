@@ -6,7 +6,7 @@ describe TalkController do
   let(:author) { User.get_by_discord_user(discord_author) }
   let(:message_event) { build(:fake_message_event, author: discord_author, content: content) }
 
-  describe '#talk' do
+  describe '#do' do
     before do
       allow(HTTP).to receive(:post).and_return(
         OpenStruct.new(
@@ -14,7 +14,7 @@ describe TalkController do
           body: body,
         )
       )
-      described_class.talk(message_event)
+      described_class.do(message_event)
     end
 
     let(:content) { 'ロボちょすおはよう' }

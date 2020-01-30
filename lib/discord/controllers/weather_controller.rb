@@ -1,7 +1,9 @@
 module WeatherController
   extend self
 
-  def get(message_event)
+  DIFF_TO_ABSOLUTE_ZERO = 273.15
+
+  def do(message_event)
     if ENV['DISCORD_BOT_GEOCODE_APPID'].blank? || ENV['DISCORD_BOT_WEATHER_APPID'].blank?
       STDERR.puts "Undefined Variable: DISCORD_BOT_GEOCODE_APPID or DISCORD_BOT_WEATHER_APPID"
       return
@@ -17,9 +19,9 @@ module WeatherController
     weather_response = HTTP.get("https://api.openweathermap.org/data/2.5/weather", params: {appid: ENV['DISCORD_BOT_WEATHER_APPID'], lat: lat.to_f, lon: lon.to_f})
     return if weather_response.status != 200
     weather = JSON.parse(weather_response)
-    temp = "%.1f" % (weather['main']['temp'].to_f - 273.15)
-    temp_max = "%.1f" % (weather['main']['temp_max'].to_f - 273.15)
-    temp_min = "%.1f" % (weather['main']['temp_min'].to_f - 273.15)
+    temp = "%.1f" % (weather['main']['temp'].to_f - DIFF_TO_ABSOLUTE_ZERO)
+    temp_max = "%.1f" % (weather['main']['temp_max'].to_f - DIFF_TO_ABSOLUTE_ZERO)
+    temp_min = "%.1f" % (weather['main']['temp_min'].to_f - DIFF_TO_ABSOLUTE_ZERO)
     weather_patterns = I18n.t('weather.patterns').map(&:split).to_h
     weather_string = weather_patterns[weather['weather'].first['id'].to_s]
     res = []

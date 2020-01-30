@@ -1,4 +1,13 @@
+if ENV['CI']
+  require 'coveralls'
+  Coveralls.wear!('rails')
+else
+  require 'simplecov'
+  SimpleCov.start 'rails'
+end
+
 ENV["RAILS_ENV"] ||= 'test'
+
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 
@@ -25,12 +34,4 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
-end
-
-if ENV['CI'].present?
-  require 'coveralls'
-  Coveralls.wear!('rails')
-else
-  require 'simplecov'
-  SimpleCov.start 'rails'
 end

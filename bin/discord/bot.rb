@@ -18,10 +18,6 @@ class Bot < inheritance
       DISCORD_BOT_TOKEN
       DISCORD_BOT_CLIENT_ID
       DISCORD_BOT_RECRUITMENT_CHANNEL_ID
-      DISCORD_BOT_TWITTER_CONSUMER_KEY
-      DISCORD_BOT_TWITTER_CONSUMER_SECRET
-      DISCORD_BOT_TWITTER_ACCESS_TOKEN
-      DISCORD_BOT_TWITTER_ACCESS_TOKEN_SECRET
     ).each do |name|
       if ENV[name].blank?
         STDERR.puts I18n.t('bot.error_env', name: name)
@@ -37,48 +33,39 @@ class Bot < inheritance
   end
 
   def sequence
-    $bot = Discordrb::Commands::CommandBot.new ({
+    bot = Discordrb::Commands::CommandBot.new ({
       token: ENV['DISCORD_BOT_TOKEN'],
       client_id: ENV['DISCORD_BOT_CLIENT_ID'],
       prefix:'/',
       # log_mode: :debug,
     })
 
-    $bot.message do |event|
+    bot.message do |event|
       if event.kind_of?(Discordrb::Events::MessageEvent)
-        ActionSelector.get_message(event)
+        ActionSelector.get_message(event, bot)
       end
     end
 
-    $bot.run(true)
+    bot.run(true)
 
-    $bot.servers.each do |server_id, server|
-      server.channels.each do |channel|
-        $recruitment_channel = channel if ENV['DISCORD_BOT_RECRUITMENT_CHANNEL_ID'] == channel.id.to_s
-        $play_channel = channel if ENV['DISCORD_BOT_PLAY_CHANNEL_ID'] == channel.id.to_s
-      end
-    end
+    logger = Logger.new STDOUT
+    logger.info I18n.t('bot.analysis_interval', interval: AnalysisController::ANALYSIS_INTERVAL)
 
-    puts I18n.t('bot.analysis_interval', interval: AnalysisController::ANALYSIS_INTERVAL)
+    recruitment_channel = Helper.get_channel(bot, ENV['DISCORD_BOT_RECRUITMENT_CHANNEL_ID'])
+    logger.info I18n.t('bot.recruitment_channel', name: recruitment_channel.try(:name))
 
-    if $recruitment_channel.present?
-      puts I18n.t('bot.recruitment_channel', name: $recruitment_channel.name)
-    else
-      STDERR.puts I18n.t('bot.error_no_recruitment_channel')
-      raise StandardError.new("Not found channel.")
-    end
-
-    puts I18n.t('bot.play_channel', name: $play_channel.try(:name))
-    puts I18n.t('bot.use_twitter', bool: ENV['DISCORD_BOT_TWITTER_DISABLE'].blank?)
+    play_channel = Helper.get_channel(bot, ENV['DISCORD_BOT_PLAY_CHANNEL_ID'])
+    logger.info I18n.t('bot.play_channel', name: play_channel.try(:name))
+    logger.info I18n.t('bot.use_twitter', bool: TwitterController.ready?)
 
     loop do
-      RecruitmentController.destroy_expired_recruitment
-      AnalysisController.voice_channels
+      RecruitmentController.destroy_expired_recruitment(recruitment_channel)
+      AnalysisController.voice_channels(bot)
       sleep 10
     end
   rescue => e
    STDERR.puts "[ERROR] #{e.message}"
-   $bot.stop
+   bot.stop
   end
 
   def stop; end
