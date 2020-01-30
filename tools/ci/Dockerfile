@@ -12,22 +12,22 @@ ENV PATH=/root/.rbenv/bin:/root/.rbenv/shims:$PATH
 
 WORKDIR /app
 
-ADD Gemfile .
-ADD Gemfile.lock .
+COPY Gemfile .
+COPY Gemfile.lock .
 
 RUN set -x \
   && apt update \
   && apt install -y \
+    build-essential \
     curl \
+    git \
     libssl-dev \
     libreadline-dev \
-    zlib1g-dev \
-    build-essential \
-    git \
-    mysql-client \
     libmysqlclient-dev \
-    tzdata \
+    mysql-client \
     mysql-server \
+    tzdata \
+    zlib1g-dev \
   # Install rbenv and ruby
   && git clone https://github.com/sstephenson/rbenv.git ~/.rbenv \
   && git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build \
@@ -40,4 +40,5 @@ RUN set -x \
   && /root/.rbenv/shims/bundle config set without development \
   && /root/.rbenv/shims/bundle install \
   # delete unused file
+  && rm -rf /var/lib/apt/lists/* \
   && rm Gemfile Gemfile.lock
