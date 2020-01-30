@@ -7,14 +7,15 @@ describe InsiderGameController do
   let(:message_event) { build(:fake_message_event, author: discord_author, content: "インサイダーゲーム #{subject}") }
   let(:subject) { 'apple' }
   let(:insider) { nil }
+  let(:bot) { nil }
 
-  describe '#insider_game' do
+  describe '#do' do
     before do
       allow(message_event).to receive(:author).and_return(discord_author)
       allow(InsiderGameController).to receive(:get_voice_channel).and_return(voice_channels)
       allow(InsiderGameController).to receive(:decide_insider).and_return(insider)
       allow_any_instance_of(FakeDiscordUser).to receive(:pm)
-      described_class.insider_game(message_event)
+      described_class.do(message_event, bot)
     end
 
     context 'when voice channel is blank' do

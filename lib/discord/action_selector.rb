@@ -19,6 +19,8 @@ module ActionSelector
         return RecruitmentController::leave(message_event)
       elsif match_keywords(message_event, Settings::RESURRECTION_RECRUITMENT)
         return RecruitmentController::resurrection(message_event)
+      elsif match_keywords(message_event, Settings::HELP_RESPONSE)
+        return HelpController.recruitment_help(message_event)
       end
     end
 
@@ -26,31 +28,28 @@ module ActionSelector
       if match_keywords(message_event, Settings::FOOD_RESPONSE)
         return FoodPornController.do(message_event)
       elsif match_keywords(message_event, Settings::WEATHER_RESPONSE)
-        return WeatherController.get(message_event)
+        return WeatherController.do(message_event)
       elsif match_keywords(message_event, Settings::FORTUNE_RESPONSE)
-        return FortuneController.get(message_event)
+        return FortuneController.do(message_event)
       elsif match_keywords(message_event, Settings::NICKNAME_RESPONSE)
         return NicknameController.do(message_event)
-      elsif match_keywords(message_event, Settings::TALK_REGEXP)
-        return TalkController.talk(message_event)
       elsif match_keywords(message_event, Settings::WEAPON_RESPONSE)
         return WeaponController.do(message_event)
       elsif match_keywords(message_event, Settings::LUCKY_COLOR_RESPONSE)
         return LuckyColorController.do(message_event)
       elsif match_keywords(message_event, Settings::BATTLE_POWER_RESPONSE)
         return BattlePowerController.do(message_event)
+      elsif match_keywords(message_event, Settings::TALK_REGEXP)
+        return TalkController.do(message_event)
       end
     end
 
-    if match_keywords(message_event, Settings::HELP_RESPONSE)
-      return HelpController.help(message_event)
-    end
 
     if Helper.pm?(message_event)
       if message_event.content =~ /\A\/talk/
         return Helper.send_message_command(message_event, bot)
       elsif match_keywords(message_event, Settings::INSIDER_GAME_KEYWORD)
-        return InsiderGameController::insider_game(message_event, bot)
+        return InsiderGameController.do(message_event, bot)
       end
     end
 

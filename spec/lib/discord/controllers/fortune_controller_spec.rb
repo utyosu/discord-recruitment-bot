@@ -6,8 +6,8 @@ describe FortuneController do
   let(:author) { User.get_by_discord_user(discord_author) }
   let(:message_event) { build(:fake_message_event, author: discord_author) }
 
-  describe '#get' do
-    before { described_class.get(message_event) }
+  describe '#do' do
+    before { described_class.do(message_event) }
 
     it 'save activity' do
       expect(Activity.last).to have_attributes(user: author, content: 'fortune')

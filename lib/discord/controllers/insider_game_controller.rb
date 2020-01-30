@@ -3,7 +3,7 @@ module InsiderGameController
 
   class InsiderGameError < StandardError; end
 
-  def insider_game(message_event, bot)
+  def do(message_event, bot)
     Activity.add(message_event.author, :insider_game)
 
     command, subject = message_event.content.split(/[[:blank:]]/, 2)
