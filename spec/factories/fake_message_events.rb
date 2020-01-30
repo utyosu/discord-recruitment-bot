@@ -1,5 +1,5 @@
 class FakeMessageEvent
-  attr_accessor :author, :content
+  attr_accessor :author, :content, :channel
 
   def initialize
     @messages = []
@@ -22,5 +22,6 @@ FactoryBot.define do
   factory :fake_message_event do
     sequence(:author) { build(:fake_discord_user) }
     content { '' }
+    channel { build(:fake_channel) }
   end
 end
