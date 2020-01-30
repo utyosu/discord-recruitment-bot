@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :user do
-    sequence(:name) { |n| "TEST_NAME#{n}"}
-    sequence(:discord_id) { |n| 10000+n }
+    sequence(:name) { Faker::Name.name }
+    sequence(:discord_id) { Faker::Number.number(digits: 18) }
   end
 end
