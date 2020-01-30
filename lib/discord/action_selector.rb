@@ -44,7 +44,6 @@ module ActionSelector
       end
     end
 
-
     if Helper.pm?(message_event)
       if message_event.content =~ /\A\/talk/
         return Helper.send_message_command(message_event, bot)
