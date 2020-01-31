@@ -43,7 +43,7 @@ describe ActionSelector do
       let(:play) { false }
 
       context 'when say search recruitment' do
-        let(:content) { '案件' }
+        let(:content) { Settings.keyword.recruitment.show.sample }
 
         it { expect(RecruitmentController).to have_received(:show) }
       end
@@ -55,7 +55,7 @@ describe ActionSelector do
       let(:play) { false }
 
       context 'when say search recruitment' do
-        let(:content) { '案件' }
+        let(:content) { Settings.keyword.recruitment.show.sample }
 
         it { expect(RecruitmentController).to have_received(:show) }
       end
@@ -67,31 +67,31 @@ describe ActionSelector do
       end
 
       context 'when called RecruitmentController::close' do
-        let(:content) { '１しめ' }
+        let(:content) { "１#{Settings.keyword.recruitment.close.sample}" }
 
         it { expect(RecruitmentController).to have_received(:close) }
       end
 
       context 'when called RecruitmentController::join' do
-        let(:content) { '１参加' }
+        let(:content) { "１#{Settings.keyword.recruitment.join.sample}" }
 
         it { expect(RecruitmentController).to have_received(:join) }
       end
 
       context 'when called RecruitmentController::leave' do
-        let(:content) { '１キャンセル' }
+        let(:content) { "１#{Settings.keyword.recruitment.leave.sample}" }
 
         it { expect(RecruitmentController).to have_received(:leave) }
       end
 
       context 'when called RecruitmentController::resurrection' do
-        let(:content) { '復活' }
+        let(:content) { Settings.keyword.recruitment.resurrection.sample }
 
         it { expect(RecruitmentController).to have_received(:resurrection) }
       end
 
       context 'when called RecruitmentController::leave' do
-        let(:content) { '使い方' }
+        let(:content) { Settings.keyword.help.sample }
 
         it { expect(HelpController).to have_received(:recruitment_help) }
       end
@@ -103,7 +103,7 @@ describe ActionSelector do
       let(:play) { true }
 
       context 'when called RecruitmentController::leave' do
-        let(:content) { 'おなかすいた' }
+        let(:content) { Settings.keyword.food_porn.sample }
 
         it { expect(FoodPornController).to have_received(:do) }
       end
@@ -115,49 +115,49 @@ describe ActionSelector do
       end
 
       context 'when called FortuneController::do' do
-        let(:content) { 'おみくじ' }
+        let(:content) { Settings.keyword.fortune.sample }
 
         it { expect(FortuneController).to have_received(:do) }
       end
 
       context 'when called NicknameController::do' do
-        let(:content) { 'あだ名' }
+        let(:content) { Settings.keyword.nickname.sample }
 
         it { expect(NicknameController).to have_received(:do) }
       end
 
       context 'when called WeaponController::do' do
-        let(:content) { 'ブキ' }
+        let(:content) { Settings.keyword.weapon.sample }
 
         it { expect(WeaponController).to have_received(:do) }
       end
 
       context 'when called LuckyColorController::do' do
-        let(:content) { 'ラッキーカラー' }
+        let(:content) { Settings.keyword.lucky_color.sample }
 
         it { expect(LuckyColorController).to have_received(:do) }
       end
 
       context 'when called BattlePowerController::do' do
-        let(:content) { '戦闘力' }
+        let(:content) { Settings.keyword.battle_power.sample }
 
         it { expect(BattlePowerController).to have_received(:do) }
       end
 
       context 'when called TalkController::do' do
-        let(:content) { 'ロボちょすおはよう' }
+        let(:content) { "#{Settings.keyword.talk.sample}おはよう" }
 
         it { expect(TalkController).to have_received(:do) }
       end
 
       context 'when called InteractionController::create' do
-        let(:content) { '記憶 ほげ ふが' }
+        let(:content) { "#{Settings.keyword.interaction.create.sample} ほげ ふが" }
 
         it { expect(InteractionController).to have_received(:create) }
       end
 
       context 'when called InteractionController::destroy' do
-        let(:content) { '忘却 ほげ' }
+        let(:content) { "#{Settings.keyword.interaction.destroy.sample} ほげ" }
 
         it { expect(InteractionController).to have_received(:destroy) }
       end
@@ -175,7 +175,7 @@ describe ActionSelector do
       let(:play) { false }
 
       context 'when called InsiderGameController::do' do
-        let(:content) { 'インサイダーゲーム' }
+        let(:content) { Settings.keyword.insider_game.sample }
 
         it { expect(InsiderGameController).to have_received(:do) }
       end

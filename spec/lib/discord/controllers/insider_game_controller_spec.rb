@@ -4,7 +4,7 @@ require './spec/spec_helper'
 describe InsiderGameController do
   let(:discord_author) { build(:fake_discord_user) }
   let(:author) { User.get_by_discord_user(discord_author) }
-  let(:message_event) { build(:fake_message_event, author: discord_author, content: "インサイダーゲーム #{subject}") }
+  let(:message_event) { build(:fake_message_event, author: discord_author, content: "insider_game #{subject}") }
   let(:subject) { 'apple' }
   let(:insider) { nil }
   let(:bot) { nil }
