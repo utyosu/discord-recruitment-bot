@@ -109,7 +109,7 @@ describe ActionSelector do
       end
 
       context 'when called WeatherController::do' do
-        let(:content) { 'どっかの天気' }
+        let(:content) { "どっか#{Settings.keyword.weather.sample}" }
 
         it { expect(WeatherController).to have_received(:do) }
       end

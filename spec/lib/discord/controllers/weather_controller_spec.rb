@@ -17,7 +17,7 @@ describe WeatherController do
       described_class.do(message_event)
     end
 
-    let(:content) { '新宿の天気' }
+    let(:content) { "新宿#{Settings.keyword.weather.sample}" }
     let(:status) { 404 }
     let(:body) { '{"Feature":["東京都新宿区"]}' }
 

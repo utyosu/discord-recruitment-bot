@@ -58,7 +58,8 @@ keyword:
     - お腹
     - 飯テロ
   weather:
-    - '\A(.+)の(天気|てんき)' # 1件目のみ有効
+    - の天気
+    - のてんき
   fortune:
     - おみくじ
   nickname:
