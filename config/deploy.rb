@@ -56,6 +56,13 @@ namespace :deploy do
     end
   end
   after :migrate, :migrate_with_ridgepole
+
+  task :decrypt_settings do
+    on roles(:app) do
+      execute "cd #{release_path} && bundle exec yaml_vault decrypt config/settings/#{fetch :rails_env}.yml -o config/settings/#{fetch :rails_env}.local.yml"
+    end
+  end
+  before :migrate, :decrypt_settings
 end
 
 namespace :bot do
