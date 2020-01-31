@@ -4,7 +4,6 @@ require './spec/spec_helper'
 describe ActionSelector do
   describe '.get_message' do
     before do
-      stub_const('Settings::TALK_REGEXP', /\A(.*)ロボちょす(.*)\Z/)
       allow(Helper).to receive(:get_channel).and_return(nil)
       allow(Helper).to receive(:recruitment?).and_return(recruitment)
       allow(Helper).to receive(:pm?).and_return(pm)

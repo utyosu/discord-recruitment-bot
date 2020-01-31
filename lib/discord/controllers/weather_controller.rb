@@ -11,7 +11,7 @@ module WeatherController
 
     Activity.add(message_event.author, :weather)
 
-    qurty_string = message_event.content.match(Settings::WEATHER_RESPONSE)[1]
+    qurty_string = message_event.content.match(Regexp.new(Settings.keyword.weather.first))[1]
     geocode_response = HTTP.get("https://map.yahooapis.jp/geocode/V1/geoCoder", params: {output: "json", appid: ENV['DISCORD_BOT_GEOCODE_APPID'], query: qurty_string, al: 3, ar: "le"})
     return if geocode_response.status != 200 || JSON.parse(geocode_response)['Feature'].blank?
     city = JSON.parse(geocode_response)['Feature'].sample

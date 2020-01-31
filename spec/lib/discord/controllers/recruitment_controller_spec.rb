@@ -71,7 +71,7 @@ describe RecruitmentController do
       it { expect { subject }.to change(Recruitment, :count).by(1) }
       it do
         subject
-        expect(message_event).to be_include_message(I18n.t('recruitment.open_standard', name: author.name, label_id: Recruitment.first.label_id, time: (Recruitment.first.created_at + Settings::EXPIRE_TIME).to_simply))
+        expect(message_event).to be_include_message(I18n.t('recruitment.open_standard', name: author.name, label_id: Recruitment.first.label_id, time: (Recruitment.first.created_at + Settings.recruitment.expire_sec).to_simply))
       end
     end
 
