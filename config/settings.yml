@@ -87,3 +87,25 @@ keyword:
 recruitment:
   reserve_over_sec: 1800 # 予約募集の期限
   expire_sec: 3600 # 時間指定のない募集の期限
+analysis:
+  interval_sec: 1800
+secret:
+  discord:
+    token: your discord bot token
+    client_id: your discord bot client id
+    recruitment_channel_id: Channel id you want to recruit
+    play_channel_id: Channel id you want to play
+  google_search_api:
+    key: your key
+    cx: your cx
+  small_talk_api:
+    key: your key
+  twitter:
+    consumer_key: your consumer key
+    consumer_secret: your consumer secret
+    access_token: your access token
+    access_token_secret: your access token secret
+  yahoo_geocode_api:
+    appid: your appid
+  open_weather_map:
+    appid: your appid

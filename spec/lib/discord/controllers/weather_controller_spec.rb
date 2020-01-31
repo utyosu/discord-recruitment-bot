@@ -8,8 +8,6 @@ describe WeatherController do
 
   describe '#do' do
     before do
-      ENV['DISCORD_BOT_GEOCODE_APPID'] = 'hoge'
-      ENV['DISCORD_BOT_WEATHER_APPID'] = 'fuga'
       allow(HTTP).to receive(:get).and_return(
         OpenStruct.new(
           status: status,

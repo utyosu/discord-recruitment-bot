@@ -1,7 +1,7 @@
 module AnalysisController
   extend self
 
-  ANALYSIS_INTERVAL = ENV['DISCORD_BOT_ANALYSIS_INTERVAL'].to_i
+  ANALYSIS_INTERVAL = Settings.analysis.interval_sec
   @@last_updated = nil
 
   def voice_channels(bot)

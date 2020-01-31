@@ -10,7 +10,7 @@ module FoodPornController
       "#{I18n.t('food_porn.base_word')} #{I18n.t('food_porn.words').sample}"
     end
 
-    http = HTTP.get("https://www.googleapis.com/customsearch/v1", params: {key: ENV['DISCORD_BOT_GOOGLE_API_KEY'], cx: ENV['DISCORD_BOT_GOOGLE_API_CX'], q: word, num: 1, start: rand(10)+1, searchType: "image"})
+    http = HTTP.get("https://www.googleapis.com/customsearch/v1", params: {key: Settings.secret.google_search_api.key, cx: Settings.secret.google_search_api.cx, q: word, num: 1, start: rand(10)+1, searchType: "image"})
     if http.status != 200
       message_event.send_message(I18n.t('food_porn.error'))
       return

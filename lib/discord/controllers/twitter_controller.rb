@@ -1,9 +1,9 @@
 class TwitterController
   @@twitter_client = Twitter::REST::Client.new do |config|
-    config.consumer_key = ENV['DISCORD_BOT_TWITTER_CONSUMER_KEY']
-    config.consumer_secret = ENV['DISCORD_BOT_TWITTER_CONSUMER_SECRET']
-    config.access_token = ENV['DISCORD_BOT_TWITTER_ACCESS_TOKEN']
-    config.access_token_secret = ENV['DISCORD_BOT_TWITTER_ACCESS_TOKEN_SECRET']
+    config.consumer_key = Settings.secret.twitter.consumer_key
+    config.consumer_secret = Settings.secret.twitter.consumer_secret
+    config.access_token = Settings.secret.twitter.access_token
+    config.access_token_secret = Settings.secret.twitter.access_token_secret
   end
 
   def self.recruitment_open(recruitment)
@@ -23,13 +23,7 @@ class TwitterController
   end
 
   def self.ready?
-    %w(
-      DISCORD_BOT_TWITTER_CONSUMER_KEY
-      DISCORD_BOT_TWITTER_CONSUMER_SECRET
-      DISCORD_BOT_TWITTER_ACCESS_TOKEN
-      DISCORD_BOT_TWITTER_ACCESS_TOKEN_SECRET
-    ).map { |name| ENV[name] }.all?(&:present?) &&
-      ENV['DISCORD_BOT_TWITTER_DISABLE'].blank?
+    ENV['DISCORD_BOT_TWITTER_DISABLE'].blank?
   end
 
   private

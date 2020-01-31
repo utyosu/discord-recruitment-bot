@@ -4,7 +4,7 @@ require './spec/spec_helper'
 describe RecruitmentController do
   before do
     allow(Helper).to receive(:get_channel).and_return(recruitment_channel)
-    ENV['DISCORD_BOT_TWITTER_DISABLE'] = "1"
+    allow(TwitterController).to receive(:ready?).and_return(false)
   end
 
   let(:discord_author) { build(:fake_discord_user) }
