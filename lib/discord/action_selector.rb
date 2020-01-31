@@ -11,7 +11,7 @@ module ActionSelector
     end
 
     if Helper.recruitment?(message_event)
-      if match_keywords(content, Settings.keyword.recruitment.open)
+      if match_keywords(content, ['@\d+'])
         return RecruitmentController::open(message_event)
       elsif match_keywords(content, Settings.keyword.recruitment.close)
         return RecruitmentController::close(message_event)

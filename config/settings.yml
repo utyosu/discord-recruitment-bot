@@ -2,8 +2,6 @@ keyword:
   recruitment:
     show:
       - 案件
-    open:
-      - '@\d+'
     close:
       - しめ
       - 締め
