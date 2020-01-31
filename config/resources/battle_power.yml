@@ -1,7 +1,5 @@
----
-ja:
-  battle_power:
-    content:
+battle_power:
+  content:
     - 5 農夫
     - 416 ラディッツ編の悟空
     - 924 ラディッツ編でかめはめ波を撃つときの悟空
@@ -44,6 +42,3 @@ ja:
     - 3500 界王
     - 2500000000 ゴジータ
     - 1400000000 超サイヤ人ブロリー
-    display: |-
-      %{name}さんの戦闘力は…%{battle_power}！
-      「%{character}」と同じくらいだ…！

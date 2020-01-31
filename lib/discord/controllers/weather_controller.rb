@@ -22,7 +22,7 @@ module WeatherController
     temp = "%.1f" % (weather['main']['temp'].to_f - DIFF_TO_ABSOLUTE_ZERO)
     temp_max = "%.1f" % (weather['main']['temp_max'].to_f - DIFF_TO_ABSOLUTE_ZERO)
     temp_min = "%.1f" % (weather['main']['temp_min'].to_f - DIFF_TO_ABSOLUTE_ZERO)
-    weather_patterns = I18n.t('weather.patterns').map(&:split).to_h
+    weather_patterns = Settings.weather.patterns.map(&:split).to_h
     weather_string = weather_patterns[weather['weather'].first['id'].to_s]
     res = []
     res << I18n.t('weather.title.weather', weather: weather_string)

@@ -15,12 +15,18 @@ ja:
       recruit_count: 募集回数
       time_label: 時間
       title: 記録
+  battle_power:
+    display: |-
+      %{name}さんの戦闘力は…%{battle_power}！
+      「%{character}」と同じくらいだ…！
   bot:
     analysis_interval: '解析インターバル: %{interval}sec (0なら無効)'
     play_channel: '遊び機能動作チャンネル : %{name}'
     reboot: BOTを再起動して復旧を試みます。
     recruitment_channel: '募集機能動作チャンネル: %{name}'
     use_twitter: 'Twitter連携機能 : %{bool}'
+  food_porn:
+    error: 画像検索上限のため結果を表示できません。明日以降に試して下さい。
   help:
     recruitment: |
       __募集機能__
@@ -40,6 +46,11 @@ ja:
   interaction:
     forget: "「%{keyword}」を忘れました。"
     remember: "「%{keyword}」を「%{response}」と覚えました。"
+  lucky_color:
+    display: "%{name}さんの今日のラッキーカラーは「%{color}」です。ラッキーアイテムはこちら！"
+    error: 画像検索上限のため結果を表示できません。明日以降に試して下さい。
+  nickname:
+    display: "%{name}よ…今日からお前は「%{nick}」だ！"
   recruitment:
     cancel: "%{name}さんが [%{label_id}] の参加をキャンセルしました。"
     close: "%{name}さんが [%{label_id}] を終了しました。"
@@ -65,3 +76,15 @@ ja:
     close: この募集は終了しました。
     participants: 参加者
     title: イーズ募集通知
+  weapon:
+    display: "%{name}さんの今日のオススメブキは【**%{weapon}**】でし！"
+  weather:
+    display: の天気
+    title:
+      humidity: 湿度：%{humidity}%
+      pressure: 気圧：%{pressure}hPa
+      speed: 風速：%{speed} m/s
+      sunrise: 日の出：%{sunrise}
+      sunset: 日の入：%{sunset}
+      temp: 気温：%{temp}度 (%{temp_min}度～%{temp_max}度)
+      weather: 天気：%{weather}

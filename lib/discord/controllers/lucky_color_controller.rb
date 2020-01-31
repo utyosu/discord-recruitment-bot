@@ -4,8 +4,8 @@ module LuckyColorController
   def do(message_event)
     Activity.add(message_event.author, :lucky_color)
 
-    color_japanese, color_english = I18n.t('lucky_color.color').sample.split
-    http = HTTP.get("https://www.googleapis.com/customsearch/v1", params: {key: Settings.secret.google_search_api.key, cx: Settings.secret.google_search_api.cx, q: "#{I18n.t('lucky_color.words').sample}", num: 1, start: rand(10)+1, searchType: "image", imgDominantColor: color_english})
+    color_japanese, color_english = Settings.lucky_color.color.sample.split
+    http = HTTP.get("https://www.googleapis.com/customsearch/v1", params: {key: Settings.secret.google_search_api.key, cx: Settings.secret.google_search_api.cx, q: "#{Settings.lucky_color.words.sample}", num: 1, start: rand(10)+1, searchType: "image", imgDominantColor: color_english})
     if http.status != 200
       message_event.send_message(I18n.t('lucky_color.error'))
       return

@@ -1,0 +1,85 @@
+keyword:
+  recruitment:
+    show:
+      - 案件
+    close:
+      - しめ
+      - 締め
+      - 〆
+      - 滅
+      - sime
+      - shime
+    join:
+      - いく
+      - 行く
+      - いき
+      - 行き
+      - やる
+      - やりま
+      - さんか
+      - 参加
+      - ひゃっはー
+      - うほ
+      - ウホ
+      - ごわす
+      - ゴワス
+      - 参る
+      - わっしょい
+      - 卍
+      - go
+      - join
+      - участие
+      - Συμμετοχή
+      - 参与
+      - 參與
+      - 참여
+      - ပါဝင်ဆောင်ရွက်
+      - ぴえん
+      - ボールド
+      - もげ
+      - もち
+      - もに
+      - sanka
+    leave:
+      - キャンセル
+      - 悲しみ
+    resurrection:
+      - 戻して
+      - もどして
+      - 復活
+  help:
+    - 使い方
+    - ヘルプ
+    - help
+  food_porn:
+    - おなか
+    - お腹
+    - 飯テロ
+  weather:
+    - の天気
+    - のてんき
+  fortune:
+    - おみくじ
+  nickname:
+    - あだな
+    - あだ名
+    - 通り名
+    - ニックネーム
+  weapon:
+    - ブキ
+    - ぶき
+    - 武器
+  lucky_color:
+    - ラッキー
+  battle_power:
+    - 戦闘力
+    - スカウター
+  talk:
+    - ロボちょす
+  insider_game:
+    - インサイダーゲーム
+  interaction:
+    create:
+      - 記憶
+    destroy:
+      - 忘却

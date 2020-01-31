@@ -1,15 +1,12 @@
----
-ja:
-  nickname:
-    decorations:
+nickname:
+  decorations:
     - "☆"
     - "†"
     - 卍
     - "♪"
     - "❤"
     - "\U0001F4AA"
-    display: "%{name}よ…今日からお前は「%{nick}」だ！"
-    prefixes:
+  prefixes:
     - アルティメット
     - グレート
     - シャイニング
@@ -136,7 +133,7 @@ ja:
     - 流星の
     - 炎の料理人
     - ゲゲゲの
-    suffixes:
+  suffixes:
     - ちゃん
     - さん
     - っち
