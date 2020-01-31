@@ -16,11 +16,11 @@ ja:
       time_label: 時間
       title: 記録
   bot:
-    analysis_interval: "[INFO] 解析インターバル: %{interval}sec (0なら無効)"
-    play_channel: "[INFO] 遊び機能動作チャンネル : %{name}"
-    reboot: "[INFO] BOTを再起動して復旧を試みます。"
-    recruitment_channel: "[INFO] 募集機能動作チャンネル: %{name}"
-    use_twitter: "[INFO] Twitter連携機能 : %{bool}"
+    analysis_interval: '解析インターバル: %{interval}sec (0なら無効)'
+    play_channel: '遊び機能動作チャンネル : %{name}'
+    reboot: BOTを再起動して復旧を試みます。
+    recruitment_channel: '募集機能動作チャンネル: %{name}'
+    use_twitter: 'Twitter連携機能 : %{bool}'
   help:
     recruitment: |
       __募集機能__
