@@ -37,3 +37,6 @@ jobs:
         bundle config set without development
         bundle install
         bundle exec cap production deploy
+
+    - name: reload badge
+      run: curl -s https://github.com/${GITHUB_REPOSITORY} | grep -o 'https://camo.githubusercontent.com/[0-9a-f/]*' | xargs -n 1 curl -sX PURGE
