@@ -1,7 +1,5 @@
----
-ja:
-  fortune:
-    prefixes:
+fortune:
+  prefixes:
     - アルティメット
     - シャイニング
     - スパイラル
@@ -37,7 +35,7 @@ ja:
     - 惜しい
     - 敗北感のある
     - 心温まる
-    words:
+  words:
     - 超吉
     - 大吉
     - 太吉

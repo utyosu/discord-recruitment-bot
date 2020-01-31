@@ -54,3 +54,5 @@ gem 'capistrano-rails'
 gem 'capistrano3-puma'
 gem 'capistrano-bundler'
 gem 'capistrano-rbenv',   require: false
+gem 'config'
+gem 'yaml_vault'

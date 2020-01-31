@@ -1,8 +1,5 @@
----
-ja:
-  weapon:
-    display: "%{name}さんの今日のオススメブキは【**%{weapon}**】でし！"
-    weapons:
+weapon:
+  weapons:
     - スプラシューターコラボ
     - ".52ガロン"
     - わかばシューター

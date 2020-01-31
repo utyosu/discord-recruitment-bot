@@ -14,17 +14,6 @@ end
 
 class Bot < inheritance
   def start(args)
-    %w(
-      DISCORD_BOT_TOKEN
-      DISCORD_BOT_CLIENT_ID
-      DISCORD_BOT_RECRUITMENT_CHANNEL_ID
-    ).each do |name|
-      if ENV[name].blank?
-        STDERR.puts I18n.t('bot.error_env', name: name)
-        exit
-      end
-    end
-
     loop do
       self.sequence()
       STDERR.puts I18n.t('bot.reboot')
@@ -34,8 +23,8 @@ class Bot < inheritance
 
   def sequence
     bot = Discordrb::Commands::CommandBot.new ({
-      token: ENV['DISCORD_BOT_TOKEN'],
-      client_id: ENV['DISCORD_BOT_CLIENT_ID'],
+      token: Settings.secret.discord.token,
+      client_id: Settings.secret.discord.client_id,
       prefix:'/',
       # log_mode: :debug,
     })
@@ -51,10 +40,10 @@ class Bot < inheritance
     logger = Logger.new STDOUT
     logger.info I18n.t('bot.analysis_interval', interval: AnalysisController::ANALYSIS_INTERVAL)
 
-    recruitment_channel = Helper.get_channel(bot, ENV['DISCORD_BOT_RECRUITMENT_CHANNEL_ID'])
+    recruitment_channel = Helper.get_channel(bot, Settings.secret.discord.recruitment_channel_id)
     logger.info I18n.t('bot.recruitment_channel', name: recruitment_channel.try(:name))
 
-    play_channel = Helper.get_channel(bot, ENV['DISCORD_BOT_PLAY_CHANNEL_ID'])
+    play_channel = Helper.get_channel(bot, Settings.secret.discord.play_channel_id)
     logger.info I18n.t('bot.play_channel', name: play_channel.try(:name))
     logger.info I18n.t('bot.use_twitter', bool: TwitterController.ready?)
 

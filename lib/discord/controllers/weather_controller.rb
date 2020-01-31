@@ -4,25 +4,25 @@ module WeatherController
   DIFF_TO_ABSOLUTE_ZERO = 273.15
 
   def do(message_event)
-    if ENV['DISCORD_BOT_GEOCODE_APPID'].blank? || ENV['DISCORD_BOT_WEATHER_APPID'].blank?
-      STDERR.puts "Undefined Variable: DISCORD_BOT_GEOCODE_APPID or DISCORD_BOT_WEATHER_APPID"
+    if Settings.secret.yahoo_geocode_api.appid.blank? || Settings.secret.open_weather_map.appid.blank?
+      STDERR.puts "Need settings: yahoo_geocode_api.appid and open_weather_map.appid"
       return
     end
 
     Activity.add(message_event.author, :weather)
 
-    qurty_string = message_event.content.match(Settings::WEATHER_RESPONSE)[1]
-    geocode_response = HTTP.get("https://map.yahooapis.jp/geocode/V1/geoCoder", params: {output: "json", appid: ENV['DISCORD_BOT_GEOCODE_APPID'], query: qurty_string, al: 3, ar: "le"})
+    qurty_string = message_event.content.gsub(Regexp.new(Settings.keyword.weather.join('|')), '')
+    geocode_response = HTTP.get("https://map.yahooapis.jp/geocode/V1/geoCoder", params: {output: "json", appid: Settings.secret.yahoo_geocode_api.appid, query: qurty_string, al: 3, ar: "le"})
     return if geocode_response.status != 200 || JSON.parse(geocode_response)['Feature'].blank?
     city = JSON.parse(geocode_response)['Feature'].sample
     lon, lat = city['Geometry']['Coordinates'].split(",")
-    weather_response = HTTP.get("https://api.openweathermap.org/data/2.5/weather", params: {appid: ENV['DISCORD_BOT_WEATHER_APPID'], lat: lat.to_f, lon: lon.to_f})
+    weather_response = HTTP.get("https://api.openweathermap.org/data/2.5/weather", params: {appid: Settings.secret.open_weather_map.appid, lat: lat.to_f, lon: lon.to_f})
     return if weather_response.status != 200
     weather = JSON.parse(weather_response)
     temp = "%.1f" % (weather['main']['temp'].to_f - DIFF_TO_ABSOLUTE_ZERO)
     temp_max = "%.1f" % (weather['main']['temp_max'].to_f - DIFF_TO_ABSOLUTE_ZERO)
     temp_min = "%.1f" % (weather['main']['temp_min'].to_f - DIFF_TO_ABSOLUTE_ZERO)
-    weather_patterns = I18n.t('weather.patterns').map(&:split).to_h
+    weather_patterns = Settings.weather.patterns.map(&:split).to_h
     weather_string = weather_patterns[weather['weather'].first['id'].to_s]
     res = []
     res << I18n.t('weather.title.weather', weather: weather_string)

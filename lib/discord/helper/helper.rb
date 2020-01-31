@@ -26,10 +26,10 @@ module Helper
   end
 
   def recruitment?(message_event)
-    message_event.channel.id == ENV['DISCORD_BOT_RECRUITMENT_CHANNEL_ID'].to_i
+    message_event.channel.id == Settings.secret.discord.recruitment_channel_id.to_i
   end
 
   def play?(message_event)
-    message_event.channel.id == ENV['DISCORD_BOT_PLAY_CHANNEL_ID'].to_i
+    message_event.channel.id == Settings.secret.discord.play_channel_id.to_i
   end
 end

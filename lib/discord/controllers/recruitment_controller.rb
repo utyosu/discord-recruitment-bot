@@ -11,12 +11,12 @@ module RecruitmentController
     destroyed_recruitments = []
     Recruitment.active.each do |recruitment|
       if recruitment.reserve_at.present?
-        if recruitment.reserve_at < Time.zone.now - Settings::RESERVE_OVER_TIME
+        if recruitment.reserve_at < Time.zone.now - Settings.recruitment.reserve_over_sec
           reserve_recruitment_over_time(recruitment, recruitment_channel)
         elsif recruitment.reserve_at < Time.zone.now
           reserve_recruitment_on_time(recruitment, recruitment_channel)
         end
-      elsif (recruitment.created_at + Settings::EXPIRE_TIME) < Time.zone.now
+      elsif (recruitment.created_at + Settings.recruitment.expire_sec) < Time.zone.now
         temporary_recruitment_expired(recruitment, recruitment_channel)
       end
     end
@@ -30,7 +30,7 @@ module RecruitmentController
     if recruitment.reserve_at.present?
       message_event.send_message(I18n.t('recruitment.open_reserved', name: user.name, label_id: recruitment.label_id, time: recruitment.reserve_at.to_simply))
     else
-      message_event.send_message(I18n.t('recruitment.open_standard', name: user.name, label_id: recruitment.label_id, time: (recruitment.created_at + Settings::EXPIRE_TIME).to_simply))
+      message_event.send_message(I18n.t('recruitment.open_standard', name: user.name, label_id: recruitment.label_id, time: (recruitment.created_at + Settings.recruitment.expire_sec).to_simply))
     end
     self.show(message_event)
     TwitterController.recruitment_open(recruitment)
@@ -129,7 +129,7 @@ module RecruitmentController
 
   def reserve_recruitment_over_time(recruitment, recruitment_channel)
     recruitment.update(enable: false)
-    recruitment_channel.send_message(I18n.t('recruitment.one_time_over', label_id: recruitment.label_id, time: Settings::RESERVE_OVER_TIME/60))
+    recruitment_channel.send_message(I18n.t('recruitment.one_time_over', label_id: recruitment.label_id, time: Settings.recruitment.reserve_over_sec/60))
     self.show(recruitment_channel)
     TwitterController.recruitment_close(recruitment)
   end

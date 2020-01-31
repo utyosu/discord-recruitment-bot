@@ -17,7 +17,7 @@ describe TalkController do
       described_class.do(message_event)
     end
 
-    let(:content) { 'ロボちょすおはよう' }
+    let(:content) { "#{Settings.keyword.talk.sample}おはよう" }
     let(:status) { 200 }
     let(:body) { '{"status":"0","results":[{"reply":"おはようございます"}]}' }
 

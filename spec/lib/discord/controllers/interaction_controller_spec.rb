@@ -9,7 +9,7 @@ describe InteractionController do
   describe '#create' do
     before { described_class.create(message_event) }
 
-    let(:message) { '記憶 ほげ ふが' }
+    let(:message) { "#{Settings.keyword.interaction.create.sample} ほげ ふが" }
 
     it 'save activity' do
       expect(Activity.last).to have_attributes(user: author, content: 'interaction_create')
@@ -19,7 +19,7 @@ describe InteractionController do
   describe '#destroy' do
     before { described_class.destroy(message_event) }
 
-    let(:message) { '忘却 ほげ' }
+    let(:message) { "#{Settings.keyword.interaction.destroy.sample} ほげ" }
 
     it 'save activity' do
       expect(Activity.last).to have_attributes(user: author, content: 'interaction_destroy')

@@ -4,7 +4,7 @@ require './spec/spec_helper'
 describe RecruitmentController do
   before do
     allow(Helper).to receive(:get_channel).and_return(recruitment_channel)
-    ENV['DISCORD_BOT_TWITTER_DISABLE'] = "1"
+    allow(TwitterController).to receive(:ready?).and_return(false)
   end
 
   let(:discord_author) { build(:fake_discord_user) }
@@ -71,7 +71,7 @@ describe RecruitmentController do
       it { expect { subject }.to change(Recruitment, :count).by(1) }
       it do
         subject
-        expect(message_event).to be_include_message(I18n.t('recruitment.open_standard', name: author.name, label_id: Recruitment.first.label_id, time: (Recruitment.first.created_at + Settings::EXPIRE_TIME).to_simply))
+        expect(message_event).to be_include_message(I18n.t('recruitment.open_standard', name: author.name, label_id: Recruitment.first.label_id, time: (Recruitment.first.created_at + Settings.recruitment.expire_sec).to_simply))
       end
     end
 
@@ -90,7 +90,7 @@ describe RecruitmentController do
 
     context 'when exsit recruitment' do
       let(:recruitment) { create(:recruitment, content: "ほげ＠１") }
-      let(:message) { "#{recruitment.label_id}しめ" }
+      let(:message) { "#{recruitment.label_id}#{Settings.keyword.recruitment.close.sample}" }
       it {
         subject
         expect(recruitment.reload).to_not be_enable
@@ -99,7 +99,7 @@ describe RecruitmentController do
     end
 
     context 'when not exist recruitment' do
-      let(:message) { "999しめ" }
+      let(:message) { "999#{Settings.keyword.recruitment.close.sample}" }
       it { expect{ subject }.to_not raise_error }
     end
   end
@@ -109,7 +109,8 @@ describe RecruitmentController do
 
     context 'when recruitment has 2 capacity' do
       let(:recruitment) { create(:recruitment, content: "ほげ＠２") }
-      let(:message) { "#{recruitment.label_id}参加" }
+      let(:message) { "#{recruitment.label_id}#{Settings.keyword.recruitment.join.sample}" }
+
       it { expect{ subject }.to change(recruitment, :reserved).by(1) }
       it do
         subject
@@ -121,7 +122,7 @@ describe RecruitmentController do
 
     context 'when recruitment has 1 capacity' do
       let(:recruitment) { create(:recruitment, content: "ほげ＠１") }
-      let(:message) { "#{recruitment.label_id}参加" }
+      let(:message) { "#{recruitment.label_id}#{Settings.keyword.recruitment.join.sample}" }
       before { recruitment.join(create(:user)) }
       it { expect{ subject }.to change(recruitment, :reserved).by(1) }
       it do
@@ -134,7 +135,7 @@ describe RecruitmentController do
 
     context 'when recruitment has 1 capacity and reserved' do
       let(:recruitment) { create(:recruitment, content: "#{1.hours.since.to_simply}ほげ＠１") }
-      let(:message) { "#{recruitment.label_id}参加" }
+      let(:message) { "#{recruitment.label_id}#{Settings.keyword.recruitment.join.sample}" }
       before { recruitment.join(create(:user)) }
       it { expect{ subject }.to change(recruitment, :reserved).by(1) }
       it do
@@ -147,15 +148,25 @@ describe RecruitmentController do
     end
 
     context 'when not found recruitment' do
-      let(:message) { "999参加" }
+      let(:message) { "999#{Settings.keyword.recruitment.join.sample}" }
       it { expect{ subject }.to_not raise_error }
     end
 
     context 'when message has two number' do
-      let(:message) { "1と2に参加" }
+      let(:message) { "1と2に#{Settings.keyword.recruitment.join.sample}" }
       it do
         subject
         expect(message_event).to be_include_message(I18n.t('recruitment.error_two_numbers'))
+      end
+    end
+
+    context 'with some keywords' do
+      let(:recruitment) { create(:recruitment, content: "ほげ＠１") }
+
+      Settings.keyword.recruitment.join.each do |keyword|
+        let(:message) { "1#{keyword}" }
+
+        it { expect{ subject }.to change(recruitment, :reserved).by(1) }
       end
     end
   end
@@ -165,33 +176,33 @@ describe RecruitmentController do
 
     context 'when joined recruitment' do
       let(:recruitment) { create(:recruitment, content: "ほげ＠２") }
-      let(:message) { "#{recruitment.label_id}キャンセル" }
+      let(:message) { "#{recruitment.label_id}#{Settings.keyword.recruitment.leave.sample}" }
       before { recruitment.join(author) }
       it { expect { subject }.to change(recruitment, :reserved).by(-1) }
     end
 
     context 'when recruitment author is leaved' do
       let(:recruitment) { create(:recruitment, content: "ほげ＠２") }
-      let(:message) { "#{recruitment.label_id}キャンセル" }
+      let(:message) { "#{recruitment.label_id}#{Settings.keyword.recruitment.leave.sample}" }
       let(:discord_author) { build(:fake_discord_user, id: recruitment.author.discord_id) }
       it { expect { subject }.to change(recruitment, :reserved).by(-1) }
     end
 
     context 'when not joined user leaved' do
       let(:recruitment) { create(:recruitment, content: "ほげ＠２") }
-      let(:message) { "#{recruitment.label_id}キャンセル" }
+      let(:message) { "#{recruitment.label_id}#{Settings.keyword.recruitment.leave.sample}" }
       it { expect { subject }.to change(recruitment, :reserved).by(0) }
     end
 
     context 'when not found recruitment' do
-      let(:message) { "999キャンセル" }
+      let(:message) { "999#{Settings.keyword.recruitment.leave.sample}" }
       it { subject }
     end
   end
 
   describe '#resurrection' do
     subject { RecruitmentController.resurrection(message_event) }
-    let(:message) { "復活" }
+    let(:message) { Settings.keyword.recruitment.resurrection.sample }
 
     context 'when exist closed recruitment' do
       let(:recruitment) { create(:recruitment, content: "ほげ＠２") }
