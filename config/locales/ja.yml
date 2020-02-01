@@ -22,7 +22,7 @@ ja:
   bot:
     analysis_interval: '解析インターバル: %{interval}sec (0なら無効)'
     play_channel: '遊び機能動作チャンネル : %{name}'
-    reboot: BOTを再起動して復旧を試みます。
+    reboot: エラーが出ました。BOTを再起動して復旧を試みます。
     recruitment_channel: '募集機能動作チャンネル: %{name}'
     use_twitter: 'Twitter連携機能 : %{bool}'
   food_porn:

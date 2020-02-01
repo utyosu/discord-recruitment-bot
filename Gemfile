@@ -56,3 +56,4 @@ gem 'capistrano-bundler'
 gem 'capistrano-rbenv',   require: false
 gem 'config'
 gem 'yaml_vault'
+gem 'slack-ruby-client'
