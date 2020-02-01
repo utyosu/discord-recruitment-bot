@@ -36,8 +36,8 @@ namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
   task :make_dirs do
     on roles(:app) do
-      execute "mkdir #{shared_path}/tmp/sockets -p"
-      execute "mkdir #{shared_path}/tmp/pids -p"
+      execute :mkdir, "#{shared_path}/tmp/sockets -p"
+      execute :mkdir, "#{shared_path}/tmp/pids -p"
     end
   end
   before :start, :make_dirs
@@ -46,21 +46,29 @@ end
 namespace :deploy do
   task :compile_assets do
     on roles(:app) do
-      execute "cd #{release_path} && RAILS_ENV=#{fetch :rails_env} bundle exec rails assets:precompile"
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :bundle, :exec, :rails, "assets:precompile"
+        end
+      end
     end
   end
   after  :finishing, :compile_assets
 
   task :migrate_with_ridgepole do
     on roles(:app) do
-      execute "cd #{release_path} && bundle exec ridgepole -c config/database.yml --apply -f db/schema -E #{fetch :rails_env}"
+      within release_path do
+        execute :bundle, :exec, :ridgepole, "-c config/database.yml --apply -f db/schema -E #{fetch :rails_env}"
+      end
     end
   end
   after :migrate, :migrate_with_ridgepole
 
   task :decrypt_settings do
     on roles(:app) do
-      execute "cd #{release_path} && bundle exec yaml_vault decrypt config/settings/#{fetch :rails_env}.yml -o config/settings/#{fetch :rails_env}.local.yml"
+      within release_path do
+        execute :bundle, :exec, :yaml_vault, "decrypt config/settings/#{fetch :rails_env}.yml -o config/settings/#{fetch :rails_env}.local.yml"
+      end
     end
   end
   before :migrate, :decrypt_settings
@@ -69,19 +77,31 @@ end
 namespace :bot do
   task :start do
     on roles(:app) do
-      execute "cd #{release_path} && RAILS_ENV=#{fetch :rails_env} bundle exec ruby bin/discord/bot.rb start"
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :bundle, :exec, :ruby, "bin/discord/bot.rb start"
+        end
+      end
     end
   end
 
   task :stop do
     on roles(:app) do
-      execute "cd #{release_path} && RAILS_ENV=#{fetch :rails_env} bundle exec ruby bin/discord/bot.rb stop"
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :bundle, :exec, :ruby, "bin/discord/bot.rb stop"
+        end
+      end
     end
   end
 
   task :restart do
     on roles(:app) do
-      execute "cd #{release_path} && RAILS_ENV=#{fetch :rails_env} bundle exec ruby bin/discord/bot.rb restart"
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :bundle, :exec, :ruby, "bin/discord/bot.rb restart"
+        end
+      end
     end
   end
 end
