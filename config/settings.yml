@@ -23,3 +23,6 @@ secret:
     appid: your appid
   open_weather_map:
     appid: your appid
+  slack:
+    access_token: your access token
+    notify_channel: notify channel
