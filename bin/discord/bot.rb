@@ -21,6 +21,7 @@ class Bot < inheritance
   end
 
   def sequence
+    raise
     bot = Discordrb::Commands::CommandBot.new ({
       token: Settings.secret.discord.token,
       client_id: Settings.secret.discord.client_id,
@@ -53,10 +54,10 @@ class Bot < inheritance
     end
   rescue => e
     STDERR.puts I18n.t('bot.reboot')
-    STDERR.puts "[ERROR] #{e.message}"
+    STDERR.puts e.full_message
     Slack::Web::Client.new(token: Settings.secret.slack.access_token).chat_postMessage(
       channel: Settings.secret.slack.notify_channel,
-      text: "#{I18n.t('bot.reboot')}\n```#{e.full_message(highlight: false)}```"
+      text: "[#{Rails.env}] #{I18n.t('bot.reboot')}\n```#{e.full_message(highlight: false)}```"
    )
    bot.stop
   end
