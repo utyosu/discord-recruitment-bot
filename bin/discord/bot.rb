@@ -16,7 +16,6 @@ class Bot < inheritance
   def start(args)
     loop do
       self.sequence()
-      STDERR.puts I18n.t('bot.reboot')
       sleep 60
     end
   end
@@ -53,7 +52,12 @@ class Bot < inheritance
       sleep 10
     end
   rescue => e
-   STDERR.puts "[ERROR] #{e.message}"
+    STDERR.puts I18n.t('bot.reboot')
+    STDERR.puts "[ERROR] #{e.message}"
+    Slack::Web::Client.new(token: Settings.secret.slack.access_token).chat_postMessage(
+      channel: Settings.secret.slack.notify_channel,
+      text: "#{I18n.t('bot.reboot')}\n```#{e.full_message(highlight: false)}```"
+   )
    bot.stop
   end
 
