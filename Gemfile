@@ -43,17 +43,17 @@ end
 gem 'tzinfo'
 
 # Additional
-gem 'ridgepole'
+gem 'ridgepole', require: false
 gem 'slim-rails'
 gem 'discordrb'
 gem 'http'
-gem 'daemon-spawn', :require => 'daemon_spawn'
+gem 'daemon-spawn', require: 'daemon_spawn'
 gem 'twitter', '>= 5.17'
-gem 'capistrano'
-gem 'capistrano-rails'
-gem 'capistrano3-puma'
-gem 'capistrano-bundler'
-gem 'capistrano-rbenv',   require: false
+gem 'capistrano', require: false
+gem 'capistrano-rails', require: false
+gem 'capistrano3-puma', require: false
+gem 'capistrano-bundler', require: false
+gem 'capistrano-rbenv', require: false
 gem 'config'
-gem 'yaml_vault'
+gem 'yaml_vault', require: false
 gem 'slack-ruby-client'
