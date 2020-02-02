@@ -3,11 +3,6 @@
   apt:
     update_cache: yes
 
-- name: apt upgrade
-  become: yes
-  apt:
-    upgrade: 'yes'
-
 - name: install apt-file
   become: yes
   apt:
