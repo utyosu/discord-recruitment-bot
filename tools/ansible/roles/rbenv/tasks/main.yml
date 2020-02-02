@@ -8,24 +8,34 @@
       - gcc
       - make
 
+- name: check ruby version
+  shell: ruby --version | grep {{ ruby_version }}
+  register: check_ruby
+  ignore_errors: yes
+
 - name: clone ruby-build
   git:
     repo: https://github.com/sstephenson/ruby-build.git
     dest: ~/.rbenv/plugins/ruby-build
+  when: check_ruby.rc != 0
 
 - name: install ruby
-  shell: rbenv install 2.5.1 -s
+  shell: rbenv install {{ ruby_version }} -s
+  when: check_ruby.rc != 0
 
 - name: rehash rbenv
   shell: rbenv rehash
+  when: check_ruby.rc != 0
 
-- name: change ruby version 2.5.1
-  shell: rbenv global 2.5.1
+- name: change ruby version {{ ruby_version }}
+  shell: rbenv global {{ ruby_version }}
+  when: check_ruby.rc != 0
 
 - name: setting for rbenv
   lineinfile:
-    path: ~/.bashrc
+    path: ~/.extend_bashrc
     line: eval "$(rbenv init -)"
+    create: yes
 
 - name: gem update
   shell: gem update --system
@@ -33,4 +43,4 @@
 - name: install bundler
   gem:
     name: bundler
-    version: 2.1.4
+    version: "{{ bundler_version }}"
