@@ -1,16 +1,5 @@
-- name: check swapfile
-  shell: swapon -s
-  register: swapfile_checked
-  changed_when: False
+- import_tasks: swap.yml
+  tags: ['swap']
 
-- name: create swap file 4GB
-  become: yes
-  shell: dd if=/dev/zero of=/swapfile bs=1M count=4000 && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile
-  when: swapfile_checked.stdout == ""
-
-- name: mount swapfile when boot
-  become: yes
-  lineinfile:
-    path: /etc/fstab
-    line: /swapfile none swap sw 0 0
-  when: swapfile_checked.stdout == ""
+- import_tasks: stackdriver-agent.yml
+  tags: ['stackdriver-agent']
