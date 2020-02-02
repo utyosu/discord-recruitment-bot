@@ -34,26 +34,9 @@
     src: ../files/bashrc
     dest: ~/.bashrc
 
-- name: download libsodium
-  get_url:
-    url: https://download.libsodium.org/libsodium/releases/LATEST.tar.gz
-    dest: /tmp
-
-- name: unarchieve libsodium
-  unarchive:
-    src: /tmp/LATEST.tar.gz
-    dest: /tmp
-    remote_src: yes
-
-- name: configure libsodium
-  shell: cd /tmp/libsodium-stable && ./configure
-
-- name: make libsodium
-  shell: cd /tmp/libsodium-stable && make
-
 - name: install libsodium
-  become: yes
-  shell: cd /tmp/libsodium-stable && make install
+  import_tasks: libsodium.yml
+  tags: [libsodium]
 
 - name: set locale Asia/Tokyo
   become: yes
