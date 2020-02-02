@@ -1,0 +1,37 @@
+- name: check libsodium
+  shell: ldconfig -p | grep libsodium
+  register: libsodium
+  changed_when: no
+  check_mode: no
+  ignore_errors: yes
+
+- name: download libsodium
+  get_url:
+    url: https://download.libsodium.org/libsodium/releases/LATEST.tar.gz
+    dest: /tmp
+  when: libsodium.rc != 0
+
+- name: unarchieve libsodium
+  unarchive:
+    src: /tmp/LATEST.tar.gz
+    dest: /tmp
+    remote_src: yes
+  when: libsodium.rc != 0
+
+- name: configure libsodium
+  shell: cd /tmp/libsodium-stable && ./configure
+  when: libsodium.rc != 0
+
+- name: make libsodium
+  shell: cd /tmp/libsodium-stable && make
+  when: libsodium.rc != 0
+
+- name: install libsodium
+  become: yes
+  shell: cd /tmp/libsodium-stable && make install
+  when: libsodium.rc != 0
+
+- name: reload library information
+  become: yes
+  shell: ldconfig
+  when: libsodium.rc != 0

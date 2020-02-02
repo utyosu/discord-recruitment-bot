@@ -1,0 +1,15 @@
+- name: check installed
+  stat:
+    path: /etc/init.d/stackdriver-agent
+  register: stackdriver_agent
+
+- name: download installer
+  get_url:
+    url: https://dl.google.com/cloudagents/install-monitoring-agent.sh
+    dest: /tmp/install-monitoring-agent.sh
+  when: not stackdriver_agent.stat.exists
+
+- name: install
+  become: yes
+  shell: bash /tmp/install-monitoring-agent.sh
+  when: not stackdriver_agent.stat.exists

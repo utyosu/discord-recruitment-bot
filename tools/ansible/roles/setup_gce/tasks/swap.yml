@@ -1,0 +1,25 @@
+- set_fact:
+    swap_file_path: /swapfile
+
+- name: check swapfile
+  shell: swapon -s
+  register: swapfile_checked
+  changed_when: no
+  check_mode: no
+
+- name: create swap file 4GB
+  become: yes
+  shell: dd if=/dev/zero of={{ swap_file_path }} bs=1M count=4000 && chmod 600 {{ swap_file_path }} && mkswap {{ swap_file_path }} && swapon {{ swap_file_path }}
+  when: swapfile_checked.stdout == ""
+
+- name: mount swapfile when boot
+  become: yes
+  mount:
+    name: swap
+    src: "{{ swap_file_path }}"
+    fstype: swap
+    opts: sw
+    passno: '0'
+    dump: '0'
+    state: present
+  when: swapfile_checked.stdout == ""

@@ -5,5 +5,6 @@
 
 - name: load environment file when login
   lineinfile:
-    path: ~/.bashrc
+    path: ~/.extend_bashrc
     line: source ~/.production_env
+    create: yes

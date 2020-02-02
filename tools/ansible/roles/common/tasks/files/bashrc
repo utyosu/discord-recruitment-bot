@@ -109,3 +109,7 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+if [ -f ~/.extend_bashrc ]; then
+  . ~/.extend_bashrc
+fi

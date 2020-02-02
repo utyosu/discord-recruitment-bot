@@ -8,7 +8,7 @@
   become: yes
   shell: mysql -e 'SELECT User FROM mysql.user;'
   register: mysql_users
-  changed_when: False
+  changed_when: no
 
 - name: setup mysql server
   become: yes

@@ -9,7 +9,9 @@
   copy:
     src: ../files/discord-recruitment-bot.conf
     dest: /etc/nginx/conf.d/discord-recruitment-bot.conf
+  register: nginx_setting
 
 - name: reload nginx setting
   become: yes
   shell: nginx -s reload
+  when: nginx_setting.changed
