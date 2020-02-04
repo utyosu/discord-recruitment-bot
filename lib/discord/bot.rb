@@ -33,11 +33,12 @@ class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
     logger.info I18n.t('bot.play_channel', name: play_channel.try(:name))
     logger.info I18n.t('bot.use_twitter', bool: TwitterController.ready?)
 
-    loop do
+    timers = Timers::Group.new
+    timers.every(1.minute) do
       RecruitmentController.destroy_expired_recruitment(recruitment_channel)
       AnalysisController.voice_channels(bot)
-      sleep 10
     end
+    loop { timers.wait }
   rescue => e
     STDERR.puts I18n.t('bot.reboot')
     STDERR.puts e.full_message
