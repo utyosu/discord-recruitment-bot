@@ -11,8 +11,8 @@ class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
     bot = Discordrb::Commands::CommandBot.new ({
       token: Settings.secret.discord.token,
       client_id: Settings.secret.discord.client_id,
-      prefix:'/',
-      # log_mode: :debug,
+      prefix: '/',
+      log_mode: Settings.bot.log_mode.to_sym,
     })
 
     bot.message do |event|

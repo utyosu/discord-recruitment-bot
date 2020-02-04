@@ -1,3 +1,5 @@
+bot:
+  log_mode: normal # debug, verbose, normal, quiet, silent
 recruitment:
   reserve_over_sec: 1800 # 予約募集の期限
   expire_sec: 3600 # 時間指定のない募集の期限
