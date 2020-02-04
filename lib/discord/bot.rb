@@ -23,7 +23,7 @@ class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
 
     bot.run(true)
 
-    logger = Logger.new STDOUT
+    logger = Rails.env.development? ? Logger.new(STDOUT) : Rails.logger
     logger.info I18n.t('bot.analysis_interval', interval: AnalysisController::ANALYSIS_INTERVAL)
 
     recruitment_channel = Helper.get_channel(bot, Settings.secret.discord.recruitment_channel_id)
@@ -40,8 +40,8 @@ class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
     end
     loop { timers.wait }
   rescue => e
-    STDERR.puts I18n.t('bot.reboot')
-    STDERR.puts e.full_message
+    logger.error I18n.t('bot.reboot')
+    logger.error e.full_message
     Slack::Web::Client.new(token: Settings.secret.slack.access_token).chat_postMessage(
       channel: Settings.secret.slack.notify_channel,
       text: "[#{Rails.env}] #{I18n.t('bot.reboot')}\n```#{e.full_message(highlight: false)}```"
