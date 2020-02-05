@@ -57,3 +57,4 @@ gem 'capistrano-rbenv', require: false
 gem 'config'
 gem 'yaml_vault', require: false
 gem 'slack-ruby-client'
+gem 'timers'
