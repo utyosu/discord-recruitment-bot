@@ -36,3 +36,6 @@ config/environments/*.local.yml
 # Ignore coverage report
 /coverage/*
 .coveralls.yml
+
+# Ignore rbenv version file
+.ruby-version
