@@ -17,6 +17,7 @@ group :development, :test do
   gem 'faker'
   gem 'database_cleaner'
   gem 'i18n-tasks'
+  gem 'rubocop', require: false
 end
 
 group :development do
