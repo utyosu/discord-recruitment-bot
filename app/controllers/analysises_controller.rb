@@ -41,7 +41,7 @@ class AnalysisesController < ApplicationController
     }
 
     # render json: { items: kings, title: I18n.t('analysis.king.title') }
-    render json: { items: [ { label: I18n.t('analysis.king.tobe') } ], title: I18n.t('analysis.king.title') }
+    render json: { items: [{ label: I18n.t('analysis.king.tobe') }], title: I18n.t('analysis.king.title') }
   end
 
   def hourlyactive
