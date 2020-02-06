@@ -18,6 +18,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'i18n-tasks'
   gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
 end
 
 group :development do
