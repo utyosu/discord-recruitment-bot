@@ -54,7 +54,7 @@ namespace :deploy do
       end
     end
   end
-  after  :finishing, :compile_assets
+  after :finishing, :compile_assets
 
   task :migrate_with_ridgepole do
     on roles(:app) do
