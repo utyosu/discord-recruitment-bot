@@ -4,14 +4,14 @@ class Extractor
   end
 
   def self.extraction_recruit_user_count(str)
-    tmp = Helper.to_safe(str).gsub(/\d+時|\d+:\d+/,"").match(/@\d+[^\d]+(\d+)/)
+    tmp = Helper.to_safe(str).gsub(/\d+時|\d+:\d+/, "").match(/@\d+[^\d]+(\d+)/)
     return tmp[1].to_i if tmp.present?
     tmp = Helper.to_safe(str).match(/@(\d+)/)
     return tmp.blank? ? nil : tmp[1].to_i
   end
 
   def self.extraction_number(str)
-    num_list = Helper.to_safe(str).gsub(/[^\d]/,",").gsub(/,+/,",").gsub(/^,/,"").gsub(/,$/,"").split(",").map(&:to_i)
+    num_list = Helper.to_safe(str).gsub(/[^\d]/, ",").gsub(/,+/, ",").gsub(/^,/, "").gsub(/,$/, "").split(",").map(&:to_i)
     return num_list.first if num_list.size == 1
     return 0 if num_list.size == 0
     return nil
