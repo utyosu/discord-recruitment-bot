@@ -24,8 +24,6 @@ group :development do
   gem 'listen'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'hirb'
-  gem 'hirb-unicode'
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'bullet', github: "flyerhzm/bullet"

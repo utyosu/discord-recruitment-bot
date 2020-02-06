@@ -200,10 +200,6 @@ GEM
       activesupport (>= 4.2.0)
     hashie (4.0.0)
     highline (2.0.3)
-    hirb (0.7.3)
-    hirb-unicode (0.0.5)
-      hirb (~> 0.5)
-      unicode-display_width (~> 0.1.1)
     http (3.3.0)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
@@ -416,7 +412,6 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.6)
-    unicode-display_width (0.1.1)
     uniform_notifier (1.13.0)
     web-console (4.0.1)
       actionview (>= 6.0.0)
@@ -463,8 +458,6 @@ DEPENDENCIES
   discordrb
   factory_bot_rails
   faker
-  hirb
-  hirb-unicode
   http
   i18n-tasks
   jbuilder
