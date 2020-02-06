@@ -82,7 +82,7 @@ class Extractor
   def self.to_datetime(hour, min)
     raise ArgumentError if hour.blank? || min.blank?
     if 24 <= hour.to_i
-      return "#{hour.to_i-24}:#{min}".in_time_zone + 24.hours
+      return "#{hour.to_i - 24}:#{min}".in_time_zone + 24.hours
     else
       return "#{hour}:#{min}".in_time_zone
     end

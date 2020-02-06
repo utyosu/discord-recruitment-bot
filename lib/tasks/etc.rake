@@ -12,7 +12,7 @@ namespace :etc do
       user_count_list.push(user_count)
       date = date.yesterday
     end
-    user_count_average = user_count_list.sum.to_f/date_count
+    user_count_average = user_count_list.sum.to_f / date_count
     puts "list: #{user_count_list.join(",")}"
     puts "#{date_count} days user count average: #{user_count_average}"
   end

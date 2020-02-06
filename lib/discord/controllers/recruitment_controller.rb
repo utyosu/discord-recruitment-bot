@@ -129,7 +129,7 @@ module RecruitmentController
 
   def reserve_recruitment_over_time(recruitment, recruitment_channel)
     recruitment.update(enable: false)
-    recruitment_channel.send_message(I18n.t('recruitment.one_time_over', label_id: recruitment.label_id, time: Settings.recruitment.reserve_over_sec/60))
+    recruitment_channel.send_message(I18n.t('recruitment.one_time_over', label_id: recruitment.label_id, time: Settings.recruitment.reserve_over_sec / 60))
     self.show(recruitment_channel)
     TwitterController.recruitment_close(recruitment)
   end
