@@ -26,8 +26,6 @@ class TwitterController
     ENV['DISCORD_BOT_TWITTER_DISABLE'].blank?
   end
 
-  private
-
   def self.recruitment_message(recruitment)
     message = "【#{I18n.t("twitter.title")}】\n#{recruitment.content} by #{recruitment.author.name} (#{recruitment.reserved}/#{recruitment.capacity})"
     message += "\n#{I18n.t('twitter.participants')}: #{recruitment.participants[1..-1].map { |a| a.user.name }.join(", ")}" if 0 < recruitment.reserved

@@ -17,8 +17,6 @@ class Extractor
     return nil
   end
 
-  private
-
   def self.base(str)
     # trimming
     str = str.gsub(/(\d+時|\d+:\d+)[^\d]*まで/, "").gsub(/[～-](\d+時|\d+:\d+)/, "")
