@@ -46,8 +46,8 @@ class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
       channel: Settings.secret.slack.notify_channel,
       text: "[#{Rails.env}] #{I18n.t('bot.reboot')}\n```#{e.full_message(highlight: false)}```"
     )
-   bot.stop
-   sleep 60
+    bot.stop
+    sleep 60
   end
 
   def stop; end
