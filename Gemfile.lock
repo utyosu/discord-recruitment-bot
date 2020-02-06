@@ -458,7 +458,6 @@ DEPENDENCIES
   discordrb
   factory_bot_rails
   faker
-  http
   i18n-tasks
   jbuilder
   listen
@@ -477,7 +476,7 @@ DEPENDENCIES
   slack-ruby-client
   slim-rails
   timers
-  twitter (>= 5.17)
+  twitter (>= 6.2.0)
   tzinfo
   uglifier
   web-console

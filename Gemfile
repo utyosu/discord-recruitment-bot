@@ -44,9 +44,8 @@ gem 'tzinfo'
 gem 'ridgepole', require: false
 gem 'slim-rails'
 gem 'discordrb'
-gem 'http'
 gem 'daemon-spawn', require: 'daemon_spawn'
-gem 'twitter', '>= 5.17'
+gem 'twitter', '>= 6.2.0'
 gem 'capistrano', require: false
 gem 'capistrano-rails', require: false
 gem 'capistrano3-puma', require: false
