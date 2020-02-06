@@ -4,11 +4,12 @@ module FoodPornController
   def do(message_event)
     Activity.add(message_event.author, :food_porn)
 
-    word = if rand(8192) == 0
-      Settings.food_porn.rare_word.sample
-    else
-      "#{Settings.food_porn.base_word} #{Settings.food_porn.words.sample}"
-    end
+    word =
+      if rand(8192) == 0
+        Settings.food_porn.rare_word.sample
+      else
+        "#{Settings.food_porn.base_word} #{Settings.food_porn.words.sample}"
+      end
 
     http = HTTP.get("https://www.googleapis.com/customsearch/v1", params: {key: Settings.secret.google_search_api.key, cx: Settings.secret.google_search_api.cx, q: word, num: 1, start: rand(10)+1, searchType: "image"})
     if http.status != 200
