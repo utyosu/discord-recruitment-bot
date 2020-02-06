@@ -1,4 +1,4 @@
-BOT_DAEMONIZE ||= false
+BOT_DAEMONIZE = false unless defined?(BOT_DAEMONIZE)
 
 class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
   def start(args)
