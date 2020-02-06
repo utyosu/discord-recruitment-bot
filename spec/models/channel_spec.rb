@@ -17,7 +17,7 @@ describe Channel do
       let(:channel) { build(:fake_channel) }
 
       it { is_expected.to have_attributes(channel_id: channel.id.to_s, name: channel.name) }
-      it { expect{ subject }.not_to change(described_class, :count) }
+      it { expect { subject }.not_to change(described_class, :count) }
     end
   end
 end

@@ -10,7 +10,7 @@ class FakeChannel
   end
 
   def include_message?(text)
-    @messages.any?{|m| m.include?(text)}
+    @messages.any? {|m| m.include?(text)}
   end
 
   def text?

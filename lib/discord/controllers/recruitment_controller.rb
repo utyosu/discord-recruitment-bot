@@ -103,9 +103,9 @@ module RecruitmentController
   def recruitments_message
     recruitments = Recruitment.active
     return I18n.t('recruitment.not_found') if recruitments.blank?
-    recruitment_message = recruitments.sort_by{|recruitment|
+    recruitment_message = recruitments.sort_by {|recruitment|
       recruitment.label_id
-    }.map{|recruitment|
+    }.map {|recruitment|
       recruitment.to_format_string
     }.join("\n")
     return recruitment_message

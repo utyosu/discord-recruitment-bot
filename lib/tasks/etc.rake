@@ -8,7 +8,7 @@ namespace :etc do
       start_date = date.beginning_of_day
       end_date = date.end_of_day
       user_statuses = UserStatus.where(created_at: start_date..end_date)
-      user_count = user_statuses.map{|a| a.user_id}.sort.uniq.count
+      user_count = user_statuses.map {|a| a.user_id}.sort.uniq.count
       user_count_list.push(user_count)
       date = date.yesterday
     end

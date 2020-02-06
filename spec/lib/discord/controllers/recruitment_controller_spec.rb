@@ -100,7 +100,7 @@ describe RecruitmentController do
 
     context 'when not exist recruitment' do
       let(:message) { "999#{Settings.keyword.recruitment.close.sample}" }
-      it { expect{ subject }.to_not raise_error }
+      it { expect { subject }.to_not raise_error }
     end
   end
 
@@ -111,7 +111,7 @@ describe RecruitmentController do
       let(:recruitment) { create(:recruitment, content: "ほげ＠２") }
       let(:message) { "#{recruitment.label_id}#{Settings.keyword.recruitment.join.sample}" }
 
-      it { expect{ subject }.to change(recruitment, :reserved).by(1) }
+      it { expect { subject }.to change(recruitment, :reserved).by(1) }
       it do
         subject
         expect(message_event).to be_include_message(I18n.t('recruitment.join', name: author.name, label_id: recruitment.label_id))
@@ -124,7 +124,7 @@ describe RecruitmentController do
       let(:recruitment) { create(:recruitment, content: "ほげ＠１") }
       let(:message) { "#{recruitment.label_id}#{Settings.keyword.recruitment.join.sample}" }
       before { recruitment.join(create(:user)) }
-      it { expect{ subject }.to change(recruitment, :reserved).by(1) }
+      it { expect { subject }.to change(recruitment, :reserved).by(1) }
       it do
         subject
         expect(message_event).to be_include_message(I18n.t('recruitment.join', name: author.name, label_id: recruitment.label_id))
@@ -137,7 +137,7 @@ describe RecruitmentController do
       let(:recruitment) { create(:recruitment, content: "#{1.hours.since.to_simply}ほげ＠１") }
       let(:message) { "#{recruitment.label_id}#{Settings.keyword.recruitment.join.sample}" }
       before { recruitment.join(create(:user)) }
-      it { expect{ subject }.to change(recruitment, :reserved).by(1) }
+      it { expect { subject }.to change(recruitment, :reserved).by(1) }
       it do
         subject
         expect(message_event).to be_include_message(I18n.t('recruitment.join', name: author.name, label_id: recruitment.label_id))
@@ -149,7 +149,7 @@ describe RecruitmentController do
 
     context 'when not found recruitment' do
       let(:message) { "999#{Settings.keyword.recruitment.join.sample}" }
-      it { expect{ subject }.to_not raise_error }
+      it { expect { subject }.to_not raise_error }
     end
 
     context 'when message has two number' do
@@ -166,7 +166,7 @@ describe RecruitmentController do
       Settings.keyword.recruitment.join.each do |keyword|
         let(:message) { "1#{keyword}" }
 
-        it { expect{ subject }.to change(recruitment, :reserved).by(1) }
+        it { expect { subject }.to change(recruitment, :reserved).by(1) }
       end
     end
   end

@@ -14,7 +14,7 @@ class Recruitment < ApplicationRecord
   end
 
   def set_label_id
-    label_ids = Recruitment.active.map{|r| r.label_id}
+    label_ids = Recruitment.active.map {|r| r.label_id}
     id = 1
     while label_ids.include?(id) do
       id += 1
@@ -43,7 +43,7 @@ class Recruitment < ApplicationRecord
   end
 
   def mentions
-    self.participants.map{|p| "<@#{p.user.discord_id}>"}.join(" ")
+    self.participants.map {|p| "<@#{p.user.discord_id}>"}.join(" ")
   end
 
   def vacant
@@ -53,13 +53,13 @@ class Recruitment < ApplicationRecord
   def to_format_string
     recruitment_message = "[#{self.label_id}] #{self.content} by #{self.author.name} (#{self.reserved}/#{self.capacity})"
     if 0 < self.reserved
-      recruitment_message += "\n    参加者: #{self.participants[1..-1].map{|p| p.user.name}.join(', ')}"
+      recruitment_message += "\n    参加者: #{self.participants[1..-1].map {|p| p.user.name}.join(', ')}"
     end
     return recruitment_message
   end
 
   def attended?(user)
-    self.participants.any?{|p| p.user == user}
+    self.participants.any? {|p| p.user == user}
   end
 
   def self.get_by_label_id(label_id)
