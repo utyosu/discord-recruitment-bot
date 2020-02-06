@@ -12,11 +12,11 @@ module WeatherController
     Activity.add(message_event.author, :weather)
 
     qurty_string = message_event.content.gsub(Regexp.new(Settings.keyword.weather.join('|')), '')
-    geocode_response = HTTP.get("https://map.yahooapis.jp/geocode/V1/geoCoder", params: {output: "json", appid: Settings.secret.yahoo_geocode_api.appid, query: qurty_string, al: 3, ar: "le"})
+    geocode_response = HTTP.get("https://map.yahooapis.jp/geocode/V1/geoCoder", params: { output: "json", appid: Settings.secret.yahoo_geocode_api.appid, query: qurty_string, al: 3, ar: "le" })
     return if geocode_response.status != 200 || JSON.parse(geocode_response)['Feature'].blank?
     city = JSON.parse(geocode_response)['Feature'].sample
     lon, lat = city['Geometry']['Coordinates'].split(",")
-    weather_response = HTTP.get("https://api.openweathermap.org/data/2.5/weather", params: {appid: Settings.secret.open_weather_map.appid, lat: lat.to_f, lon: lon.to_f})
+    weather_response = HTTP.get("https://api.openweathermap.org/data/2.5/weather", params: { appid: Settings.secret.open_weather_map.appid, lat: lat.to_f, lon: lon.to_f })
     return if weather_response.status != 200
     weather = JSON.parse(weather_response)
     temp = "%.1f" % (weather['main']['temp'].to_f - DIFF_TO_ABSOLUTE_ZERO)
