@@ -16,7 +16,7 @@ class Recruitment < ApplicationRecord
   def set_label_id
     label_ids = Recruitment.active.map{|r| r.label_id}
     id = 1
-    while(label_ids.include?(id)) do
+    while label_ids.include?(id) do
       id += 1
     end
     self.label_id = id
