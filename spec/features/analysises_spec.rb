@@ -14,7 +14,7 @@ describe 'analysises' do
     context 'with no params' do
       let(:params) { {} }
 
-      it { is_expected.to have_content 'Analysis'}
+      it { is_expected.to have_content 'Analysis' }
     end
 
     context 'with params' do

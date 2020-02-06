@@ -3,7 +3,7 @@ require './spec/spec_helper'
 
 describe Extractor do
   around do |e|
-    travel_to('2018-3-10 8:00'.in_time_zone) {e.run}
+    travel_to('2018-3-10 8:00'.in_time_zone) { e.run }
   end
 
   describe '.extraction_time' do

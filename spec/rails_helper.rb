@@ -18,7 +18,7 @@ RSpec.configure do |config|
 end
 
 # Load discord-recruitment-bot scripts
-Dir['lib/discord/**/*.rb'].each {|file| require './' + file }
+Dir['lib/discord/**/*.rb'].each { |file| require './' + file }
 
 # for use travel_to
 RSpec.configure do |config|
