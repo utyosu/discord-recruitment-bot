@@ -11,7 +11,7 @@ class TwitterController
   end
 
   def self.recruitment_close(recruitment)
-    tweet(recruitment, "【#{I18n.t("twitter.title")}】\n#{I18n.t('twitter.close')}")
+    tweet(recruitment, "#{I18n.t("twitter.title")}\n#{I18n.t('twitter.close')}")
   end
 
   def self.recruitment_join(recruitment)
@@ -27,9 +27,11 @@ class TwitterController
   end
 
   def self.recruitment_message(recruitment)
-    message = "【#{I18n.t("twitter.title")}】\n#{recruitment.content} by #{recruitment.author.name} (#{recruitment.reserved}/#{recruitment.capacity})"
-    message += "\n#{I18n.t('twitter.participants')}: #{recruitment.participants[1..-1].map { |a| a.user.name }.join(", ")}" if 0 < recruitment.reserved
-    return message
+    message = []
+    message << I18n.t("twitter.title")
+    message << I18n.t("twitter.content", content: recruitment.content, author_name: recruitment.author.name, reserved: recruitment.reserved, capacity: recruitment.capacity)
+    message << I18n.t("twitter.participants", participants: recruitment.participants[1..-1].map { |a| a.user.name }.join(", ")) if 0 < recruitment.reserved
+    return message.join("\n")
   end
 
   def self.tweet(recruitment, message)

@@ -77,8 +77,9 @@ ja:
     error: よく分かりません
   twitter:
     close: この募集は終了しました。
-    participants: 参加者
-    title: イーズ募集通知
+    content: "%{content} by %{author_name} (%{reserved}/%{capacity})"
+    participants: '参加者: %{participants}'
+    title: "【イーズ募集通知】"
   weapon:
     display: "%{name}さんの今日のオススメブキは【**%{weapon}**】でし！"
   weather:

@@ -23,9 +23,18 @@ class AnalysisesController < ApplicationController
 
   def records
     records = [
-      { label: I18n.t('analysis.record.recruit_count'), value: "#{Recruitment.count.to_s(:delimited)} #{I18n.t('analysis.record.count_label')}" },
-      { label: I18n.t('analysis.record.participant_count'), value: "#{Participant.count.to_s(:delimited)} #{I18n.t('analysis.record.count_label')}" },
-      { label: I18n.t('analysis.record.calling_time'), value: "#{(UserStatus.count * Settings.analysis.interval_sec / 1.hour).to_s(:delimited)} #{I18n.t('analysis.record.time_label')}" }
+      {
+        label: I18n.t('analysis.record.recruit_count'),
+        value: "#{Recruitment.count.to_s(:delimited)} #{I18n.t('analysis.record.count_label')}",
+      },
+      {
+        label: I18n.t('analysis.record.participant_count'),
+        value: "#{Participant.count.to_s(:delimited)} #{I18n.t('analysis.record.count_label')}",
+      },
+      {
+        label: I18n.t('analysis.record.calling_time'),
+        value: "#{(UserStatus.count * Settings.analysis.interval_sec / 1.hour).to_s(:delimited)} #{I18n.t('analysis.record.time_label')}",
+      }
     ]
 
     render json: { items: records, title: I18n.t('analysis.record.title') }
