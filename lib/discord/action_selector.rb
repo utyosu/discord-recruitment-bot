@@ -6,21 +6,21 @@ module ActionSelector
 
     if Helper.pm?(message_event) || Helper.recruitment?(message_event)
       if match_keywords(content, Settings.keyword.recruitment.show)
-        return RecruitmentController::show(message_event)
+        return RecruitmentController.show(message_event)
       end
     end
 
     if Helper.recruitment?(message_event)
       if match_keywords(content, ['@\d+'])
-        return RecruitmentController::open(message_event)
+        return RecruitmentController.open(message_event)
       elsif match_keywords(content, Settings.keyword.recruitment.close)
-        return RecruitmentController::close(message_event)
+        return RecruitmentController.close(message_event)
       elsif match_keywords(content, Settings.keyword.recruitment.join)
-        return RecruitmentController::join(message_event)
+        return RecruitmentController.join(message_event)
       elsif match_keywords(content, Settings.keyword.recruitment.leave)
-        return RecruitmentController::leave(message_event)
+        return RecruitmentController.leave(message_event)
       elsif match_keywords(content, Settings.keyword.recruitment.resurrection)
-        return RecruitmentController::resurrection(message_event)
+        return RecruitmentController.resurrection(message_event)
       elsif match_keywords(content, Settings.keyword.help)
         return HelpController.recruitment_help(message_event)
       end
@@ -56,11 +56,11 @@ module ActionSelector
 
     if Helper.play?(message_event)
       if match_keywords(content, Settings.keyword.interaction.create)
-        return InteractionController::create(message_event)
+        return InteractionController.create(message_event)
       elsif match_keywords(content, Settings.keyword.interaction.destroy)
-        return InteractionController::destroy(message_event)
+        return InteractionController.destroy(message_event)
       end
-      return InteractionController::response(message_event)
+      return InteractionController.response(message_event)
     end
   end
 
