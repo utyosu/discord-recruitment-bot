@@ -36,9 +36,9 @@ class AnalysisesController < ApplicationController
     king_user_ids << max_recruitment_user_id(king_user_ids)
     king_user_ids << max_connection_user_id(king_user_ids)
 
-    _kings = king_user_ids.compact.map { |king_user_id|
+    _kings = king_user_ids.compact.map do |king_user_id|
       { label: User.find(king_user_id).name }
-    }
+    end
 
     # render json: { items: kings, title: I18n.t('analysis.king.title') }
     render json: { items: [{ label: I18n.t('analysis.king.tobe') }], title: I18n.t('analysis.king.title') }
@@ -49,9 +49,9 @@ class AnalysisesController < ApplicationController
     period_start = period_end.ago(HOURLY_ACTIVE_AGGREGATION_PERIOD_DAYS.days)
     user_statuses = UserStatus.where(created_at: period_start..period_end)
 
-    user_statuses_group_by_hour = user_statuses.group_by { |user_status|
+    user_statuses_group_by_hour = user_statuses.group_by do |user_status|
       user_status.created_at.hour
-    }
+    end
 
     hourlyactive = 24.times.map do |hour|
       active_user_count = user_statuses_group_by_hour[hour]&.count || 0
@@ -73,23 +73,24 @@ class AnalysisesController < ApplicationController
 
   def max_recruitment_user_id(exclude_user_ids)
     base_time = Time.zone.today.midnight
-    Recruitment.includes(:participants).where(created_at: base_time.ago(KINGS_AGGREGATION_PERIOD_DAYS.days)..base_time).map { |recruitment|
-      recruitment.participants.first.user_id
-    }.group_by(&:itself).each_with_object({}) { |(user_id, values), hash|
-      hash[user_id] = values.count
-    }.max_by { |user_id, count|
-      exclude_user_ids.include?(user_id) ? 0 : count
-    }&.first
+    Recruitment
+      .includes(:participants)
+      .where(created_at: base_time.ago(KINGS_AGGREGATION_PERIOD_DAYS.days)..base_time)
+      .map { |recruitment| recruitment.participants.first.user_id }
+      .group_by(&:itself)
+      .each_with_object({}) { |(user_id, values), hash| hash[user_id] = values.count }
+      .max_by { |user_id, count| exclude_user_ids.include?(user_id) ? 0 : count }
+      &.first
   end
 
   def max_connection_user_id(exclude_user_ids)
     base_time = Time.zone.today.midnight
-    UserStatus.where(created_at: base_time.ago(KINGS_AGGREGATION_PERIOD_DAYS.days)..base_time).map { |user_status|
-      user_status.user_id
-    }.group_by(&:itself).each_with_object({}) { |(user_id, values), hash|
-      hash[user_id] = values.count
-    }.max_by { |user_id, count|
-      exclude_user_ids.include?(user_id) ? 0 : count
-    }&.first
+    UserStatus
+      .where(created_at: base_time.ago(KINGS_AGGREGATION_PERIOD_DAYS.days)..base_time)
+      .map { |user_status| user_status.user_id }
+      .group_by(&:itself)
+      .each_with_object({}) { |(user_id, values), hash| hash[user_id] = values.count }
+      .max_by { |user_id, count| exclude_user_ids.include?(user_id) ? 0 : count }
+      &.first
   end
 end

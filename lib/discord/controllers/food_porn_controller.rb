@@ -19,9 +19,9 @@ module FoodPornController
     response = JSON.parse(http.body)
     photo_source = response['items'].sample
     path = "tmp/cache/image.jpg"
-    OpenURI.open_uri(photo_source["link"]) { |image|
-      File.open(path, "wb") do |file| file.puts image.read; end
-    }
+    OpenURI.open_uri(photo_source["link"]) do |image|
+      File.open(path, "wb") { |file| file.puts image.read }
+    end
     message_event.send_file(File.open(path, "r"))
     File.delete(path)
   end

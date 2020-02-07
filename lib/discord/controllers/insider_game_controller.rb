@@ -30,13 +30,13 @@ module InsiderGameController
   private
 
   def get_voice_channel(author, bot)
-    bot.servers.map { |_server_id, server|
-      server.voice_channels.find { |voice_channel|
-        voice_channel.users.any? { |user|
-          user.id == author.id
-        }
-      }
-    }.flatten.first
+    bot
+      .servers
+      .map { |_server_id, server| server.voice_channels }
+      .flatten
+      .find do |voice_channel|
+        voice_channel.users.any? { |user| user.id == author.id }
+      end
   end
 
   def decide_insider(users, author)
