@@ -6,8 +6,8 @@ class AnalysisesController < ApplicationController
   HOURLY_ACTIVE_AGGREGATION_PERIOD_DAYS = 7
 
   def index
-    @start_date = Date.parse(params[:start_date]) rescue Date.today
-    @end_date = Date.parse(params[:end_date]) rescue Date.today
+    @start_date = Date.parse(params[:start_date]) rescue Time.zone.today
+    @end_date = Date.parse(params[:end_date]) rescue Time.zone.today
     user_statuses = UserStatus.where(created_at: @start_date.in_time_zone..@end_date.in_time_zone.since(1.day))
     @channel_use_time_list = {}
     @user_login_time_list = {}
