@@ -30,13 +30,13 @@ describe Extractor do
     end
 
     context 'when "yyyy/mm/dd hh:mm" style' do
-      let(:target) { '2018/03/10 09:00' }
-      it { is_expected.to eq '2018-3-10 9:00'.in_time_zone }
+      let(:target) { '2019/03/10 09:00' }
+      it { is_expected.to eq '2019-3-10 9:00'.in_time_zone }
     end
 
     context 'when "mm/dd hh:mm" style' do
-      let(:target) { '3/10 09:00' }
-      it { is_expected.to eq '2018-3-10 9:00'.in_time_zone }
+      let(:target) { '5/10 09:00' }
+      it { is_expected.to eq '2018-5-10 9:00'.in_time_zone }
     end
 
     context 'when "hh:mm" style' do
@@ -62,6 +62,11 @@ describe Extractor do
     context 'when 丑三つ時' do
       let(:target) { '丑三つ時' }
       it { is_expected.to eq '2018-3-11 2:00'.in_time_zone }
+    end
+
+    context 'when "n時間" is not "n時"' do
+      let(:target) { '9時間' }
+      it { is_expected.to eq nil }
     end
 
     context 'when target time arrive not yet' do
