@@ -17,8 +17,8 @@ class AnalysisesController < ApplicationController
       @user_login_time_list[user_status.user] = 0 if @user_login_time_list[user_status.user].blank?
       @user_login_time_list[user_status.user] += user_status.interval
     end
-    @channel_use_time_list = @channel_use_time_list.to_a.sort_by { |k, v| v }.reverse
-    @user_login_time_list = @user_login_time_list.to_a.sort_by { |k, v| v }.reverse
+    @channel_use_time_list = @channel_use_time_list.to_a.sort_by { |_k, v| v }.reverse
+    @user_login_time_list = @user_login_time_list.to_a.sort_by { |_k, v| v }.reverse
   end
 
   def records
