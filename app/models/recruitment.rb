@@ -14,12 +14,10 @@ class Recruitment < ApplicationRecord
   end
 
   def set_label_id
-    label_ids = Recruitment.active.map(&:label_id)
-    id = 1
-    while label_ids.include?(id) do
-      id += 1
-    end
-    self.label_id = id
+    label_ids = Recruitment.active.pluck(:label_id)
+    min = label_ids.min.to_i
+    max = label_ids.max.to_i
+    self.label_id = ([*1..max + 1] - [*min..max]).min
   end
 
   def set_reserve_at
