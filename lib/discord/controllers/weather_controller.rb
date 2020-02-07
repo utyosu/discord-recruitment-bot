@@ -30,8 +30,8 @@ module WeatherController
     res << I18n.t('weather.title.humidity', humidity: weather['main']['humidity'])
     res << I18n.t('weather.title.pressure', pressure: weather['main']['pressure'])
     res << I18n.t('weather.title.speed', speed: weather['wind']['speed'])
-    res << I18n.t('weather.title.sunrise', sunrise: Time.at(weather['sys']['sunrise']).strftime('%H:%M'))
-    res << I18n.t('weather.title.sunset', sunset: Time.at(weather['sys']['sunset']).strftime('%H:%M'))
+    res << I18n.t('weather.title.sunrise', sunrise: Time.zone.at(weather['sys']['sunrise']).strftime('%H:%M'))
+    res << I18n.t('weather.title.sunset', sunset: Time.zone.at(weather['sys']['sunset']).strftime('%H:%M'))
     message_event.channel.send_embed do |embed|
       embed.title = "#{city['Name']}#{I18n.t('weather.display')}"
       embed.description = res.join("\n")
