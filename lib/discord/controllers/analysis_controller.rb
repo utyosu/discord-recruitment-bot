@@ -5,7 +5,7 @@ module AnalysisController
   @last_updated = nil
 
   def voice_channels(bot)
-    @last_updated = UserStatus.last.created_at rescue Time.zone.now if @last_updated.blank?
+    @last_updated = UserStatus.last&.created_at || Time.zone.now if @last_updated.blank?
     return if 0 < ANALYSIS_INTERVAL && (@last_updated + ANALYSIS_INTERVAL) > Time.zone.now
     @last_updated = Time.zone.now
     bot.servers.each do |_server_id, server|
