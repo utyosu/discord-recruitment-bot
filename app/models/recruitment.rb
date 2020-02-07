@@ -9,8 +9,8 @@ class Recruitment < ApplicationRecord
   end
 
   def leave(user)
-    self.participants.find_by(user: user).destroy
-    self.update(enable: false) if self.participants.empty?
+    participants.find_by(user: user).destroy
+    update(enable: false) if participants.empty?
   end
 
   def set_label_id
@@ -23,7 +23,7 @@ class Recruitment < ApplicationRecord
   end
 
   def set_reserve_at
-    self.reserve_at = Extractor.extraction_time(self.content)
+    self.reserve_at = Extractor.extraction_time(content)
   end
 
   def author
@@ -31,23 +31,23 @@ class Recruitment < ApplicationRecord
   end
 
   def full?
-    self.participants.size > self.capacity
+    participants.size > capacity
   end
 
   def capacity
-    Extractor.extraction_recruit_user_count(self.content)
+    Extractor.extraction_recruit_user_count(content)
   end
 
   def reserved
-    self.participants.size - 1
+    participants.size - 1
   end
 
   def mentions
-    self.participants.map { |p| "<@#{p.user.discord_id}>" }.join(" ")
+    participants.map { |p| "<@#{p.user.discord_id}>" }.join(" ")
   end
 
   def vacant
-    self.capacity - self.reserved
+    capacity - reserved
   end
 
   def to_format_string
@@ -69,7 +69,7 @@ class Recruitment < ApplicationRecord
   end
 
   def attended?(user)
-    self.participants.any? { |p| p.user == user }
+    participants.any? { |p| p.user == user }
   end
 
   def self.get_by_label_id(label_id)

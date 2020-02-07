@@ -2,9 +2,7 @@ BOT_DAEMONIZE = false unless defined?(BOT_DAEMONIZE)
 
 class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
   def start(_args)
-    loop do
-      self.sequence
-    end
+    loop { sequence }
   end
 
   def sequence
