@@ -37,7 +37,7 @@ class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
       AnalysisController.voice_channels(bot)
     end
     loop { timers.wait }
-  rescue => e
+  rescue StandardError => e
     logger.error I18n.t('bot.reboot')
     logger.error e.full_message
     Slack::Web::Client.new(token: Settings.secret.slack.access_token).chat_postMessage(
