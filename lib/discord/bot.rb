@@ -16,7 +16,7 @@ class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
     )
 
     bot.message do |event|
-      if event.kind_of?(Discordrb::Events::MessageEvent)
+      if event.is_a?(Discordrb::Events::MessageEvent)
         ActionSelector.get_message(event, bot)
       end
     end
