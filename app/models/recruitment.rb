@@ -51,11 +51,21 @@ class Recruitment < ApplicationRecord
   end
 
   def to_format_string
-    recruitment_message = "[#{self.label_id}] #{self.content} by #{self.author.name} (#{self.reserved}/#{self.capacity})"
-    if 0 < self.reserved
-      recruitment_message += "\n    参加者: #{self.participants[1..-1].map { |p| p.user.name }.join(', ')}"
+    result = I18n.t(
+      'recruitment.information.base',
+      label_id: label_id,
+      content: content,
+      author_name: author.name,
+      reserved: reserved,
+      capacity: capacity,
+    )
+    if participants.size >= 2
+      result += "\n" + I18n.t(
+        'recruitment.information.participants',
+        participants: participants[1..-1].map { |p| p.user.name }.join(', '),
+      )
     end
-    return recruitment_message
+    return result
   end
 
   def attended?(user)
