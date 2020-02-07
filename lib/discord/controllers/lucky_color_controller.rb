@@ -12,7 +12,7 @@ module LuckyColorController
       num: 1,
       start: rand(10) + 1,
       searchType: "image",
-      imgDominantColor: color_english
+      imgDominantColor: color_english,
     })
     if http.status != 200
       message_event.send_message(I18n.t('lucky_color.error'))
