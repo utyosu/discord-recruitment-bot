@@ -5,7 +5,7 @@ module InteractionController
     Activity.add(message_event.author, :interaction_create)
 
     _command, keyword, response = Helper.get_message_content(message_event).gsub(/\p{blank}/, " ").split(/ /, 3)
-    return if keyword.size < 1 || 64 < keyword.size || keyword =~ $KEYWORDS_INTERACTION_RESPONSE || response.size < 1 || 64 < response.size
+    return if keyword.size < 1 || 64 < keyword.size || response.size < 1 || 64 < response.size
     user = User.get_by_discord_user(message_event.author)
     Interaction.create(user: user, keyword: keyword, response: response)
     message_event.send_message(I18n.t('interaction.remember', keyword: keyword, response: response))
