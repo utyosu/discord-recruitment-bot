@@ -12,7 +12,7 @@ class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
       token: Settings.secret.discord.token,
       client_id: Settings.secret.discord.client_id,
       prefix: '/',
-      log_mode: Settings.bot.log_mode.to_sym
+      log_mode: Settings.bot.log_mode.to_sym,
     )
 
     bot.message do |event|
@@ -44,7 +44,7 @@ class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
     logger.error e.full_message
     Slack::Web::Client.new(token: Settings.secret.slack.access_token).chat_postMessage(
       channel: Settings.secret.slack.notify_channel,
-      text: "[#{Rails.env}] #{I18n.t('bot.reboot')}\n```#{e.full_message(highlight: false)}```"
+      text: "[#{Rails.env}] #{I18n.t('bot.reboot')}\n```#{e.full_message(highlight: false)}```",
     )
     bot.stop
     sleep 60

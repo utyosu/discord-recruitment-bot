@@ -30,7 +30,7 @@ set :linked_dirs, fetch(:linked_dirs, []).push(
   'tmp/sockets',
   'vendor/bundle',
   'public/system',
-  'public/uploads'
+  'public/uploads',
 )
 
 namespace :puma do
