@@ -11,7 +11,7 @@ module Helper
   end
 
   def send_message_command(message_event, bot)
-    command, channel_name, message = message_event.content.split(" ", 3)
+    _command, channel_name, message = message_event.content.split(" ", 3)
     return if message.blank?
     target_channel = bot.servers.map { |_server_id, server| server.channels.find { |channel| channel.name == channel_name } }.first
     target_channel.send_message(message) if target_channel.present?

@@ -36,7 +36,7 @@ class AnalysisesController < ApplicationController
     king_user_ids << max_recruitment_user_id(king_user_ids)
     king_user_ids << max_connection_user_id(king_user_ids)
 
-    kings = king_user_ids.compact.map { |king_user_id|
+    _kings = king_user_ids.compact.map { |king_user_id|
       { label: User.find(king_user_id).name }
     }
 

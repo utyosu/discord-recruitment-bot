@@ -8,7 +8,6 @@ module RecruitmentController
   end
 
   def destroy_expired_recruitment(recruitment_channel)
-    destroyed_recruitments = []
     Recruitment.active.each do |recruitment|
       if recruitment.reserve_at.present?
         if recruitment.reserve_at < Time.zone.now - Settings.recruitment.reserve_over_sec

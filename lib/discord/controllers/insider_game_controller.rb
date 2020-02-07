@@ -6,7 +6,7 @@ module InsiderGameController
   def do(message_event, bot)
     Activity.add(message_event.author, :insider_game)
 
-    command, subject = message_event.content.split(/[[:blank:]]/, 2)
+    _command, subject = message_event.content.split(/[[:blank:]]/, 2)
     author = message_event.author
     voice_channel = get_voice_channel(author, bot)
     raise InsiderGameError.new(I18n.t('insider_game.error_no_voice_channel')) if voice_channel.blank?
