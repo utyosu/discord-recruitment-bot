@@ -14,7 +14,7 @@ describe User do
 
     context 'when exist user' do
       context 'with same name' do
-        let(:discord_user) { double(:discord_user, display_name: user.name, id: user.discord_id ) }
+        let(:discord_user) { double(:discord_user, display_name: user.name, id: user.discord_id) }
         let!(:user) { create(:user) }
 
         it { is_expected.to have_attributes(name: user.name, discord_id: user.discord_id.to_s) }
@@ -23,7 +23,7 @@ describe User do
 
       context 'with different name' do
         context 'and have display_name' do
-          let(:discord_user) { double(:discord_user, display_name: discord_user_name, id: user.discord_id ) }
+          let(:discord_user) { double(:discord_user, display_name: discord_user_name, id: user.discord_id) }
           let!(:user) { create(:user) }
           let(:discord_user_name) { Faker::Name.name }
 
@@ -32,7 +32,7 @@ describe User do
         end
 
         context 'and not have display_name' do
-          let(:discord_user) { double(:discord_user, id: user.discord_id ) }
+          let(:discord_user) { double(:discord_user, id: user.discord_id) }
           let!(:user) { create(:user) }
 
           it { is_expected.to have_attributes(name: user.name, discord_id: user.discord_id.to_s) }
