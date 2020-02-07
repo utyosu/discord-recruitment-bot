@@ -104,8 +104,8 @@ module RecruitmentController
     return I18n.t('recruitment.not_found') if recruitments.blank?
     recruitment_message =
       recruitments
-      .sort_by { |recruitment| recruitment.label_id }
-      .map { |recruitment| recruitment.to_format_string }
+      .sort_by(&:label_id)
+      .map(&:to_format_string)
       .join("\n")
     return recruitment_message
   end

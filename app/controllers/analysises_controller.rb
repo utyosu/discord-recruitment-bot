@@ -87,7 +87,7 @@ class AnalysisesController < ApplicationController
     base_time = Time.zone.today.midnight
     UserStatus
       .where(created_at: base_time.ago(KINGS_AGGREGATION_PERIOD_DAYS.days)..base_time)
-      .map { |user_status| user_status.user_id }
+      .map(&:user_id)
       .group_by(&:itself)
       .each_with_object({}) { |(user_id, values), hash| hash[user_id] = values.count }
       .max_by { |user_id, count| exclude_user_ids.include?(user_id) ? 0 : count }
