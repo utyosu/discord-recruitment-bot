@@ -1,5 +1,5 @@
 module NicknameController
-  extend self
+  module_function
 
   def do(message_event)
     Activity.add(message_event.author, :nickname)

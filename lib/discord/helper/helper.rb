@@ -1,5 +1,5 @@
 module Helper
-  extend self
+  module_function
 
   def to_safe(str)
     # <@\d+> is discord mention

@@ -1,5 +1,5 @@
 module WeatherController
-  extend self
+  module_function
 
   DIFF_TO_ABSOLUTE_ZERO = 273.15
 

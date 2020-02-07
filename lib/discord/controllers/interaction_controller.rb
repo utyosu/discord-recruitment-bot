@@ -1,5 +1,5 @@
 module InteractionController
-  extend self
+  module_function
 
   def create(message_event)
     Activity.add(message_event.author, :interaction_create)

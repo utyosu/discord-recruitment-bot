@@ -1,5 +1,5 @@
 module AnalysisController
-  extend self
+  module_function
 
   ANALYSIS_INTERVAL = Settings.analysis.interval_sec
   @last_updated = nil
