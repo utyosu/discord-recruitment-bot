@@ -10,7 +10,7 @@ module LuckyColorController
       params: {
         key: Settings.secret.google_search_api.key,
         cx: Settings.secret.google_search_api.cx,
-        q: "#{Settings.lucky_color.words.sample}",
+        q: Settings.lucky_color.words.sample.to_s,
         num: 1,
         start: rand(1..10),
         searchType: "image",
