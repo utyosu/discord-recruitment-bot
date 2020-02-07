@@ -2,12 +2,12 @@ module AnalysisController
   extend self
 
   ANALYSIS_INTERVAL = Settings.analysis.interval_sec
-  @@last_updated = nil
+  @last_updated = nil
 
   def voice_channels(bot)
-    @@last_updated = UserStatus.last.created_at rescue Time.zone.now if @@last_updated.blank?
-    return if 0 < ANALYSIS_INTERVAL && (@@last_updated + ANALYSIS_INTERVAL) > Time.zone.now
-    @@last_updated = Time.zone.now
+    @last_updated = UserStatus.last.created_at rescue Time.zone.now if @last_updated.blank?
+    return if 0 < ANALYSIS_INTERVAL && (@last_updated + ANALYSIS_INTERVAL) > Time.zone.now
+    @last_updated = Time.zone.now
     bot.servers.each do |_server_id, server|
       server.voice_channels.each do |discord_voice_channel|
         discord_voice_channel.users.each do |discord_user|

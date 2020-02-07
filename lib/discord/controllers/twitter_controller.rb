@@ -1,5 +1,5 @@
 class TwitterController
-  @@twitter_client = Twitter::REST::Client.new do |config|
+  @twitter_client = Twitter::REST::Client.new do |config|
     config.consumer_key = Settings.secret.twitter.consumer_key
     config.consumer_secret = Settings.secret.twitter.consumer_secret
     config.access_token = Settings.secret.twitter.access_token
@@ -35,7 +35,7 @@ class TwitterController
   def self.tweet(recruitment, message)
     return unless ready?
     begin
-      tweet = @@twitter_client.update(to_twitter_safe(message), in_reply_to_status_id: recruitment.tweet_id)
+      tweet = @twitter_client.update(to_twitter_safe(message), in_reply_to_status_id: recruitment.tweet_id)
       recruitment.update(tweet_id: tweet.id)
     rescue Twitter::Error => e
       STDERR.puts e.message
