@@ -1,5 +1,5 @@
 class Recruitment < ApplicationRecord
-  has_many :participants, -> { order "created_at ASC" }, dependent: :destroy
+  has_many :participants, -> { order "created_at ASC" }, dependent: :destroy, inverse_of: :recruitment
   validates :content, presence: true
   before_create :set_label_id, :set_reserve_at
   scope :active, -> { where(enable: true) }
