@@ -66,11 +66,13 @@ class Extractor
   end
 
   def self.to_future(datetime)
-    # 時間が過ぎている
-    if datetime.hour < 12
-      2.times { datetime += 12.hours if datetime < Time.zone.now }
-    else
-      datetime += 24.hours if datetime < Time.zone.now
+    diff_sec = Time.zone.now - datetime
+    if diff_sec > 0
+      if datetime.hour < 12 && diff_sec < 12.hours
+        datetime += 12.hours
+      elsif diff_sec < 24.hours
+        datetime += 24.hours
+      end
     end
 
     return datetime
