@@ -1,6 +1,6 @@
 namespace :etc do
   desc "etc"
-  task :login_user_average => :environment do
+  task login_user_average: :environment do
     date_count = 30
     date = Time.zone.today.yesterday
     user_count_list = []
