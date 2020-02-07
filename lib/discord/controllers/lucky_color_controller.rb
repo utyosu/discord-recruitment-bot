@@ -12,7 +12,7 @@ module LuckyColorController
         cx: Settings.secret.google_search_api.cx,
         q: "#{Settings.lucky_color.words.sample}",
         num: 1,
-        start: rand(10) + 1,
+        start: rand(1..10),
         searchType: "image",
         imgDominantColor: color_english,
       },
