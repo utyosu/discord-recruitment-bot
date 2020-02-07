@@ -9,10 +9,10 @@ module InsiderGameController
     _command, subject = message_event.content.split(/[[:blank:]]/, 2)
     author = message_event.author
     voice_channel = get_voice_channel(author, bot)
-    raise InsiderGameError.new(I18n.t('insider_game.error_no_voice_channel')) if voice_channel.blank?
+    raise InsiderGameError, I18n.t('insider_game.error_no_voice_channel') if voice_channel.blank?
     users = voice_channel.users
     insider = decide_insider(users, author)
-    raise InsiderGameError.new(I18n.t('insider_game.error_no_insider')) if insider.blank?
+    raise InsiderGameError, I18n.t('insider_game.error_no_insider') if insider.blank?
 
     users.each do |user|
       if user.id == insider.id
