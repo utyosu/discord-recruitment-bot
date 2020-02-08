@@ -5,7 +5,7 @@ module WeatherController
 
   def do(message_event)
     if Settings.secret.yahoo_geocode_api.appid.blank? || Settings.secret.open_weather_map.appid.blank?
-      STDERR.puts "Need settings: yahoo_geocode_api.appid and open_weather_map.appid"
+      Logger.new(STDOUT).puts "Need settings: yahoo_geocode_api.appid and open_weather_map.appid"
       return
     end
 

@@ -40,7 +40,7 @@ class TwitterController
       tweet = @twitter_client.update(to_twitter_safe(message), in_reply_to_status_id: recruitment.tweet_id)
       recruitment.update(tweet_id: tweet.id)
     rescue Twitter::Error => e
-      STDERR.puts e.message
+      Logger.new(STDOUT).puts e.message
     end
   end
 

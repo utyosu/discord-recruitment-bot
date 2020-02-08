@@ -21,7 +21,7 @@ class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
 
     bot.run(true)
 
-    logger = Rails.env.development? ? Logger.new(STDOUT) : Rails.logger
+    logger = Logger.new(STDOUT)
     logger.info I18n.t('bot.analysis_interval', interval: AnalysisController::ANALYSIS_INTERVAL)
 
     recruitment_channel = Helper.get_channel(bot, Settings.secret.discord.recruitment_channel_id)

@@ -11,11 +11,12 @@ describe Bot do
       allow(logger).to receive(:error)
       allow(Timers::Group).to receive(:new).and_return(timers)
       allow(timers).to receive(:wait).and_raise(error)
+      allow(Logger).to receive(:new).and_return(logger)
       target.sequence
     end
 
     let(:timers) { Timers::Group.new }
-    let(:logger) { Rails.logger }
+    let(:logger) { Logger.new(nil) }
     let(:target) { described_class.new }
     let(:bot) { double(:bot).as_null_object }
     let(:slack) { double(:slack).as_null_object }
