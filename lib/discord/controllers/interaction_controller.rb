@@ -17,18 +17,16 @@ module InteractionController
     _command, keyword, other = Helper.get_message_content(message_event).gsub(/\p{blank}/, " ").split
     return if keyword.blank? || other.present?
     interactions = Interaction.where(keyword: keyword)
-    if interactions.present?
-      interactions.destroy_all
-      message_event.send_message(I18n.t('interaction.forget', keyword: keyword))
-    end
+    return if interactions.blank?
+    interactions.destroy_all
+    message_event.send_message(I18n.t('interaction.forget', keyword: keyword))
   end
 
   def response(message_event)
     keyword = Helper.get_message_content(message_event)
     interaction = Interaction.all.select { |i| keyword =~ /#{i.keyword}/ }.sample
-    if interaction.present?
-      Activity.add(message_event.author, :interaction_response)
-      message_event.send_message(interaction.response)
-    end
+    return if interaction.blank?
+    Activity.add(message_event.author, :interaction_response)
+    message_event.send_message(interaction.response)
   end
 end
