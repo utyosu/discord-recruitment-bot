@@ -14,55 +14,54 @@ class Extractor
   end
 
   TIME_PATTERN = [
-    [/(?<year>\d{4})\/(?<month>\d{1,2})\/(?<day>\d{1,2})\s+(?<hour>\d{1,2}):(?<min>\d{2})/],
-    [/(?<month>\d{1,2})\/(?<day>\d{1,2})\s+(?<hour>\d{1,2}):(?<min>\d{2})/],
+    [/(?<year>\d{4})\/(?<mon>\d{1,2})\/(?<mday>\d{1,2})\s+(?<hour>\d{1,2}):(?<min>\d{2})/],
+    [/(?<mon>\d{1,2})\/(?<mday>\d{1,2})\s+(?<hour>\d{1,2}):(?<min>\d{2})/],
     [/(?<hour>\d{1,2}):(?<min>\d{2})/],
     [/(?<hour>\d{1,2})時(?<min>\d{1,2})分/],
     [/(?<hour>\d{1,2})時半/, ->(time) { time.merge!(min: 30) }],
     [/(?<hour>\d{1,2})時(?!間)/],
-    [/丑三つ時/, ->(time) { time.merge!(day: time[:day] + 1, hour: 2) }]
+    [/丑三つ時/, ->(time) { time.merge!(mday: time[:mday] + 1, hour: 2) }]
   ]
 
   DECORATIVE_PATTERN = [
-    [/明日/, ->(time) { time.merge!(day: time[:day] + 1) }]
+    [/明日/, ->(time) { time.merge!(mday: time[:mday] + 1) }]
   ]
 
-  def self.extraction_time(str)
-    # trimming
-    str = Helper.to_safe(str.gsub(/(\d+時|\d+:\d+)[^\d]*まで/, "").gsub(/[～-](\d+時|\d+:\d+)/, ""))
-
+  def self.extraction_time(input)
+    input = trim(input)
     TIME_PATTERN.each do |pattern, function|
-      match = str.match(pattern)
-      next if match.blank?
-      match_time = match&.named_captures&.with_indifferent_access
-      now = Time.zone.now
-      time = {
-        year: (match_time[:year] || now.year).to_i,
-        month: (match_time[:month] || now.month).to_i,
-        day: (match_time[:day] || now.day).to_i,
-        hour: (match_time[:hour] || now.hour).to_i,
-        min: (match_time[:min] || now.min).to_i,
-      }
-
-      time[:day] += time[:hour] / 24
-      time[:hour] %= 24
-
+      time = time_from_pattern(pattern, input)
+      next if time.blank?
+      carry_up(time)
       function.call(time) if function.present?
-
-      apply_decorate(str, time)
-
-      datetime = Time.new(time[:year], time[:month], time[:day], time[:hour], time[:min]).in_time_zone
-
+      apply_decorate(input, time)
+      datetime = Time.zone.local(time[:year], time[:mon], time[:mday], time[:hour], time[:min])
       return to_future(datetime)
     end
 
     return nil
   end
 
-  def self.apply_decorate(str, time)
+  def self.trim(input)
+    Helper.to_safe(input.gsub(/(\d+時|\d+:\d+)[^\d]*まで/, "").gsub(/[～-](\d+時|\d+:\d+)/, ""))
+  end
+
+  def self.time_from_pattern(pattern, input)
+    match = input.match(pattern)
+    return nil if match.blank?
+    match_time = match.named_captures.map { |k, v| [k.to_sym, v.to_i] }.to_h
+    DateTime._strptime(DateTime.now.to_s).merge(match_time)
+  end
+
+  def self.apply_decorate(input, time)
     DECORATIVE_PATTERN.each do |pattern, function|
-      function.call(time) if str.match(pattern)
+      function.call(time) if input.match(pattern)
     end
+  end
+
+  def self.carry_up(time)
+    time[:mday] += time[:hour] / 24
+    time[:hour] %= 24
   end
 
   def self.to_future(datetime)
