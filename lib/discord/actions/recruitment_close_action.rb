@@ -13,7 +13,7 @@ class RecruitmentCloseAction < RecruitmentBase
     user = User.get_by_discord_user(message_event.author)
 
     recruitment.update(enable: false)
-    message_event.send_message(I18n.t('recruitment.close', name: user.name, label_id: recruitment.label_id))
+    message_event.send_message(I18n.t("recruitment.close", name: user.name, label_id: recruitment.label_id))
     show(message_event)
     TwitterController.new.recruitment_close(recruitment)
   end

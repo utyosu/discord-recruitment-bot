@@ -7,11 +7,11 @@ class FoodPornAction
     Activity.add(message_event.author, :food_porn)
     http = request_to_customsearch
     if http.status != 200
-      message_event.send_message(I18n.t('food_porn.error'))
+      message_event.send_message(I18n.t("food_porn.error"))
       return
     end
     response = JSON.parse(http.body)
-    photo_source = response['items'].sample
+    photo_source = response["items"].sample
     path = "tmp/cache/image.jpg"
     OpenURI.open_uri(photo_source["link"]) do |image|
       File.open(path, "wb") { |file| file.puts image.read }

@@ -9,16 +9,16 @@ class LuckyColorAction
     color_japanese, color_english = Settings.lucky_color.color.sample.split
     http = request_to_customsearch(color_english)
     if http.status != 200
-      message_event.send_message(I18n.t('lucky_color.error'))
+      message_event.send_message(I18n.t("lucky_color.error"))
       return
     end
     response = JSON.parse(http.body)
-    photo_source = response['items'].sample
+    photo_source = response["items"].sample
     path = "tmp/cache/image.jpg"
     OpenURI.open_uri(photo_source["link"]) do |image|
       File.open(path, "wb") { |file| file.puts image.read }
     end
-    message_event.send_message(I18n.t('lucky_color.display', name: message_event.author.display_name, color: color_japanese))
+    message_event.send_message(I18n.t("lucky_color.display", name: message_event.author.display_name, color: color_japanese))
     message_event.send_file(File.open(path, "r"))
     File.delete(path)
   end

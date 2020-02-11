@@ -11,30 +11,30 @@ class WeatherAction
   def execute(message_event)
     Activity.add(message_event.author, :weather)
 
-    city_word = message_event.content.gsub(Regexp.new(Settings.keyword.weather.join('|')), '')
+    city_word = message_event.content.gsub(Regexp.new(Settings.keyword.weather.join("|")), "")
 
     city = city_from_word(city_word)
     return if city.blank?
 
     weather = weather_from_position(city[:lon], city[:lat])
     message_event.channel.send_embed do |embed|
-      embed.title = "#{city[:name]}#{I18n.t('weather.display')}"
-      embed.description = I18n.t('weather.format', weather_to_hash(weather))
+      embed.title = "#{city[:name]}#{I18n.t("weather.display")}"
+      embed.description = I18n.t("weather.format", weather_to_hash(weather))
       embed.color = 0x5882FA
     end
   end
 
   def weather_to_hash(weather)
     {
-      weather: Settings.weather.patterns.map(&:split).to_h[weather['weather'].first['id'].to_s],
-      temp: format("%<temp>.1f", temp: (weather['main']['temp'].to_f - DIFF_TO_ABSOLUTE_ZERO)),
-      temp_max: format("%<temp_max>.1f", temp_max: (weather['main']['temp_max'].to_f - DIFF_TO_ABSOLUTE_ZERO)),
-      temp_min: format("%<temp_min>.1f", temp_min: (weather['main']['temp_min'].to_f - DIFF_TO_ABSOLUTE_ZERO)),
-      humidity: weather['main']['humidity'],
-      pressure: weather['main']['pressure'],
-      speed: weather['wind']['speed'],
-      sunrise: Time.zone.at(weather['sys']['sunrise']).strftime('%H:%M'),
-      sunset: Time.zone.at(weather['sys']['sunset']).strftime('%H:%M'),
+      weather: Settings.weather.patterns.map(&:split).to_h[weather["weather"].first["id"].to_s],
+      temp: format("%<temp>.1f", temp: (weather["main"]["temp"].to_f - DIFF_TO_ABSOLUTE_ZERO)),
+      temp_max: format("%<temp_max>.1f", temp_max: (weather["main"]["temp_max"].to_f - DIFF_TO_ABSOLUTE_ZERO)),
+      temp_min: format("%<temp_min>.1f", temp_min: (weather["main"]["temp_min"].to_f - DIFF_TO_ABSOLUTE_ZERO)),
+      humidity: weather["main"]["humidity"],
+      pressure: weather["main"]["pressure"],
+      speed: weather["wind"]["speed"],
+      sunrise: Time.zone.at(weather["sys"]["sunrise"]).strftime("%H:%M"),
+      sunset: Time.zone.at(weather["sys"]["sunset"]).strftime("%H:%M"),
     }
   end
 
@@ -49,11 +49,11 @@ class WeatherAction
         ar: "le",
       }
     )
-    return nil if geocode_response.status != 200 || JSON.parse(geocode_response)['Feature'].blank?
-    city = JSON.parse(geocode_response)['Feature'].sample
-    lon, lat = city['Geometry']['Coordinates'].split(",")
+    return nil if geocode_response.status != 200 || JSON.parse(geocode_response)["Feature"].blank?
+    city = JSON.parse(geocode_response)["Feature"].sample
+    lon, lat = city["Geometry"]["Coordinates"].split(",")
     return {
-      name: city['Name'],
+      name: city["Name"],
       lon: lon,
       lat: lat,
     }

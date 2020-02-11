@@ -15,6 +15,6 @@ class InteractionDestroyAction
     interactions = Interaction.where(keyword: keyword)
     return if interactions.blank?
     interactions.destroy_all
-    message_event.send_message(I18n.t('interaction.forget', keyword: keyword))
+    message_event.send_message(I18n.t("interaction.forget", keyword: keyword))
   end
 end

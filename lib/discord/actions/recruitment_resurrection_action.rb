@@ -13,7 +13,7 @@ class RecruitmentResurrectionAction < RecruitmentBase
     return if recruitment.blank?
     recruitment.set_label_id
     recruitment.update(enable: true)
-    message_event.send_message(I18n.t('recruitment.resurrection', name: user.name, label_id: recruitment.label_id))
+    message_event.send_message(I18n.t("recruitment.resurrection", name: user.name, label_id: recruitment.label_id))
     show(message_event)
   end
 end

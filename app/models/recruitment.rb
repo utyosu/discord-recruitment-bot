@@ -50,7 +50,7 @@ class Recruitment < ApplicationRecord
 
   def to_format_string
     result = I18n.t(
-      'recruitment.information.base',
+      "recruitment.information.base",
       label_id: label_id,
       content: content,
       author_name: author.name,
@@ -59,8 +59,8 @@ class Recruitment < ApplicationRecord
     )
     if participants.size >= 2
       result += "\n" + I18n.t(
-        'recruitment.information.participants',
-        participants: participants[1..-1].map { |p| p.user.name }.join(', '),
+        "recruitment.information.participants",
+        participants: participants[1..-1].map { |p| p.user.name }.join(", "),
       )
     end
     return result

@@ -1,9 +1,9 @@
-require './spec/rails_helper'
-require './spec/spec_helper'
+require "./spec/rails_helper"
+require "./spec/spec_helper"
 
 describe ActionSelector do
   action_selector = ActionSelector.new
-  describe '.execute' do
+  describe ".execute" do
     let(:message_event) { build(:fake_message_event) }
 
     before do

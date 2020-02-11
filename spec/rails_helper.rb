@@ -1,8 +1,8 @@
-require 'spec_helper'
-ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../config/environment', __dir__)
+require "spec_helper"
+ENV["RAILS_ENV"] ||= "test"
+require File.expand_path("../config/environment", __dir__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
-require 'rspec/rails'
+require "rspec/rails"
 
 begin
   ActiveRecord::Migration.maintain_test_schema!
@@ -18,7 +18,7 @@ RSpec.configure do |config|
 end
 
 # Load discord-recruitment-bot scripts
-Dir['lib/discord/**/*.rb'].each { |file| require './' + file }
+Dir["lib/discord/**/*.rb"].each { |file| require "./" + file }
 
 # for use travel_to
 RSpec.configure do |config|

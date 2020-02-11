@@ -1,14 +1,14 @@
-require './spec/rails_helper'
-require './spec/spec_helper'
+require "./spec/rails_helper"
+require "./spec/spec_helper"
 
 describe WeatherAction do
-  include_context 'basic message_event'
+  include_context "basic message_event"
 
-  describe '#execute?' do
-    it_behaves_like 'execute?', Settings.keyword.weather.sample
+  describe "#execute?" do
+    it_behaves_like "execute?", Settings.keyword.weather.sample
   end
 
-  describe '#execute' do
+  describe "#execute" do
     before do
       allow(HTTP).to receive(:get).and_return(
         OpenStruct.new(
@@ -23,8 +23,8 @@ describe WeatherAction do
     let(:status) { 404 }
     let(:body) { '{"Feature":["東京都新宿区"]}' }
 
-    it 'save activity' do
-      expect(Activity.last).to have_attributes(user: author, content: 'weather')
+    it "save activity" do
+      expect(Activity.last).to have_attributes(user: author, content: "weather")
     end
   end
 end

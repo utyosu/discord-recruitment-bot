@@ -1,4 +1,4 @@
-proj_path = File.expand_path('..', __dir__).to_s
+proj_path = File.expand_path("..", __dir__).to_s
 proj_name = File.basename(proj_path)
 
 threads_count = ENV.fetch("RAILS_MAX_THREADS") { 8 }.to_i

@@ -1,5 +1,5 @@
-require './spec/rails_helper'
-require './spec/spec_helper'
+require "./spec/rails_helper"
+require "./spec/spec_helper"
 
 describe ApplicationController do
 end

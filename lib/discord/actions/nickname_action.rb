@@ -12,6 +12,6 @@ class NicknameAction
       decoration = Settings.nickname.decorations.sample
       nick = "#{decoration}#{nick}#{decoration}"
     end
-    message_event.send_message(I18n.t('nickname.display', name: message_event.author.display_name, nick: nick))
+    message_event.send_message(I18n.t("nickname.display", name: message_event.author.display_name, nick: nick))
   end
 end

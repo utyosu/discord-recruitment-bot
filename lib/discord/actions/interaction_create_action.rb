@@ -14,6 +14,6 @@ class InteractionCreateAction
     return if keyword.blank? || !(1..64).include?(keyword.size) || response.blank? || !(1..64).include?(response.size)
     user = User.get_by_discord_user(message_event.author)
     Interaction.create(user: user, keyword: keyword, response: response)
-    message_event.send_message(I18n.t('interaction.remember', keyword: keyword, response: response))
+    message_event.send_message(I18n.t("interaction.remember", keyword: keyword, response: response))
   end
 end

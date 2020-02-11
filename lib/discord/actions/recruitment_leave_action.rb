@@ -12,7 +12,7 @@ class RecruitmentLeaveAction < RecruitmentBase
     user = User.get_by_discord_user(message_event.author)
     return if recruitment.blank? || !recruitment.attended?(user)
     TwitterController.new.recruitment_leave(recruitment)
-    message_event.send_message(I18n.t('recruitment.cancel', name: user.name, label_id: recruitment.label_id))
+    message_event.send_message(I18n.t("recruitment.cancel", name: user.name, label_id: recruitment.label_id))
     show(message_event)
     recruitment.leave(user)
   end

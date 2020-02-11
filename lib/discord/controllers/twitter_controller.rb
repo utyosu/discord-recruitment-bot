@@ -13,7 +13,7 @@ class TwitterController
   end
 
   def recruitment_close(recruitment)
-    tweet(recruitment, "#{I18n.t('twitter.title')}\n#{I18n.t('twitter.close')}")
+    tweet(recruitment, "#{I18n.t("twitter.title")}\n#{I18n.t("twitter.close")}")
   end
 
   def recruitment_join(recruitment)
@@ -25,7 +25,7 @@ class TwitterController
   end
 
   def ready?
-    ENV['DISCORD_BOT_TWITTER_DISABLE'].blank?
+    ENV["DISCORD_BOT_TWITTER_DISABLE"].blank?
   end
 
   def recruitment_message(recruitment)
@@ -49,9 +49,9 @@ class TwitterController
   def to_twitter_safe(str)
     ret = str.dup
     str.scan(/[＠@]\d+/) do |word|
-      ret.gsub!(/#{Regexp.escape(word)}/, word.tr('0-9@', '０-９＠'))
+      ret.gsub!(/#{Regexp.escape(word)}/, word.tr("0-9@", "０-９＠"))
     end
-    ret.tr!('*', '＊')
+    ret.tr!("*", "＊")
     return ret
   end
 end

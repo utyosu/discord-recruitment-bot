@@ -1,8 +1,8 @@
-require './spec/rails_helper'
-require './spec/spec_helper'
+require "./spec/rails_helper"
+require "./spec/spec_helper"
 
 describe Bot do
-  describe '.sequence' do
+  describe ".sequence" do
     before do
       allow(Discordrb::Commands::CommandBot).to receive(:new).and_return(bot)
       allow(Helper).to receive(:get_channel).and_return(channel)
@@ -21,10 +21,10 @@ describe Bot do
     let(:bot) { double(:bot).as_null_object }
     let(:slack) { double(:slack).as_null_object }
     let(:channel) { build(:fake_channel) }
-    let(:error) { RuntimeError.new('this is test error') }
+    let(:error) { RuntimeError.new("this is test error") }
 
-    it 'write logger' do
-      expect(logger).to have_received(:error).with(I18n.t('bot.reboot')).ordered
+    it "write logger" do
+      expect(logger).to have_received(:error).with(I18n.t("bot.reboot")).ordered
       expect(logger).to have_received(:error).with(error.full_message).ordered
     end
   end

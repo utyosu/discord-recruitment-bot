@@ -18,15 +18,15 @@ class FakeMessageEvent
   end
 
   def play?
-    raise 'Please implement in stub'
+    raise "Please implement in stub"
   end
 
   def recruitment?
-    raise 'Please implement in stub'
+    raise "Please implement in stub"
   end
 
   def pm?
-    raise 'Please implement in stub'
+    raise "Please implement in stub"
   end
 
   def match_any_keywords?(keywords)
