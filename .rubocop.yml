@@ -1,1 +1,125 @@
 require: rubocop-rails
+
+# ガード節直後に空行を入れる設定
+# スカスカなコードになるときがあるのでオフにする
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+# 定数のfreezeを強制する設定
+# 定数に再代入するようなコードは書かないが、全部にfreezeを付けると冗長になるので使わない
+Style/MutableConstant:
+  Enabled: false
+
+# 複数行の引数の最後にカンマを付けるかどうか統一する設定
+# 変更時の差分が出にくくするため、複数行の引数は最後にカンマを付けるときと
+# 引数が1つだけなのでカンマを付けないときがあるのでオフにする
+Style/TrailingCommaInArguments:
+  Enabled: false
+
+# ハッシュの最後にカンマを付けるかどうか統一する設定
+# 変更時の差分が出にくくするため、ハッシュの最後にカンマを付ける
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
+# ブロックあたりの行数を制限する設定
+# RSpec, Capistrano のファイルはDSLの性質によりブロック内が長くなるため
+# ブロックあたりの長さは無視する
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'config/deploy.rb'
+
+# Rails.root.joinの引数を単一か複数に統一する設定
+# OSによりディレクトリの区切り文字が異なるのを考慮して複数設定にする
+Rails/FilePath:
+  EnforcedStyle: arguments
+
+# 1.days, 2.second などの単数形/複数形が間違っているときに注意する設定
+# 日本人なので単数形/複数形を気にしたくない
+Rails/PluralizationGrammar:
+  Enabled: false
+
+# Ascii文字以外のコメントを注意する設定
+# 日本語のコメントを許可したい
+Style/AsciiComments:
+  Enabled: false
+
+# ドキュメント用コメントを書く設定
+# gemで配布する訳ではないのでドキュメント用のコメントは必要ない
+Style/Documentation:
+  Enabled: false
+
+# 文字列リテラルがデフォルトでfrozenされるマジックコメントを書く設定
+# 全ファイルにマジックコメントを書きたくないのでオフにする
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# "hoge > 0" ではなく "hoge.positive?" と書くようにする設定
+# 数値で書くほうが意図が伝わる場合があるのでオフにする
+Style/NumericPredicate:
+  Enabled: false
+
+# メソッドの最後のreturnのように消してもいいreturnを指摘する設定
+# 戻り値を使うときは明示的にreturnするのでオフにする
+Style/RedundantReturn:
+  Enabled: false
+
+# 正規表現を // もしくは %r{} の適切な方に設定
+# 正規表現の内容を確認して適切な方を提案されるが、統一性を重視したいのでオフにする
+Style/RegexpLiteral:
+  Enabled: false
+
+# シングルクォートを使うかダブルクォートを使うかの設定
+# デフォルトはシングルクォートだが、公式では統一されていればどちらでも良いとされる
+# 趣味でダブルクォートを使う
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: double_quotes
+
+# ヨーダ記法を避ける設定
+# 条件式の書き方に意図を込める場合があるのでオフにする
+Style/YodaCondition:
+  Enabled: false
+
+# 0かどうかを判定するときに hoge == 0 ではなく hoge.empty? を使う設定
+# 意図を込めて数値を書く場合があるのでオフにする
+Style/ZeroLengthPredicate:
+  Enabled: false
+
+# 1行あたりの最大文字数
+# 特に制限はかける必要ないけどあまりにも長いのはやめる
+Layout/LineLength:
+  Max: 180
+
+# 後置ifを使う設定
+# 必ずしも後置ifが見やすいとは限らないのでオフにする
+Style/IfUnlessModifier:
+  Enabled: false
+
+# Strerrを禁止する設定
+# lib以下はdaemonで動かすので許可する
+Style/StderrPuts:
+  Exclude:
+    - 'lib/**/*'
+
+# クラスの行数制限
+# 短くすることにあまり必要性を感じないのでオフにする
+Metrics/ClassLength:
+  Enabled: false
+
+# モジュールの行数制限
+# 短くすることにあまり必要性を感じないのでオフにする
+Metrics/ModuleLength:
+  Enabled: false
+
+# メソッドあたりの代入、メソッド呼び出し等、条件式が多すぎないかチェックする設定
+# デフォルトは15だが、結構厳しい基準なので緩めにする
+Metrics/AbcSize:
+  Max: 50
+
+# メソッドあたりの行数設定
+# デフォルトは10だが、厳しいので緩めにする
+Metrics/MethodLength:
+  Max: 25
