@@ -56,7 +56,7 @@ ja:
     close: "%{name}さんが [%{label_id}] を終了しました。"
     error_two_numbers: 数字が2つ以上入っているので分かりませんでした(´・ω・｀)ｼｮﾎﾞｰﾝ
     information:
-      base: "[%{label_id}] %{content} %{author_name} %{reserved}/%{capacity}"
+      base: "[%{label_id}] %{content} by %{author_name} (%{reserved}/%{capacity})"
       participants: "    参加者: %{participants}"
     join: "%{name}さんが [%{label_id}] に参加しました"
     not_found: 募集はありません
