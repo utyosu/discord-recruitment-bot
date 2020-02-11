@@ -13,9 +13,10 @@ class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
       log_mode: Settings.bot.log_mode.to_sym,
     )
 
+    action_selector = ActionSelector.new
     bot.message do |event|
       if event.is_a?(Discordrb::Events::MessageEvent)
-        ActionSelector.get_message(event, bot)
+        action_selector.execute(event)
       end
     end
 
@@ -29,12 +30,14 @@ class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
 
     play_channel = Helper.get_channel(bot, Settings.secret.discord.play_channel_id)
     logger.info I18n.t('bot.play_channel', name: play_channel.try(:name))
-    logger.info I18n.t('bot.use_twitter', bool: TwitterController.ready?)
+    logger.info I18n.t('bot.use_twitter', bool: TwitterController.new.ready?)
 
     timers = Timers::Group.new
+    recruitment_base = RecruitmentBase.new
+    analysis_controller = AnalysisController.new
     timers.every(1.minute) do
-      RecruitmentController.destroy_expired_recruitment(recruitment_channel)
-      AnalysisController.voice_channels(bot)
+      recruitment_base.destroy_expired_recruitment(recruitment_channel)
+      analysis_controller.voice_channels(bot)
     end
     loop { timers.wait }
   rescue StandardError => e

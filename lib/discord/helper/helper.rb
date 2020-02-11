@@ -32,4 +32,9 @@ module Helper
   def play?(message_event)
     message_event.channel.id == Settings.secret.discord.play_channel_id.to_i
   end
+
+  def match_keywords?(message_event, keywords)
+    content = to_safe(get_message_content(message_event))
+    keywords.any? { |keyword| content.match?(Regexp.new(keyword)) }
+  end
 end

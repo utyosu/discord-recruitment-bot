@@ -1,8 +1,9 @@
-module AnalysisController
-  module_function
-
+class AnalysisController
   ANALYSIS_INTERVAL = Settings.analysis.interval_sec
-  @last_updated = nil
+
+  def initialize
+    @last_updated = nil
+  end
 
   def voice_channels(bot)
     @last_updated = UserStatus.last&.created_at || Time.zone.now if @last_updated.blank?
