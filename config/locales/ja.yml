@@ -55,6 +55,9 @@ ja:
     cancel: "%{name}さんが [%{label_id}] の参加をキャンセルしました。"
     close: "%{name}さんが [%{label_id}] を終了しました。"
     error_two_numbers: 数字が2つ以上入っているので分かりませんでした(´・ω・｀)ｼｮﾎﾞｰﾝ
+    information:
+      base: "[%{label_id}] %{content} %{author_name} %{reserved}/%{capacity}"
+      participants: "    参加者: %{participants}"
     join: "%{name}さんが [%{label_id}] に参加しました"
     not_found: 募集はありません
     one_time_close: "[%{label_id}] を終了しました。"
@@ -74,17 +77,18 @@ ja:
     error: よく分かりません
   twitter:
     close: この募集は終了しました。
-    participants: 参加者
-    title: イーズ募集通知
+    content: "%{content} by %{author_name} (%{reserved}/%{capacity})"
+    participants: '参加者: %{participants}'
+    title: "【イーズ募集通知】"
   weapon:
     display: "%{name}さんの今日のオススメブキは【**%{weapon}**】でし！"
   weather:
     display: の天気
-    title:
-      humidity: 湿度：%{humidity}%
-      pressure: 気圧：%{pressure}hPa
-      speed: 風速：%{speed} m/s
-      sunrise: 日の出：%{sunrise}
-      sunset: 日の入：%{sunset}
-      temp: 気温：%{temp}度 (%{temp_min}度～%{temp_max}度)
-      weather: 天気：%{weather}
+    format: |
+      湿度：%{humidity}%
+      気圧：%{pressure}hPa
+      風速：%{speed} m/s
+      日の出：%{sunrise}
+      日の入：%{sunset}
+      気温：%{temp}度 (%{temp_min}度～%{temp_max}度)
+      天気：%{weather}

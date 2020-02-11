@@ -1,5 +1,5 @@
-role :app, %w{ops@gce}
+role :app, %w[ops@gce]
 
-server "gce", user: "ops", roles: %w{app}
+server "gce", user: "ops", roles: %w[app]
 
 set :rails_env, :production

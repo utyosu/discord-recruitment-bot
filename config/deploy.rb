@@ -3,7 +3,7 @@ lock "~> 3.11.2"
 
 set :application, "discord-recruitment-bot"
 set :repo_url, "https://github.com/utyosu/discord-recruitment-bot"
-set :branch, ENV['BRANCH'] || "master"
+set :branch, ENV["BRANCH"] || "master"
 
 set :bundle_jobs, 1
 
@@ -24,17 +24,17 @@ set :puma_init_active_record, true
 set :puma_daemonize, true
 
 set :linked_dirs, fetch(:linked_dirs, []).push(
-  'log',
-  'tmp/pids',
-  'tmp/cache',
-  'tmp/sockets',
-  'vendor/bundle',
-  'public/system',
-  'public/uploads'
+  "log",
+  "tmp/pids",
+  "tmp/cache",
+  "tmp/sockets",
+  "vendor/bundle",
+  "public/system",
+  "public/uploads",
 )
 
 namespace :puma do
-  desc 'Create Directories for Puma Pids and Socket'
+  desc "Create Directories for Puma Pids and Socket"
   task :make_dirs do
     on roles(:app) do
       execute :mkdir, "#{shared_path}/tmp/sockets -p"
@@ -54,7 +54,7 @@ namespace :deploy do
       end
     end
   end
-  after  :finishing, :compile_assets
+  after :finishing, :compile_assets
 
   task :migrate_with_ridgepole do
     on roles(:app) do
@@ -107,4 +107,4 @@ namespace :bot do
   end
 end
 
-after 'deploy:publishing', 'bot:restart'
+after "deploy:publishing", "bot:restart"

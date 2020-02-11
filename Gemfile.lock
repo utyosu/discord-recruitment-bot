@@ -200,10 +200,6 @@ GEM
       activesupport (>= 4.2.0)
     hashie (4.0.0)
     highline (2.0.3)
-    hirb (0.7.3)
-    hirb-unicode (0.0.5)
-      hirb (~> 0.5)
-      unicode-display_width (~> 0.1.1)
     http (3.3.0)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
@@ -226,6 +222,7 @@ GEM
       rails-i18n
       rainbow (>= 2.2.2, < 4.0)
       terminal-table (>= 1.5.1)
+    jaro_winkler (1.5.4)
     jbuilder (2.9.1)
       activesupport (>= 4.2.0)
     json (2.3.0)
@@ -265,6 +262,7 @@ GEM
       mini_portile2 (~> 2.4.0)
     opus-ruby (1.0.1)
       ffi
+    parallel (1.19.1)
     parser (2.7.0.2)
       ast (~> 2.4.0)
     pry (0.12.2)
@@ -343,6 +341,17 @@ GEM
       rspec-mocks (~> 3.9.0)
       rspec-support (~> 3.9.0)
     rspec-support (3.9.2)
+    rubocop (0.79.0)
+      jaro_winkler (~> 1.5.1)
+      parallel (~> 1.10)
+      parser (>= 2.7.0.1)
+      rainbow (>= 2.2.2, < 4.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 1.4.0, < 1.7)
+    rubocop-rails (2.4.2)
+      rack (>= 1.1)
+      rubocop (>= 0.72.0)
+    ruby-progressbar (1.10.1)
     rubyzip (2.0.0)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
@@ -416,7 +425,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.6)
-    unicode-display_width (0.1.1)
+    unicode-display_width (1.6.1)
     uniform_notifier (1.13.0)
     web-console (4.0.1)
       actionview (>= 6.0.0)
@@ -463,9 +472,6 @@ DEPENDENCIES
   discordrb
   factory_bot_rails
   faker
-  hirb
-  hirb-unicode
-  http
   i18n-tasks
   jbuilder
   listen
@@ -478,13 +484,15 @@ DEPENDENCIES
   rails-i18n
   ridgepole
   rspec-rails
+  rubocop
+  rubocop-rails
   sass-rails
   selenium-webdriver
   simplecov
   slack-ruby-client
   slim-rails
   timers
-  twitter (>= 5.17)
+  twitter (>= 6.2.0)
   tzinfo
   uglifier
   web-console

@@ -1,5 +1,5 @@
 class Recruitment < ApplicationRecord
-  has_many :participants, -> {order "created_at ASC"}, dependent: :destroy
+  has_many :participants, -> { order "created_at ASC" }, dependent: :destroy, inverse_of: :recruitment
   validates :content, presence: true
   before_create :set_label_id, :set_reserve_at
   scope :active, -> { where(enable: true) }
@@ -9,21 +9,19 @@ class Recruitment < ApplicationRecord
   end
 
   def leave(user)
-    self.participants.find_by(user: user).destroy
-    self.update(enable: false) if self.participants.empty?
+    participants.find_by(user: user).destroy
+    update(enable: false) if participants.empty?
   end
 
   def set_label_id
-    label_ids = Recruitment.active.map{|r|r.label_id}
-    id = 1
-    while(label_ids.include?(id)) do
-      id += 1
-    end
-    self.label_id = id
+    label_ids = Recruitment.active.pluck(:label_id)
+    min = label_ids.min.to_i
+    max = label_ids.max.to_i
+    self.label_id = ([*1..max + 1] - [*min..max]).min
   end
 
   def set_reserve_at
-    self.reserve_at = Extractor.extraction_time(self.content)
+    self.reserve_at = Extractor.extraction_time(content)
   end
 
   def author
@@ -31,35 +29,45 @@ class Recruitment < ApplicationRecord
   end
 
   def full?
-    self.participants.size > self.capacity
+    participants.size > capacity
   end
 
   def capacity
-    Extractor.extraction_recruit_user_count(self.content)
+    Extractor.extraction_recruit_user_count(content)
   end
 
   def reserved
-    self.participants.size - 1
+    participants.size - 1
   end
 
   def mentions
-    self.participants.map{|p|"<@#{p.user.discord_id}>"}.join(" ")
+    participants.map { |p| "<@#{p.user.discord_id}>" }.join(" ")
   end
 
   def vacant
-    self.capacity - self.reserved
+    capacity - reserved
   end
 
   def to_format_string
-    recruitment_message = "[#{self.label_id}] #{self.content} by #{self.author.name} (#{self.reserved}/#{self.capacity})"
-    if 0 < self.reserved
-      recruitment_message += "\n    参加者: #{self.participants[1..-1].map{|p|p.user.name}.join(', ')}"
+    result = I18n.t(
+      "recruitment.information.base",
+      label_id: label_id,
+      content: content,
+      author_name: author.name,
+      reserved: reserved,
+      capacity: capacity,
+    )
+    if participants.size >= 2
+      result += "\n" + I18n.t(
+        "recruitment.information.participants",
+        participants: participants[1..-1].map { |p| p.user.name }.join(", "),
+      )
     end
-    return recruitment_message
+    return result
   end
 
   def attended?(user)
-    self.participants.any?{|p|p.user == user}
+    participants.any? { |p| p.user == user }
   end
 
   def self.get_by_label_id(label_id)
