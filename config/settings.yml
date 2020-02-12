@@ -5,6 +5,8 @@ recruitment:
   expire_sec: 3600 # 時間指定のない募集の期限
 analysis:
   interval_sec: 1800
+lottery:
+  limit: 3
 secret:
   discord:
     token: your discord bot token

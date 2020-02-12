@@ -15,6 +15,7 @@ class Activity < ApplicationRecord
     talk: 11,
     weapon: 12,
     weather: 13,
+    lottery: 14,
   }
 
   def self.add(discord_user, content)
