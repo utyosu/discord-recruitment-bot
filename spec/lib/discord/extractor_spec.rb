@@ -3,7 +3,7 @@ require "./spec/spec_helper"
 
 describe Extractor do
   around do |e|
-    travel_to("2018-3-10 8:00".in_time_zone) { e.run }
+    travel_to("2018-3-10 8:03".in_time_zone) { e.run }
   end
 
   describe ".extraction_time" do
@@ -40,8 +40,8 @@ describe Extractor do
     end
 
     context 'when "hh:mm" style' do
-      let(:target) { "9:00" }
-      it { is_expected.to eq "2018-3-10 9:00".in_time_zone }
+      let(:target) { "10:12" }
+      it { is_expected.to eq "2018-3-10 10:12".in_time_zone }
     end
 
     context 'when "n時m分" style' do
@@ -55,8 +55,8 @@ describe Extractor do
     end
 
     context 'when "n時" style' do
-      let(:target) { "9時" }
-      it { is_expected.to eq "2018-3-10 9:00".in_time_zone }
+      let(:target) { "10時" }
+      it { is_expected.to eq "2018-3-10 10:00".in_time_zone }
     end
 
     context "when 丑三つ時" do
