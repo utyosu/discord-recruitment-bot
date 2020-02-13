@@ -19,8 +19,8 @@ class Extractor
     [/(?<hour>\d{1,2}):(?<min>\d{2})/],
     [/(?<hour>\d{1,2})時(?<min>\d{1,2})分/],
     [/(?<hour>\d{1,2})時半/, ->(time) { time.merge!(min: 30) }],
-    [/(?<hour>\d{1,2})時(?!間)/],
-    [/丑三つ時/, ->(time) { time.merge!(mday: time[:mday] + 1, hour: 2) }]
+    [/(?<hour>\d{1,2})時(?!間)/, ->(time) { time.merge!(min: 0) }],
+    [/丑三つ時/, ->(time) { time.merge!(mday: time[:mday] + 1, hour: 2, min: 0) }]
   ]
 
   DECORATIVE_PATTERN = [
