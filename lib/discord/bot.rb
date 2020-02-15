@@ -12,14 +12,25 @@ class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
       prefix: "/",
       log_mode: Settings.bot.log_mode.to_sym,
     )
+    hook_action_selector(bot)
+    bot.run(true)
+    logging_startup(bot)
+    timers = setting_timer(bot)
+    loop { timers.wait }
+  rescue StandardError => e
+    logging_error(e)
+    bot.stop
+    sleep 60
+  end
 
+  def hook_action_selector(bot)
     action_selector = ActionSelector.new
     bot.message do |event|
       action_selector.execute(event) if event.is_a?(Discordrb::Events::MessageEvent)
     end
+  end
 
-    bot.run(true)
-    logging_startup(bot)
+  def setting_timer(bot)
     timers = Timers::Group.new
     recruitment_base = RecruitmentBase.new
     recruitment_channel = get_channel(bot, Settings.secret.discord.recruitment_channel_id)
@@ -28,11 +39,7 @@ class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
       recruitment_base.destroy_expired_recruitment(recruitment_channel)
       analysis_controller.voice_channels(bot)
     end
-    loop { timers.wait }
-  rescue StandardError => e
-    logging_error(e)
-    bot.stop
-    sleep 60
+    return timers
   end
 
   def logging_startup(bot)

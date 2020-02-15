@@ -122,4 +122,4 @@ Metrics/AbcSize:
 # メソッドあたりの行数設定
 # デフォルトは10だが、厳しいので緩めにする
 Metrics/MethodLength:
-  Max: 25
+  Max: 20
