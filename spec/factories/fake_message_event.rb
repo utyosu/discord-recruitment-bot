@@ -1,4 +1,4 @@
-class FakeMessageEvent
+class FakeMessageEvent < Discordrb::Events::MessageEvent
   attr_accessor :author, :content, :channel
 
   def initialize
@@ -15,23 +15,6 @@ class FakeMessageEvent
 
   def send_file(file)
     # Do nothing
-  end
-
-  def play?
-    raise "Please implement in stub"
-  end
-
-  def recruitment?
-    raise "Please implement in stub"
-  end
-
-  def pm?
-    raise "Please implement in stub"
-  end
-
-  def match_any_keywords?(keywords)
-    content = Helper.to_safe(Helper.get_message_content(self))
-    keywords.any? { |keyword| content.match?(Regexp.new(keyword)) }
   end
 end
 
