@@ -1,4 +1,6 @@
-require: rubocop-rails
+require:
+  - rubocop-rails
+  - rubocop-performance
 
 # ガード節直後に空行を入れる設定
 # スカスカなコードになるときがあるのでオフにする
