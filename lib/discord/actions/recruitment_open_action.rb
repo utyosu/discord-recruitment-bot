@@ -14,25 +14,29 @@ class RecruitmentOpenAction < RecruitmentBase
     recruitment = Recruitment.create(content: recruit_message)
     recruitment.join(user)
     if recruitment.reserve_at.present?
-      message_event.send_message(
-        I18n.t(
-          "recruitment.open_reserved",
-          name: user.name,
-          label_id: recruitment.label_id,
-          time: recruitment.reserve_at.to_simply,
-        )
-      )
+      message_event.send_message(message_reserved(user.name, recruitment))
     else
-      message_event.send_message(
-        I18n.t(
-          "recruitment.open_standard",
-          name: user.name,
-          label_id: recruitment.label_id,
-          time: (recruitment.created_at + Settings.recruitment.expire_sec).to_simply
-        )
-      )
+      message_event.send_message(message_standard(user.name, recruitment))
     end
     show(message_event)
     TwitterController.new.recruitment_open(recruitment)
+  end
+
+  def message_standard(name, recruitment)
+    I18n.t(
+      "recruitment.open_standard",
+      name: name,
+      label_id: recruitment.label_id,
+      time: (recruitment.created_at + Settings.recruitment.expire_sec).to_simply
+    )
+  end
+
+  def message_reserved(name, recruitment)
+    I18n.t(
+      "recruitment.open_reserved",
+      name: name,
+      label_id: recruitment.label_id,
+      time: recruitment.reserve_at.to_simply,
+    )
   end
 end
