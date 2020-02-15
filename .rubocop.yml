@@ -104,16 +104,6 @@ Style/StderrPuts:
   Exclude:
     - 'lib/**/*'
 
-# クラスの行数制限
-# 短くすることにあまり必要性を感じないのでオフにする
-Metrics/ClassLength:
-  Enabled: false
-
-# モジュールの行数制限
-# 短くすることにあまり必要性を感じないのでオフにする
-Metrics/ModuleLength:
-  Enabled: false
-
 # メソッドあたりの代入、メソッド呼び出し等、条件式が多すぎないかチェックする設定
 # デフォルトは15だが、結構厳しい基準なので緩めにする
 Metrics/AbcSize:
