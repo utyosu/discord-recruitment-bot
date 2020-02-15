@@ -5,7 +5,7 @@ describe RecruitmentCloseAction do
   include_context "basic message_event"
 
   describe "#execute?" do
-    it_behaves_like "execute?", Settings.keyword.recruitment.close.sample
+    it_behaves_like "execute?", %i[recruitment], Settings.keyword.recruitment.close.sample
   end
 
   describe "#execute" do

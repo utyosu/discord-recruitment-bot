@@ -5,7 +5,7 @@ describe FortuneAction do
   include_context "basic message_event"
 
   describe "#execute?" do
-    it_behaves_like "execute?", Settings.keyword.fortune.sample
+    it_behaves_like "execute?", %i[play], Settings.keyword.fortune.sample
   end
 
   describe "#execute" do

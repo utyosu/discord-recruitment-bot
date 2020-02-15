@@ -5,7 +5,7 @@ describe RecruitmentOpenAction do
   include_context "basic message_event"
 
   describe "#execute?" do
-    it_behaves_like "execute?", "@1"
+    it_behaves_like "execute?", %i[recruitment], "@1"
   end
 
   describe "#execute" do

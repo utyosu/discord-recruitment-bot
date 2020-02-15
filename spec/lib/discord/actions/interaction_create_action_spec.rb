@@ -5,7 +5,7 @@ describe InteractionCreateAction do
   include_context "basic message_event"
 
   describe "#execute?" do
-    it_behaves_like "execute?", Settings.keyword.interaction.create.sample
+    it_behaves_like "execute?", %i[play], Settings.keyword.interaction.create.sample
   end
 
   describe "#execute" do

@@ -5,7 +5,7 @@ describe WeaponAction do
   include_context "basic message_event"
 
   describe "#execute?" do
-    it_behaves_like "execute?", Settings.keyword.weapon.sample
+    it_behaves_like "execute?", %i[play], Settings.keyword.weapon.sample
   end
 
   describe "#execute" do

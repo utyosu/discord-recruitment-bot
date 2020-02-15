@@ -5,7 +5,7 @@ describe InteractionDestroyAction do
   include_context "basic message_event"
 
   describe "#execute?" do
-    it_behaves_like "execute?", Settings.keyword.interaction.destroy.sample
+    it_behaves_like "execute?", %i[play], Settings.keyword.interaction.destroy.sample
   end
 
   describe "#execute" do

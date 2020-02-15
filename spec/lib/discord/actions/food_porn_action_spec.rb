@@ -5,7 +5,7 @@ describe FoodPornAction do
   include_context "basic message_event"
 
   describe "#execute?" do
-    it_behaves_like "execute?", Settings.keyword.food_porn.sample
+    it_behaves_like "execute?", %i[play], Settings.keyword.food_porn.sample
   end
 
   describe "#execute" do

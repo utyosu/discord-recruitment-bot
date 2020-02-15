@@ -5,7 +5,7 @@ describe LuckyColorAction do
   include_context "basic message_event"
 
   describe "#execute?" do
-    it_behaves_like "execute?", Settings.keyword.lucky_color.sample
+    it_behaves_like "execute?", %i[play], Settings.keyword.lucky_color.sample
   end
 
   describe "#execute" do

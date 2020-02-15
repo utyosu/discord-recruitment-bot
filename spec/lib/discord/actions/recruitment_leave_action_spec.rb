@@ -5,7 +5,7 @@ describe RecruitmentLeaveAction do
   include_context "basic message_event"
 
   describe "#execute?" do
-    it_behaves_like "execute?", Settings.keyword.recruitment.leave.sample
+    it_behaves_like "execute?", %i[recruitment], Settings.keyword.recruitment.leave.sample
   end
 
   describe "#execute" do

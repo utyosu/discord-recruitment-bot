@@ -5,7 +5,7 @@ describe RecruitmentShowAction do
   include_context "basic message_event"
 
   describe "#execute?" do
-    it_behaves_like "execute?", Settings.keyword.recruitment.show.sample
+    it_behaves_like "execute?", %i[recruitment pm], Settings.keyword.recruitment.show.sample
   end
 
   describe "#execute" do

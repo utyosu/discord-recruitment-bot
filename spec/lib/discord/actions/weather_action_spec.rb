@@ -5,7 +5,7 @@ describe WeatherAction do
   include_context "basic message_event"
 
   describe "#execute?" do
-    it_behaves_like "execute?", Settings.keyword.weather.sample
+    it_behaves_like "execute?", %i[play], Settings.keyword.weather.sample
   end
 
   describe "#execute" do

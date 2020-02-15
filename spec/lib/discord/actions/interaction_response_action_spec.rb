@@ -5,7 +5,7 @@ describe InteractionResponseAction do
   include_context "basic message_event"
 
   describe "#execute?" do
-    it_behaves_like "execute?", ""
+    it_behaves_like "execute?", %i[play], ""
   end
 
   describe "#execute" do

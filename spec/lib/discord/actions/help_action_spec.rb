@@ -5,7 +5,7 @@ describe HelpAction do
   include_context "basic message_event"
 
   describe "#execute?" do
-    it_behaves_like "execute?", Settings.keyword.help.sample
+    it_behaves_like "execute?", %i[recruitment], Settings.keyword.help.sample
   end
 
   describe "#execute" do

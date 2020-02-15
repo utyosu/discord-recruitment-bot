@@ -10,7 +10,7 @@ describe InsiderGameAction do
   let(:insider_game_action) { described_class.new }
 
   describe "#execute?" do
-    it_behaves_like "execute?", Settings.keyword.insider_game.sample
+    it_behaves_like "execute?", %i[pm], Settings.keyword.insider_game.sample
   end
 
   describe "#execute" do
