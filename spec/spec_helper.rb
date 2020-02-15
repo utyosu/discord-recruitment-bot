@@ -36,23 +36,4 @@ RSpec.configure do |config|
   end
 end
 
-shared_context "basic message_event" do
-  let(:discord_author) { build(:fake_discord_user) }
-  let(:author) { User.get_by_discord_user(discord_author) }
-  let(:message_event) { build(:fake_message_event, author: discord_author, content: discord_content) }
-  let(:discord_content) { "" }
-end
-
-shared_examples "execute?" do |keywords|
-  subject { described_class.new.execute?(message_event) }
-
-  let(:discord_content) { keywords }
-
-  before do
-    allow(message_event).to receive(:recruitment?).and_return(true)
-    allow(message_event).to receive(:play?).and_return(true)
-    allow(message_event).to receive(:pm?).and_return(true)
-  end
-
-  it { is_expected.to eq true }
-end
+require "action_spec_helper"

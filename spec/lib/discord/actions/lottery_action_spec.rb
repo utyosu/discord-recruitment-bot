@@ -5,7 +5,7 @@ describe LotteryAction do
   include_context "basic message_event"
 
   describe "#execute?" do
-    it_behaves_like "execute?", Settings.keyword.lottery.sample
+    it_behaves_like "execute?", %i[play], Settings.keyword.lottery.sample
   end
 
   describe "#execute" do

@@ -5,7 +5,7 @@ describe TalkAction do
   include_context "basic message_event"
 
   describe "#execute?" do
-    it_behaves_like "execute?", Settings.keyword.talk.sample
+    it_behaves_like "execute?", %i[play], Settings.keyword.talk.sample
   end
 
   describe "#execute" do

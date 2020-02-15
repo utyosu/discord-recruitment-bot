@@ -5,7 +5,7 @@ describe BattlePowerAction do
   include_context "basic message_event"
 
   describe "#execute?" do
-    it_behaves_like "execute?", Settings.keyword.battle_power.sample
+    it_behaves_like "execute?", %i[play], Settings.keyword.battle_power.sample
   end
 
   describe "#execute" do
