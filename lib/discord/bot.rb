@@ -51,10 +51,13 @@ class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
     logger = Logger.new(STDOUT)
     logger.error I18n.t("bot.reboot")
     logger.error error.full_message
+    return unless Settings.secret.slack.access_token.present? && Settings.secret.slack.notify_channel.present?
     Slack::Web::Client.new(token: Settings.secret.slack.access_token).chat_postMessage(
       channel: Settings.secret.slack.notify_channel,
       text: "[#{Rails.env}] #{I18n.t("bot.reboot")}\n```#{error.full_message(highlight: false)}```",
     )
+  rescue Slack::Web::Api::Errors::SlackError => e
+    logger.error e.full_message
   end
 
   def get_channel(bot, channel_id)
