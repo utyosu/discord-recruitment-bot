@@ -9,7 +9,8 @@ class RecruitmentOpenAction < RecruitmentBase
 
   def execute(message_event)
     user = User.get_by_discord_user(message_event.author)
-    recruit_message = Helper.get_message_content(message_event)
+    # できるだけ原文を維持したいのでExtractor.formatは実行せずに改行の削除のみ行う
+    recruit_message = message_event.content.gsub(/\R/, "")
     recruitment = Recruitment.create(content: recruit_message)
     recruitment.join(user)
     if recruitment.reserve_at.present?

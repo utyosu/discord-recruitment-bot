@@ -1,16 +1,14 @@
 class Extractor
-  def self.extraction_recruit_user_count(str)
-    tmp = Helper.to_safe(str).gsub(/\d+時|\d+:\d+/, "").match(/@\d+[^\d]+(\d+)/)
-    return tmp[1].to_i if tmp.present?
-    tmp = Helper.to_safe(str).match(/@(\d+)/)
-    return tmp.blank? ? nil : tmp[1].to_i
+  def self.format(str)
+    str
+      .tr("０-９ａ-ｚＡ-Ｚ＠？：", "0-9a-zA-Z@?:") # 全角記号を半角にする
+      .gsub(/<@\d+>/, "") # メンションを削除
+      .gsub(/[[:blank:]]/, " ") # 空白類を全て半角スペース1つにする
+      .gsub(/\R/, "") # 改行を削除
   end
 
-  def self.extraction_number(str)
-    num_list = Helper.to_safe(str).gsub(/[^\d]/, ",").gsub(/,+/, ",").gsub(/^,/, "").gsub(/,$/, "").split(",").map(&:to_i)
-    return num_list.first if num_list.size == 1
-    return 0 if num_list.size == 0
-    return nil
+  def self.extraction_recruit_user_count(str)
+    format(str).scan(/@[^\s]+/).join.scan(/\d+/).map(&:to_i).max
   end
 
   TIME_PATTERN = [
@@ -27,8 +25,8 @@ class Extractor
     [/明日/, ->(time) { time.merge!(mday: time[:mday] + 1) }]
   ]
 
-  def self.extraction_time(input)
-    input = trim(input)
+  def self.extraction_time(raw_input)
+    input = exclude_end_time(format(raw_input))
     TIME_PATTERN.each do |pattern, function|
       time = time_from_pattern(pattern, input)
       next if time.blank?
@@ -42,8 +40,10 @@ class Extractor
     return nil
   end
 
-  def self.trim(input)
-    Helper.to_safe(input.gsub(/(\d+時|\d+:\d+)[^\d]*まで/, "").gsub(/[～-](\d+時|\d+:\d+)/, ""))
+  def self.exclude_end_time(input)
+    input
+      .gsub(/(\d+時|\d+:\d+)[^\d]*まで/, "")
+      .gsub(/[～-](\d+時|\d+:\d+)/, "")
   end
 
   def self.time_from_pattern(pattern, input)
