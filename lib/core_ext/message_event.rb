@@ -12,8 +12,8 @@ module Discordrb
       end
 
       def match_any_keywords?(keywords)
-        content = Helper.to_safe(Helper.get_message_content(self))
-        keywords.any? { |keyword| content.match?(Regexp.new(keyword)) }
+        formatted_content = Extractor.format(content)
+        keywords.any? { |keyword| formatted_content.match?(Regexp.new(keyword)) }
       end
     end
   end

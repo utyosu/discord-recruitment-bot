@@ -10,7 +10,7 @@ class InteractionDestroyAction
   def execute(message_event)
     Activity.add(message_event.author, :interaction_destroy)
 
-    _command, keyword, other = Helper.get_message_content(message_event).gsub(/\p{blank}/, " ").split
+    _command, keyword, other = Extractor.format(message_event.content).split
     return if keyword.blank? || other.present?
     interactions = Interaction.where(keyword: keyword)
     return if interactions.blank?

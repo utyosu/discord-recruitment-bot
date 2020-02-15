@@ -8,8 +8,7 @@ class InteractionResponseAction
   end
 
   def execute(message_event)
-    keyword = Helper.get_message_content(message_event)
-    interaction = Interaction.all.select { |i| keyword =~ /#{i.keyword}/ }.sample
+    interaction = Interaction.all.select { |i| message_event.content =~ /#{i.keyword}/ }.sample
     return if interaction.blank?
     Activity.add(message_event.author, :interaction_response)
     message_event.send_message(interaction.response)

@@ -22,12 +22,14 @@ class RecruitmentBase
   private
 
   def get_recruitment_by_message_event(message_event)
-    label_id = Extractor.extraction_number(Helper.get_message_content(message_event))
-    if label_id.nil?
+    label_ids = Extractor.format(message_event.content).scan(/\d+/)
+    case label_ids.size
+    when 0 then return nil
+    when 1 then return Recruitment.get_by_label_id(label_ids.first.to_i)
+    else
       message_event.send_message(I18n.t("recruitment.error_two_numbers"))
       return nil
     end
-    return Recruitment.get_by_label_id(label_id)
   end
 
   def recruitments_message

@@ -134,23 +134,4 @@ describe Extractor do
       it { is_expected.to be_nil }
     end
   end
-
-  describe ".extraction_number" do
-    subject { Extractor.extraction_number(target) }
-
-    context "when has one number" do
-      let(:target) { "1参加" }
-      it { is_expected.to eq 1 }
-    end
-
-    context "when has two numbers" do
-      let(:target) { "2分後に1参加" }
-      it { is_expected.to be_nil }
-    end
-
-    context "when has no numbers" do
-      let(:target) { "hogehoge" }
-      it { is_expected.to eq 0 }
-    end
-  end
 end

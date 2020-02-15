@@ -10,7 +10,7 @@ class InteractionCreateAction
   def execute(message_event)
     Activity.add(message_event.author, :interaction_create)
 
-    _command, keyword, response = Helper.get_message_content(message_event).gsub(/\p{blank}/, " ").split(/ /, 3)
+    _command, keyword, response = Extractor.format(message_event.content).split(/ /, 3)
     return if keyword.blank? || !(1..64).include?(keyword.size) || response.blank? || !(1..64).include?(response.size)
     user = User.get_by_discord_user(message_event.author)
     Interaction.create(user: user, keyword: keyword, response: response)
