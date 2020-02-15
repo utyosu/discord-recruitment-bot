@@ -39,11 +39,16 @@ group :test do
   gem "coveralls", require: false
   gem "rspec-rails"
   gem "selenium-webdriver"
-  # simplecov 0.18.2(厳密にはsimplecov-html 0.12.0)で
-  # 出力コードが表示できない不具合があるので一旦0.18.2に固定する
-  # issueは上がっている模様
-  # https://github.com/colszowka/simplecov-html/issues/92
-  gem "simplecov", "= 0.18.1", require: false
+
+  # simplecov
+  #   simplecov 0.18.2(厳密にはsimplecov-html 0.12.0)で
+  #   出力コードが表示できない不具合があるので一旦0.18.2に固定する
+  #   issueは上がっている模様
+  #   https://github.com/colszowka/simplecov-html/issues/92
+  #
+  #   coverallsがsimplecov 0.16系までしか対応していないので
+  #   0.16.1に固定する。対応したらバージョンアップする。
+  gem "simplecov", "~> 0.16.0", require: false
   gem "webdrivers"
 end
 
