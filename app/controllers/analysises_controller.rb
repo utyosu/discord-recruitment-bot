@@ -62,7 +62,7 @@ class AnalysisesController < ApplicationController
       user_status.created_at.hour
     end
 
-    hourlyactive = 24.times.map do |hour|
+    hourlyactive = [*0..23].map do |hour|
       active_user_count = user_statuses_group_by_hour[hour]&.count || 0
       { x: 3600 * hour, y: (active_user_count.to_f / HOURLY_ACTIVE_AGGREGATION_PERIOD_DAYS).ceil }
     end
