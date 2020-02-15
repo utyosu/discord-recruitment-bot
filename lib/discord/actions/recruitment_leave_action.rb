@@ -13,7 +13,7 @@ class RecruitmentLeaveAction < RecruitmentBase
     return if recruitment.blank? || !recruitment.attended?(user)
     TwitterController.new.recruitment_leave(recruitment)
     message_event.send_message(I18n.t("recruitment.cancel", name: user.name, label_id: recruitment.label_id))
-    show(message_event)
     recruitment.leave(user)
+    show(message_event)
   end
 end
