@@ -3,7 +3,6 @@ require "./spec/spec_helper"
 
 describe RecruitmentBase do
   before do
-    allow(Helper).to receive(:get_channel).and_return(recruitment_channel)
     allow(TwitterController).to receive(:new).and_return(double.as_null_object)
   end
 

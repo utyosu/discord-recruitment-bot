@@ -11,10 +11,6 @@ describe RecruitmentShowAction do
   describe "#execute" do
     subject { described_class.new.execute(recruitment_channel) }
 
-    before do
-      allow(Helper).to receive(:get_channel).and_return(recruitment_channel)
-    end
-
     let(:recruitment_channel) { build(:fake_channel) }
 
     context "when exist active recruitment" do

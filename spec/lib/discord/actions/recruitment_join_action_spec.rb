@@ -12,11 +12,8 @@ describe RecruitmentJoinAction do
     subject { described_class.new.execute(message_event) }
 
     before do
-      allow(Helper).to receive(:get_channel).and_return(recruitment_channel)
       allow(TwitterController).to receive(:new).and_return(double.as_null_object)
     end
-
-    let(:recruitment_channel) { build(:fake_channel) }
 
     context "when recruitment has 2 capacity" do
       let(:recruitment) { create(:recruitment, content: "ほげ＠２") }
