@@ -10,7 +10,7 @@ class Recruitment < ApplicationRecord
 
   def leave(user)
     participants.find_by(user: user).destroy
-    update(enable: false) if participants.empty?
+    update(enable: false) if reload.participants.empty?
   end
 
   def set_label_id
