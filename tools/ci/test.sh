@@ -2,6 +2,9 @@
 
 service mysql start
 
+mysql -e 'create user "dev_ops";'
+mysql -e 'grant all on *.* to "dev_ops";'
+
 export RAILS_ENV=test
 bundle config set without development
 bundle install

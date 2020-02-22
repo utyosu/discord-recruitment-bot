@@ -12,7 +12,7 @@ development:
 
 test:
   <<: *default
-  username: root
+  username: dev_ops
   database: discord_recruitment_bot_test
 
 production:
