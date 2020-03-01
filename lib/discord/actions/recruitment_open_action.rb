@@ -1,6 +1,6 @@
 class RecruitmentOpenAction < RecruitmentBase
   def priority
-    return 1
+    return 2
   end
 
   def execute?(message_event)
