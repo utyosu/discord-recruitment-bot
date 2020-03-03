@@ -87,7 +87,7 @@ class AnalysisesController < ApplicationController
       .where(created_at: base_time.ago(KINGS_AGGREGATION_PERIOD_DAYS.days)..base_time)
       .map { |recruitment| recruitment.participants.first.user_id }
       .group_by(&:itself)
-      .each_with_object({}) { |(user_id, values), hash| hash[user_id] = values.count }
+      .transform_values(&:count)
       .max_by { |user_id, count| exclude_user_ids.include?(user_id) ? 0 : count }
       &.first
   end
@@ -98,7 +98,7 @@ class AnalysisesController < ApplicationController
       .where(created_at: base_time.ago(KINGS_AGGREGATION_PERIOD_DAYS.days)..base_time)
       .map(&:user_id)
       .group_by(&:itself)
-      .each_with_object({}) { |(user_id, values), hash| hash[user_id] = values.count }
+      .transform_values(&:count)
       .max_by { |user_id, count| exclude_user_ids.include?(user_id) ? 0 : count }
       &.first
   end
