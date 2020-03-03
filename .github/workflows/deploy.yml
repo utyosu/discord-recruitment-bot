@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: utyosu/build-rails:ruby2.6.5
+      image: utyosu/build-rails:latest
 
     steps:
     - uses: actions/checkout@v1
