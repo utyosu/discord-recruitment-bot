@@ -115,3 +115,15 @@ Metrics/AbcSize:
 # デフォルトは10だが、厳しいので緩めにする
 Metrics/MethodLength:
   Max: 20
+
+# keys.each, values.each を禁止する設定
+Style/HashEachMethods:
+  Enabled: true
+
+# ハッシュを書き換えるときにmapやeach_with_objectではなくtransform_keysを使うようにする設定
+Style/HashTransformKeys:
+  Enabled: true
+
+# ハッシュを書き換えるときにmapやeach_with_objectではなくtransform_valuesを使うようにする設定
+Style/HashTransformValues:
+  Enabled: true
