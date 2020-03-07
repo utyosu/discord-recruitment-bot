@@ -29,8 +29,8 @@ jobs:
     - name: deploy
       run: |
         mkdir -p /root/.ssh/
-        echo "${{ secrets.GCE_DEPLOY_SSH_CONFIG }}" >> /etc/ssh/ssh_config
-        echo "${{ secrets.GCE_PRIVATE_KEY }}" > /root/.ssh/id_rsa
+        echo "${{ secrets.SSH_CONFIG }}" >> /etc/ssh/ssh_config
+        echo "${{ secrets.PRIVATE_KEY }}" > /root/.ssh/id_rsa
         chmod 600 /root/.ssh/id_rsa
         eval `ssh-agent`
         ssh-add /root/.ssh/id_rsa
