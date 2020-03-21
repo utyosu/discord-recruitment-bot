@@ -1,8 +1,0 @@
-# `bundle exec rake secret` で発行したシークレット
-export SECRET_KEY_BASE=""
-
-# MySQL のパスワード
-export DATABASE_PASSWORD=""
-
-# yaml_vaultのパスワード
-export YAML_VAULT_PASSPHRASE=""

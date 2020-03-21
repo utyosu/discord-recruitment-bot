@@ -1,8 +1,0 @@
-- hosts: all
-  roles:
-    - { role: setup_gce, tags: [setup_gce] }
-    - { role: common, tags: [common] }
-    - { role: rbenv, tags: [rbenv] }
-    - { role: mysql, tags: [mysql] }
-    - { role: nginx, tags: [nginx] }
-    - { role: envfile, tags: [envfile] }
