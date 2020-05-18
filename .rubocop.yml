@@ -147,3 +147,7 @@ Layout/EmptyLinesAroundAttributeAccessor:
 # メソッド呼び出しのドットの前後にスペースを入れるのを禁止する設定
 Layout/SpaceAroundMethodCallOperator:
   Enabled: true
+
+# Exceptionクラスのraiseを禁止する設定
+Lint/RaiseException:
+  Enabled: true
