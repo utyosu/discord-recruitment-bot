@@ -135,3 +135,7 @@ Style/SlicingWithRange:
 # 冗長な指数表記を禁止する設定
 Style/ExponentialNotation:
   Enabled: true
+
+# Structクラスのattributeが規程クラスのメソッドを上書きすることを禁止する設定
+Lint/StructNewOverride:
+  Enabled: true
