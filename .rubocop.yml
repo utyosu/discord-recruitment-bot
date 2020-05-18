@@ -143,3 +143,7 @@ Lint/StructNewOverride:
 # attrの後に空行を必須にする設定
 Layout/EmptyLinesAroundAttributeAccessor:
   Enabled: true
+
+# メソッド呼び出しのドットの前後にスペースを入れるのを禁止する設定
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
