@@ -127,3 +127,27 @@ Style/HashTransformKeys:
 # ハッシュを書き換えるときにmapやeach_with_objectではなくtransform_valuesを使うようにする設定
 Style/HashTransformValues:
   Enabled: true
+
+# Rangeクラスの終端を-1にしないようにする設定
+Style/SlicingWithRange:
+  Enabled: true
+
+# 冗長な指数表記を禁止する設定
+Style/ExponentialNotation:
+  Enabled: true
+
+# Structクラスのattributeが規程クラスのメソッドを上書きすることを禁止する設定
+Lint/StructNewOverride:
+  Enabled: true
+
+# attrの後に空行を必須にする設定
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
+# メソッド呼び出しのドットの前後にスペースを入れるのを禁止する設定
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+# Exceptionクラスのraiseを禁止する設定
+Lint/RaiseException:
+  Enabled: true
