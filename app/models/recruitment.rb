@@ -60,7 +60,7 @@ class Recruitment < ApplicationRecord
     if participants.size >= 2
       result += "\n" + I18n.t(
         "recruitment.information.participants",
-        participants: participants[1..-1].map { |p| p.user.name }.join(", "),
+        participants: participants[1..].map { |p| p.user.name }.join(", "),
       )
     end
     return result

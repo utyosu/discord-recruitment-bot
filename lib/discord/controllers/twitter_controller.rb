@@ -32,7 +32,7 @@ class TwitterController
     message = []
     message << I18n.t("twitter.title")
     message << I18n.t("twitter.content", content: recruitment.content, author_name: recruitment.author.name, reserved: recruitment.reserved, capacity: recruitment.capacity)
-    message << I18n.t("twitter.participants", participants: recruitment.participants[1..-1].map { |a| a.user.name }.join(", ")) if 0 < recruitment.reserved
+    message << I18n.t("twitter.participants", participants: recruitment.participants[1..].map { |a| a.user.name }.join(", ")) if 0 < recruitment.reserved
     return message.join("\n")
   end
 
