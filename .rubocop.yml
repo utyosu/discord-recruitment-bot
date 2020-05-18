@@ -131,3 +131,7 @@ Style/HashTransformValues:
 # Rangeクラスの終端を-1にしないようにする設定
 Style/SlicingWithRange:
   Enabled: true
+
+# 冗長な指数表記を禁止する設定
+Style/ExponentialNotation:
+  Enabled: true
