@@ -19,8 +19,11 @@ class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
     loop { timers.wait }
   rescue StandardError => e
     logging_error(e)
-    bot.stop
-    sleep 60
+    while bot.connected?
+      Logger.new(STDOUT).info I18n.t("bot.try_disconnect")
+      bot.stop
+      sleep 60
+    end
   end
 
   def hook_action_selector(bot)
