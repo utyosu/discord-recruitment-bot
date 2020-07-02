@@ -20,7 +20,7 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "faker"
   gem "i18n-tasks"
-  gem "rubocop", require: false
+  gem "rubocop", "~> 0.83.0", require: false
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
 end
