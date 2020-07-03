@@ -11,6 +11,7 @@ describe Bot do
       allow(Timers::Group).to receive(:new).and_return(timers)
       allow(timers).to receive(:wait).and_raise(error)
       allow(Logger).to receive(:new).and_return(logger)
+      allow(bot).to receive(:connected?).and_return(false)
       target.sequence
     end
 

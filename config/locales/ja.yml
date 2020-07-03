@@ -24,6 +24,7 @@ ja:
     play_channel: '遊び機能動作チャンネル : %{name}'
     reboot: エラーが出ました。BOTを再起動して復旧を試みます。
     recruitment_channel: '募集機能動作チャンネル: %{name}'
+    try_disconnect: 停止処理中…
     use_twitter: 'Twitter連携機能 : %{bool}'
   food_porn:
     error: 画像検索上限のため結果を表示できません。明日以降に試して下さい。
