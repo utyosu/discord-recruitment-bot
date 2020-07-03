@@ -5,7 +5,7 @@ FROM ubuntu:16.04
 
 SHELL ["/bin/bash", "-c"]
 
-ENV RUBY_VERSION="2.6.5"
+ENV RUBY_VERSION="2.6.6"
 ENV BUNDLER_VERSION="2.1.4"
 ENV DEBIAN_FRONTEND="noninteractive"
 ENV PATH=/root/.rbenv/bin:/root/.rbenv/shims:$PATH
