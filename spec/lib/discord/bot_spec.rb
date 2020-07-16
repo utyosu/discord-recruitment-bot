@@ -2,7 +2,7 @@ require "./spec/rails_helper"
 require "./spec/spec_helper"
 
 describe Bot do
-  describe ".sequence" do
+  describe ".start" do
     before do
       allow(Discordrb::Commands::CommandBot).to receive(:new).and_return(bot)
       allow(Slack::Web::Client).to receive(:new).and_return(slack)
@@ -12,7 +12,7 @@ describe Bot do
       allow(timers).to receive(:wait).and_raise(error)
       allow(Logger).to receive(:new).and_return(logger)
       allow(bot).to receive(:connected?).and_return(false)
-      target.sequence
+      target.start
     end
 
     let(:timers) { Timers::Group.new }
@@ -23,7 +23,6 @@ describe Bot do
     let(:error) { RuntimeError.new("this is test error") }
 
     it "write logger" do
-      expect(logger).to have_received(:error).with(I18n.t("bot.reboot")).ordered
       expect(logger).to have_received(:error).with(error.full_message).ordered
     end
   end

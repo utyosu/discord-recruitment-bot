@@ -1,11 +1,7 @@
 BOT_DAEMONIZE = false unless defined?(BOT_DAEMONIZE)
 
 class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
-  def start(_args)
-    loop { sequence }
-  end
-
-  def sequence
+  def start(_args = nil)
     bot = Discordrb::Commands::CommandBot.new(
       token: Settings.secret.discord.token,
       client_id: Settings.secret.discord.client_id,
@@ -19,11 +15,6 @@ class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
     loop { timers.wait }
   rescue StandardError => e
     logging_error(e)
-    while bot.connected?
-      Logger.new(STDOUT).info I18n.t("bot.try_disconnect")
-      bot.stop
-      sleep 60
-    end
   end
 
   def hook_action_selector(bot)
@@ -59,12 +50,11 @@ class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
 
   def logging_error(error)
     logger = Logger.new(STDOUT)
-    logger.error I18n.t("bot.reboot")
     logger.error error.full_message
     return unless Settings.secret.slack.access_token.present? && Settings.secret.slack.notify_channel.present?
     Slack::Web::Client.new(token: Settings.secret.slack.access_token).chat_postMessage(
       channel: Settings.secret.slack.notify_channel,
-      text: "[#{Rails.env}] #{I18n.t("bot.reboot")}\n```#{error.full_message(highlight: false)}```",
+      text: "[#{Rails.env}] ```#{error.full_message(highlight: false)}```",
     )
   rescue Slack::Web::Api::Errors::SlackError => e
     logger.error e.full_message
