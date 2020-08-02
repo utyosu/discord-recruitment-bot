@@ -51,13 +51,11 @@
 
 ![resurrection](https://github.com/utyosu/discord-recruitment-bot/blob/master/github_assets/images/resurrection.png?raw=true)
 
-### FAQ
+### 補足事項
 
-Q. アットマークや数字は半角でないといけませんか？
-A. 半角、全角のどちらでも反応します。
+- アットマークや数字は全角、半角のどちらでも反応します。
 
 ### その他
 
-[環境構築](https://github.com/utyosu/provisioning)
-
-[メンテナンス](https://github.com/utyosu/discord-recruitment-bot/blob/master/MAINTENANCE.md)
+- [環境構築](https://github.com/utyosu/provisioning)
+- [メンテナンス](https://github.com/utyosu/discord-recruitment-bot/blob/master/MAINTENANCE.md)
