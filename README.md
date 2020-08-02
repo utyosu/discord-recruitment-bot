@@ -2,83 +2,62 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/utyosu/discord-recruitment-bot/badge.svg?branch=master)](https://coveralls.io/github/utyosu/discord-recruitment-bot?branch=master)
 
+## 概要
+
+ゲーマー向けコミュニケーションツールDiscordのbotです。
+メンバーの募集などを行うことができます。
+
 ## 使い方
 
-[イカナカマ2 botの使い方記事](https://ikanakama.ink/posts/51071)
+### 募集
 
-## インストール
+**募集したい内容に続けてアットマーク（＠）と募集したい人数を発言します。**
 
-### セットアップ
+![recruitment](https://github.com/utyosu/discord-recruitment-bot/blob/master/github_assets/images/recruit.png?raw=true)
 
-OS: Ubuntu 16.04 LTS
+### 参加
 
-```
-ansible-playbook -i tools/ansible/inventories/production tools/ansible/rails_server.yml --diff --ask-vault-pass
-```
+**募集の番号に続けて「参加」と発言します。**
 
-### デプロイ
+![join](https://github.com/utyosu/discord-recruitment-bot/blob/master/github_assets/images/join.png?raw=true)
 
-```
-bundle exec cap production deploy
-```
+### 募集の終了
 
-## メンテナンス
+**「しめ」という言葉と募集を終了する番号を発言します。**
 
-- Railsサーバの停止
+![close](https://github.com/utyosu/discord-recruitment-bot/blob/master/github_assets/images/close.png?raw=true)
 
-```
-bundle exec cap production puma:stop
-```
+**メンバーが集まったときは自動で募集が終了します。**
 
-- Railsサーバの起動
+![auto_close](https://github.com/utyosu/discord-recruitment-bot/blob/master/github_assets/images/auto_close.png?raw=true)
 
-```
-bundle exec cap production puma:start
-```
+### Twitter通知
 
-- Railsサーバの再起動
+**[ロボちょす](https://twitter.com/robotyosu)をフォローするとTwitter上で募集状況が分かります。**
 
-```
-bundle exec cap production puma:restart
-```
+![twitter](https://github.com/utyosu/discord-recruitment-bot/blob/master/github_assets/images/twitter.png?raw=true)
 
-- Botの停止
+### 高度な機能
 
-```
-bundle exec cap production bot:stop
-```
+**キャンセル**
 
-- Botの起動
+![cancel](https://github.com/utyosu/discord-recruitment-bot/blob/master/github_assets/images/cancel.png?raw=true)
 
-```
-bundle exec cap production bot:start
-```
+**時間指定**
 
-- Botの再起動
+![reserve](https://github.com/utyosu/discord-recruitment-bot/blob/master/github_assets/images/reserve.png?raw=true)
 
-```
-bundle exec cap production bot:restart
-```
+**復活(間違えて募集終了したときに)**
 
-## 開発環境
+![resurrection](https://github.com/utyosu/discord-recruitment-bot/blob/master/github_assets/images/resurrection.png?raw=true)
 
-rails の起動
+### FAQ
 
-```
-sudo bundle exec rails s
-```
+Q. アットマークや数字は半角でないといけませんか？
+A. 半角、全角のどちらでも反応します。
 
-bot の起動
+### その他
 
-```
-export DISCORD_BOT_TOKEN="<botのトークンを入力>"
-export DISCORD_BOT_CLIENT_ID="<botのクライアントIDを入力>"
-export DISCORD_BOT_RECRUITMENT_CHANNEL_ID="<botが動作するチャンネルID>"
-bundle exec ruby bin/discord/bot.rb nodaemon
-```
+[環境構築](https://github.com/utyosu/provisioning)
 
-## bot の動かし方が分からん！
-
-こちらの記事が参考になりました。
-
-[イチからDiscord Bot 。for Ruby](https://qiita.com/deneola213/items/efaeb0f5c20d44608a71)
+[メンテナンス](https://github.com/utyosu/discord-recruitment-bot/blob/master/MAINTENANCE.md)
