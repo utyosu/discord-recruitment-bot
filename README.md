@@ -63,7 +63,7 @@
 
 ![food_porn](https://github.com/utyosu/discord-recruitment-bot/blob/master/github_assets/images/food_porn.png?raw=true)
 
-**飯テロ**
+**ラッキーカラー**
 
 ![lucky_color](https://github.com/utyosu/discord-recruitment-bot/blob/master/github_assets/images/lucky_color.png?raw=true)
 
