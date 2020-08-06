@@ -15,6 +15,8 @@
 
 ![recruitment](https://github.com/utyosu/discord-recruitment-bot/blob/master/github_assets/images/recruit.png?raw=true)
 
+※アットマークや数字は全角、半角のどちらでも反応します。
+
 ### 参加
 
 **募集の番号に続けて「参加」と発言します。**
@@ -51,9 +53,19 @@
 
 ![resurrection](https://github.com/utyosu/discord-recruitment-bot/blob/master/github_assets/images/resurrection.png?raw=true)
 
-### 補足事項
+### その他の機能
 
-- アットマークや数字は全角、半角のどちらでも反応します。
+**宝くじ**
+
+![lottery](https://github.com/utyosu/discord-recruitment-bot/blob/master/github_assets/images/lottery.png?raw=true)
+
+**飯テロ**
+
+![food_porn](https://github.com/utyosu/discord-recruitment-bot/blob/master/github_assets/images/food_porn.png?raw=true)
+
+**飯テロ**
+
+![lucky_color](https://github.com/utyosu/discord-recruitment-bot/blob/master/github_assets/images/lucky_color.png?raw=true)
 
 ### その他
 
