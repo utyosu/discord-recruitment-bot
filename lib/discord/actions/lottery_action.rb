@@ -24,11 +24,11 @@ class LotteryAction
 
   def lottery_message(name)
     case rand(6_096_454)
-    when 0 then I18n.t("lottery.rank1", name: name)
-    when 1..6 then I18n.t("lottery.rank2", name: name)
-    when 7..222 then I18n.t("lottery.rank3", name: name)
-    when 223..10_212 then I18n.t("lottery.rank4", name: name)
-    when 10_213..165_612 then I18n.t("lottery.rank5", name: name)
+    when 0..1_000 then I18n.t("lottery.rank1", name: name)
+    when 0..6_000 then I18n.t("lottery.rank2", name: name)
+    when 0..212_222 then I18n.t("lottery.rank3", name: name)
+    when 0..922_138 then I18n.t("lottery.rank4", name: name)
+    when 0..3_048_227 then I18n.t("lottery.rank5", name: name)
     else I18n.t("lottery.miss", name: name)
     end
   end

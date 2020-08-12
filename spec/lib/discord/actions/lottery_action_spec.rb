@@ -25,8 +25,8 @@ describe LotteryAction do
       end
     end
 
-    context "rand return 1" do
-      before { allow(subject).to receive(:rand).and_return(1) }
+    context "rand return 5000" do
+      before { allow(subject).to receive(:rand).and_return(5000) }
 
       it "rank2" do
         subject.execute(message_event)
@@ -34,8 +34,8 @@ describe LotteryAction do
       end
     end
 
-    context "rand return 7" do
-      before { allow(subject).to receive(:rand).and_return(7) }
+    context "rand return 7500" do
+      before { allow(subject).to receive(:rand).and_return(7500) }
 
       it "rank3" do
         subject.execute(message_event)
@@ -43,8 +43,8 @@ describe LotteryAction do
       end
     end
 
-    context "rand return 223" do
-      before { allow(subject).to receive(:rand).and_return(223) }
+    context "rand return 800000" do
+      before { allow(subject).to receive(:rand).and_return(800_000) }
 
       it "rank4" do
         subject.execute(message_event)
@@ -52,8 +52,8 @@ describe LotteryAction do
       end
     end
 
-    context "rand return 10213" do
-      before { allow(subject).to receive(:rand).and_return(10_213) }
+    context "rand return 2000000" do
+      before { allow(subject).to receive(:rand).and_return(2_000_000) }
 
       it "rank5" do
         subject.execute(message_event)
@@ -61,8 +61,8 @@ describe LotteryAction do
       end
     end
 
-    context "rand return 165613" do
-      before { allow(subject).to receive(:rand).and_return(165_613) }
+    context "rand return 5000000" do
+      before { allow(subject).to receive(:rand).and_return(5_000_000) }
 
       it "miss" do
         subject.execute(message_event)
