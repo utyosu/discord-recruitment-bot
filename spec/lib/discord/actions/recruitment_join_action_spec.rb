@@ -31,7 +31,7 @@ describe RecruitmentJoinAction do
     context "when recruitment has 1 capacity" do
       let(:recruitment) { create(:recruitment, content: "ほげ＠１") }
       let(:discord_content) { "#{recruitment.label_id}#{Settings.keyword.recruitment.join.sample}" }
-      before { recruitment.join(create(:user)) }
+
       it { expect { subject }.to change(recruitment, :reserved).by(1) }
       it do
         subject
@@ -44,7 +44,7 @@ describe RecruitmentJoinAction do
     context "when recruitment has 1 capacity and reserved" do
       let(:recruitment) { create(:recruitment, content: "#{1.hours.since.to_simply}ほげ＠１") }
       let(:discord_content) { "#{recruitment.label_id}#{Settings.keyword.recruitment.join.sample}" }
-      before { recruitment.join(create(:user)) }
+
       it { expect { subject }.to change(recruitment, :reserved).by(1) }
       it do
         subject
@@ -57,11 +57,13 @@ describe RecruitmentJoinAction do
 
     context "when not found recruitment" do
       let(:discord_content) { "999#{Settings.keyword.recruitment.join.sample}" }
+
       it { expect { subject }.to_not raise_error }
     end
 
     context "when message has two number" do
       let(:discord_content) { "1と2に#{Settings.keyword.recruitment.join.sample}" }
+
       it do
         subject
         expect(message_event).to be_include_message(I18n.t("recruitment.error_two_numbers"))

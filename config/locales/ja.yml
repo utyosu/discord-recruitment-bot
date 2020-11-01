@@ -77,6 +77,7 @@ ja:
     cancel: "%{name}さんが [%{label_id}] の参加をキャンセルしました。"
     close: "%{name}さんが [%{label_id}] を終了しました。"
     error_two_numbers: 数字が2つ以上入っているので分かりませんでした(´・ω・｀)ｼｮﾎﾞｰﾝ
+    full: "[%{label_id}] は満員です。"
     information:
       base: "[%{label_id}] %{content} by %{author_name} (%{reserved}/%{capacity})"
       participants: "    参加者: %{participants}"
