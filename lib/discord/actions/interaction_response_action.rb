@@ -8,7 +8,7 @@ class InteractionResponseAction
   end
 
   def execute(message_event)
-    interaction = Interaction.all.select { |i| message_event.content =~ /#{i.keyword}/ }.sample
+    interaction = Interaction.all.select { |i| message_event.content =~ /#{Regexp.escape(i.keyword)}/ }.sample
     return if interaction.blank?
     Activity.add(message_event.author, :interaction_response)
     message_event.send_message(interaction.response)
