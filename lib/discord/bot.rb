@@ -30,8 +30,10 @@ class Bot < BOT_DAEMONIZE ? DaemonSpawn::Base : Object
     recruitment_channel = get_channel(bot, Settings.secret.discord.recruitment_channel_id)
     analysis_controller = AnalysisController.new
     timers.every(1.minute) do
-      recruitment_base.destroy_expired_recruitment(recruitment_channel)
-      analysis_controller.voice_channels(bot)
+      if recruitment_channel.present?
+        recruitment_base.destroy_expired_recruitment(recruitment_channel)
+        analysis_controller.voice_channels(bot)
+      end
     end
     return timers
   end
