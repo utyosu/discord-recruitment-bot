@@ -62,7 +62,7 @@ gem "capistrano3-puma", ">= 4", require: false
 
 # Settings
 gem "config"
-gem "ridgepole", ">= 0.8.0", require: false
+gem "ridgepole", require: false
 gem "yaml_vault", require: false
 
 # Application
